@@ -31,13 +31,13 @@
 			<div id="form" class="questions">
 
 				<div v-for="answer, key in submission.answers">
-					<p class="question__label">{{questions[key].label}}</p>
+					<p class="question__label">{{survey.questions[key].label}}</p>
 					<textarea v-model="answer.input" class="input__long-text" placeholder="Type your answer here" name="input" id="" cols="30" rows="10"></textarea>
 				</div>
         
         
 				
-				<div v-on:click="handleSubmit" v-bind:disabled="submitted" class="button button--primary">
+				<div v-on:click="handleSubmit" class="button button--primary">
 					Submit
 				</div>
 			</div>

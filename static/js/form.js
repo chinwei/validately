@@ -1,51 +1,71 @@
 // Get a reference to the database service
 var database = firebase.database();
 
-function writeUserData(submission) {
-  firebase.database().ref('submissions/').push({
-    UID: submission.UID,
-    answers: submission.answers,
-    surveyID: submission.surveyID,
-    timestamp: new Date()
-  });
-}
+// firebase.database().ref('survey/').set({
+// 	surveyID: "survey1",
+// 	questions: [
+// 		{ 
+// 			questionID: "question1",
+// 			label: 'Would this idea have helped you plan your trips more easily? how?', 
+// 		},
+// 		{ 
+// 			questionID: "question2",
+// 			label: 'What do you think is the hardest part about planning a trip?', 
+// 		},
+// 		{ 
+// 			questionID: "question3",
+// 			label: 'Another question to test', 
+// 		},
+// 	],
+// 	timestamp: new Date()
+// });
 
 
 var form = new Vue({
   el: '#form',
+  created: function() {
+  	for (i=0; i<this.survey.questions.length; i++) {
+  		this.submission.answers.push({
+  			questionID: this.survey.questions[i].questionID,
+  			input: ""
+  		});
+  	}
+  },
   data: {
     submitted: false,
-    questions: [
-		{ 
-			questionID: "question1",
-			label: 'Would this idea have helped you plan your trips more easily? how?', 
-		},
-		{ 
-			questionID: "question2",
-			label: 'What do you think is the hardest part about planning a trip?', 
-		},
-		],
-    submission: {
-        surveyID: "survey1",
-		UID: "user1",
-		answers: [
+    survey: {
+    	surveyID: "survey1",
+	    questions: [
 			{ 
 				questionID: "question1",
-				input: '', 
+				label: 'Would this idea have helped you plan your trips more easily? how?', 
 			},
 			{ 
 				questionID: "question2",
-				input: '', 
+				label: 'What do you think is the hardest part about planning a trip?', 
 			},
-	      ],
+			{ 
+				questionID: "question3",
+				label: 'Another question to test', 
+			},
+		],
+    },
+    submission: {
+        surveyID: "survey1",
+		UID: "user1",
+		answers: [],
 	    timestamp: new Date()
-
       }
 
   },
   methods: {
     handleSubmit: function(){
-      writeUserData(this.submission);
+      firebase.database().ref('submissions/').push({
+        UID: this.submission.UID,
+        answers: this.submission.answers,
+        surveyID: this.submission.surveyID,
+        timestamp: new Date()
+      });
       this.submitted = true;
     }
   }

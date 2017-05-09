@@ -18,24 +18,24 @@
 			</div>
 			
       <div id="answers">
-        
+
+      
+        {{list}}
         <ul>
-          <li v-for="answer, value in list">
-              {{value}}
-            <ul>
-              <li v-for="item in answer">{{item.questions[0].answer}}</li>
-            </ul>
+          <li v-for="answers, key, index in groupedList">
+              
+
+              <span>{{survey.questions[index].label}}</span>
+              <ul>
+                <li v-for="answer, value in answers">
+                  {{answer.answers[index].input}}
+                </li>
+              </ul>
+            
           </li>
         </ul>
         
-        <ul>
-          <li v-for="answer, value in list">
-              {{value}}
-            <ul>
-              <li v-for="item in answer">{{item.questions[1].answer}}</li>
-            </ul>
-          </li>
-        </ul>
+        
         
         
    
