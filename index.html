@@ -1,0 +1,93 @@
+<!doctype html>
+<html>
+<head>
+	<meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no">
+	<link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700" rel="stylesheet">
+
+	<link rel="stylesheet" type="text/css" href="static/styles/style.css">
+</head>
+<body>
+	<div class="app-container">
+		<article class="story-block">
+			<div class="story__header">
+				<h1 class="t-size-h4 u-spacing-mb-0">Trip Planner</h1>	
+				<span class="byline">Tropics Lab</span>
+			</div>
+			
+			<p>I was thinking about building a trip planning tool on the web. This is roughly the way it should work:</p>
+
+			<img src="static/assets/image1.jpg" alt="">
+
+			<p>You start off with a map, enter the location where you’d like to visit and when. For each location, you can enter other information like how you’d be getting there, the attractions you’re planning to visit and, other things you may need for this part of the trip, like a pair of binoculars for a visit to a national park.</p>
+
+			<img src="static/assets/image2.jpg" alt="">
+			<img src="static/assets/image3.jpg" alt="">
+
+			<p>The idea is that at the end, you will be able to have all the information about your trip in one place, and will no longer need to dig through emails for your trip information.</p>
+		
+		</article>
+		<div class="feedback">
+			<div class="feedback__header">Feedback</div>
+			<div id="form" class="questions">
+
+				<div v-for="answer, key in submission.answers">
+					<p class="question__label">{{questions[key].label}}</p>
+					<textarea v-model="answer.input" class="input__long-text" placeholder="Type your answer here" name="input" id="" cols="30" rows="10"></textarea>
+				</div>
+        
+        
+				
+				<div v-on:click="handleSubmit" v-bind:disabled="submitted" class="button button--primary">
+					Submit
+				</div>
+			</div>
+			
+
+
+		
+		</div>
+	</div>
+
+<script src="https://www.gstatic.com/firebasejs/3.9.0/firebase.js"></script>
+<script>
+  // Initialize Firebase
+  var config = {
+    apiKey: "AIzaSyA_2Bu81WuWrjLoJHP3EFDo41jYgNJ8BUM",
+    authDomain: "validately-948d9.firebaseapp.com",
+    databaseURL: "https://validately-948d9.firebaseio.com",
+    projectId: "validately-948d9",
+    storageBucket: "validately-948d9.appspot.com",
+    messagingSenderId: "354991934469"
+  };
+  firebase.initializeApp(config);
+</script>    
+    
+
+    
+<script src="https://unpkg.com/vue"></script>
+<script src="static/js/scripts.js"></script>
+    <script src="static/js/form.js"></script>
+
+
+
+    <!-- Your web-app is https, so your scripts need to be too -->
+    <script src="https://code.jquery.com/jquery-2.2.1.min.js"
+            integrity="sha256-gvQgAFzTH6trSrAWoH1iPo9Xc96QxSZ3feW6kem+O00="
+            crossorigin="anonymous"></script>
+    
+    
+    <!-- Hotjar Tracking Code for https://season-slope.glitch.me/ -->
+<script>
+    (function(h,o,t,j,a,r){
+        h.hj=h.hj||function(){(h.hj.q=h.hj.q||[]).push(arguments)};
+        h._hjSettings={hjid:495253,hjsv:5};
+        a=o.getElementsByTagName('head')[0];
+        r=o.createElement('script');r.async=1;
+        r.src=t+h._hjSettings.hjid+j+h._hjSettings.hjsv;
+        a.appendChild(r);
+    })(window,document,'//static.hotjar.com/c/hotjar-','.js?sv=');
+</script>
+
+
+</body>
+</html>

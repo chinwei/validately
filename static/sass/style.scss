@@ -1,0 +1,72 @@
+@import "variables";
+@import "framework/framework";
+@import "base";
+@import "components/components";
+
+		
+
+.text-logo {
+	font-size: 16px
+}
+
+
+
+
+
+.barba-container {
+	position: relative;
+	left: 0;
+	opacity: 1;
+	transition: 0.3s left ease, 0.3s opacity ease;
+
+	&.is-hidden {
+		left: -10px;
+		opacity: 0;
+	}
+}
+
+// Button
+
+.button-group {
+	margin-bottom: 32px;
+	display: inline-block;
+}
+
+
+.img-container {
+	max-width: 960px;
+	margin: 0 auto 32px auto;
+	> img {
+		width: 100%;
+	}
+}
+
+.app-container {
+	@extend .l-row;
+	@extend .u-color-bg-alt-white;
+
+	@include tablet {
+		display: block;
+	}
+
+	@include phone {
+		display: block;
+	}
+
+}
+ 
+img {
+	@include tablet {
+		width: 100%;
+	}
+
+	@include phone {
+		width: 100%;
+	}
+}
+
+// * {
+// 	background: #000 !important;
+// 	color: #0f0 !important;
+// 	outline: solid #f00 1px !important;
+// }

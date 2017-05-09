@@ -1,0 +1,32 @@
+.feedback {
+	padding-top: 300px;
+	@extend .u-spacing-ph-l;
+	@extend .u-spacing-pb-l;
+	@extend .u-width-40;
+	@extend .l-row--full-height;
+	@extend .u-overflow-scroll;
+	@extend .u-color-bg-white;
+	-webkit-box-shadow: -4px 0px 12px 1px rgba(219,219,219,1);
+	-moz-box-shadow: -4px 0px 12px 1px rgba(219,219,219,1);
+	box-shadow: -4px 0px 12px 1px rgba(219,219,219,1);
+
+	@include tablet {
+		height: inherit;
+		padding-top: 32px;
+		width: 100%;
+	}
+
+	@include phone {
+		height: inherit;
+		padding-top: 32px;
+		width: 100%;
+	}
+}
+
+.feedback__header {
+	@extend .u-width-100;
+	@extend .t-size-h4;
+	@extend .t-weight-bold;
+
+}
+
