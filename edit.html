@@ -1,15 +1,15 @@
-<!DOCTYPE html>
+<!doctype html>
 <html>
-  <head>
-    <title>Validately</title>
-    <meta name="description" content="My little experiment...">
-    <link id="favicon" rel="icon" href="https://glitch.com/edit/favicon-app.ico" type="image/x-icon">
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" href="static/styles/style.css">
-  </head>
-  <body>
+<head>
+	<meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no">
+	<link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700" rel="stylesheet">
+
+	<link rel="stylesheet" type="text/css" href="static/styles/style.css">
+	<!-- Include stylesheet -->
+<link href="https://cdn.quilljs.com/1.2.4/quill.snow.css" rel="stylesheet">
+
+</head>
+<body>
 	<div class="app-container">
 		<article class="story-block">
 			<div class="story__header">
@@ -17,41 +17,25 @@
 				<span class="byline">Tropics Lab</span>
 			</div>
 
-      
-      <div id="answers">
-      <!-- {{list}} -->
-      {{groupedList}}
-      <!-- {{test}} -->
-       
-        
-        <ul>
-          <!-- <li v-for="answers, key, index in groupedList">
+			<!-- Create the editor container -->
+			<div id="edit">
+				<div id="editor" class="u-spacing-mb-m">
+				  <p>Hello World!</p>
+				  <p>Some initial <strong>bold</strong> text</p>
+				  <p><br></p>
+				</div>
 
-            {{groupedList}}
+				<div v-on:click="handleSubmit" class="button button--primary">
+					Submit
+				</div>
+			</div>
 
-              
 
-              <span>{{survey.questions[index].label}}</span>
-              <ul>
-                <li v-for="answer, value in answers">
-                  {{answer.answers[index].input}}
-                </li>
-              </ul>
-            
-          </li> -->
-        </ul>
-        
-        
-        
-        
-   
-      </div>
-      
 		</article>
 
+		
+		
 	</div>
-
-
 
 <script src="https://www.gstatic.com/firebasejs/3.9.0/firebase.js"></script>
 <script>
@@ -71,8 +55,8 @@
     
 <script src="https://unpkg.com/vue"></script>
 <script src="static/js/scripts.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.8.3/underscore-min.js"></script>
-    <script src="static/js/answers.js"></script>
+    <script src="static/js/edit.js"></script>
+
 
 
     <!-- Your web-app is https, so your scripts need to be too -->
@@ -80,6 +64,26 @@
             integrity="sha256-gvQgAFzTH6trSrAWoH1iPo9Xc96QxSZ3feW6kem+O00="
             crossorigin="anonymous"></script>
     
+
+
+	<!-- Include the Quill library -->
+	<script src="https://cdn.quilljs.com/1.2.4/quill.js"></script>
+
+	<!-- Initialize Quill editor -->
+	<script>
+	  var quill = new Quill('#editor', {
+	    modules: {
+	      toolbar: [
+	        [{ header: [1, 2, false] }],
+	        ['bold', 'italic', 'underline'],
+	        ['image', 'code-block']
+	      ]
+	    },
+	    placeholder: 'Compose an epic...',
+	    theme: 'snow'  // or 'bubble'
+	  });
+	</script>
+
     
     <!-- Hotjar Tracking Code for https://season-slope.glitch.me/ -->
 <script>
@@ -93,5 +97,6 @@
     })(window,document,'//static.hotjar.com/c/hotjar-','.js?sv=');
 </script>
 
-  </body>
+
+</body>
 </html>

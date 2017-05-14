@@ -1,54 +1,42 @@
 // Get a reference to the database service
 var database = firebase.database();
 
-// firebase.database().ref('survey/').set({
-// 	surveyID: "survey1",
-// 	questions: [
-// 		{ 
-// 			questionID: "question1",
-// 			label: 'Would this idea have helped you plan your trips more easily? how?', 
-// 		},
-// 		{ 
-// 			questionID: "question2",
-// 			label: 'What do you think is the hardest part about planning a trip?', 
-// 		},
-// 		{ 
-// 			questionID: "question3",
-// 			label: 'Another question to test', 
-// 		},
-// 	],
-// 	timestamp: new Date()
-// });
+
 
 
 var form = new Vue({
   el: '#form',
-  created: function() {
-  	for (i=0; i<this.survey.questions.length; i++) {
-  		this.submission.answers.push({
-  			questionID: this.survey.questions[i].questionID,
-  			input: ""
-  		});
-  	}
+  
+  created: function(){
+
+    var _this = this;
+    var surveyDB = firebase.database().ref('survey/');
+ 
+    surveyDB.on('value', function(snapshot) {
+
+      var temp = {}
+      
+
+
+      _this.survey = snapshot.val();
+      console.log(_this.survey);
+
+      for (i=0; i<_this.survey.questions.length; i++) {
+        _this.submission.answers.push({
+          questionID: _this.survey.questions[i].questionID,
+          input: ""
+        });
+      }
+      
+
+
+    });
+
+
   },
   data: {
     submitted: false,
     survey: {
-    	surveyID: "survey1",
-	    questions: [
-			{ 
-				questionID: "question1",
-				label: 'Would this idea have helped you plan your trips more easily? how?', 
-			},
-			{ 
-				questionID: "question2",
-				label: 'What do you think is the hardest part about planning a trip?', 
-			},
-			{ 
-				questionID: "question3",
-				label: 'Another question to test', 
-			},
-		],
     },
     submission: {
         surveyID: "survey1",
@@ -56,7 +44,6 @@ var form = new Vue({
 		answers: [],
 	    timestamp: new Date()
       }
-
   },
   methods: {
     handleSubmit: function(){
