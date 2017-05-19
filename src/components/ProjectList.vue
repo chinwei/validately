@@ -1,8 +1,15 @@
 <template>
-  <div class="app-container">
+  <div>
+    
+
+    <div class="banner">
+      Banner
+    </div>
+
+    <div class="content">
       <article class="story-block">
         <div class="story__header">
-          <h1>Project List</h1>
+          <h1>Recent Projects</h1>
         </div>
 
 
@@ -21,6 +28,9 @@
       
         
       </article>
+      
+    </div>
+
     </div>
 </template>
 
@@ -30,9 +40,10 @@ import firebase from 'firebase'
 import _ from 'underscore'
 import ProjectListItem from '@/components/ProjectListItem'
 
+
 export default {
   name: 'project-list',
-  mounted: function(){
+  created: function(){
 
     var _this = this;
    
@@ -69,11 +80,30 @@ export default {
 
 <style>
 
-.app-container {
+.content {
   width: 600px;
   margin: 0 auto;
   text-align: left;
+}
 
+.app-bar {
+  height: 60px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  padding: 0 8px;
+  background: white;
+  border-bottom: 1px #f3f3f3 solid;
+}
+
+.banner {
+  background: #4990E2;
+  color: white;
+  font-size: 28px;
+  height: 300px; 
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 </style>

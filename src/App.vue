@@ -1,5 +1,6 @@
 <template>
   <div id="app">
+    <app-bar></app-bar>
     <transition name="slide-fade">
       <router-view></router-view>
     </transition>
@@ -8,6 +9,7 @@
 
 <script>
 import firebase from 'firebase'
+import AppBar from '@/components/AppBar'
 
 var config = {
   apiKey: "AIzaSyA_2Bu81WuWrjLoJHP3EFDo41jYgNJ8BUM",
@@ -21,6 +23,9 @@ firebase.initializeApp(config);
 
 export default {
   name: 'app',
+  components: {
+    AppBar
+  }
 }
 </script>
 
