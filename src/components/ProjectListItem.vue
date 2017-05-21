@@ -1,7 +1,8 @@
 <template>
    <div v-on:click="clickHandler">
       <h1>{{item.title}}</h1>
-      <span class="byline">Short description</span>
+      <span class="byline">{{item.desc}}</span>
+      <!-- <span>{{item.time}}</span> -->
       
    </div>
 
@@ -38,7 +39,7 @@ export default {
 
   .byline {
     font-size: 14px;
-    color: #A6A6A6;
+    color: hsla(0, 0%, 27%, 0.74);
   }
 
   div {

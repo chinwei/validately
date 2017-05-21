@@ -18,7 +18,7 @@ export default {
 
     var surveyDB = firebase.database().ref('survey/');
     surveyDB.once('value', function(snapshot) {
-      console.log(snapshot.val());
+      // console.log(snapshot.val());
     })
 
 

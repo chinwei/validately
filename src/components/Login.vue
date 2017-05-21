@@ -1,41 +1,41 @@
 <template>
-  <div class="app-bar">
-    <span>
-      <span v-on:click="goBack"> Projects</span>
-    </span>
+  <div>
+    
+    <p>{{user.displayName}}</p>
+    <p>{{user.email}}</p>
 
-    <span>
-      <button-primary v-if="!user.uid" label="Login with Facebook" v-on:action="loginUser"></button-primary>
-    </span>
+    <button-primary label="Login with Facebook" v-on:action="loginUser"></button-primary>
 
-
-    <strong v-if="user.uid" v-on:click="logOut">{{user.displayName}}</strong>
   </div>
 </template>
-
 
 <script>
 
 import firebase from 'firebase'
 import firebaseui from 'firebaseui'
+import $ from 'jquery'
 import ButtonPrimary from '@/components/ButtonPrimary'
 
+
+
 export default {
-  name: 'app-bar',
-  created: function(){
-  
+  name: 'login',
+  mounted: function(){
+
+    
+
+
+    
+
   },
   methods: {
-    goBack: function(){
-        this.$router.replace("/")
-    },
     loginUser: function(){
 
       console.log(this);
       var _this = this;
 
       var provider = new firebase.auth.FacebookAuthProvider();
-      
+      provider.addScope('user_birthday');
 
       firebase.auth().signInWithPopup(provider).then(function(result) {
         // This gives you a Facebook Access Token. You can use it to access the Facebook API.
@@ -45,8 +45,7 @@ export default {
         // The signed-in user info.
         var user = result.user;
 
-        _this.isLoggedIn = true;
-        
+        this.$router.replace("/projects/")
         console.log(user);
 
         // ...
@@ -60,45 +59,16 @@ export default {
         var credential = error.credential;
         // ...
       });
-    },
-    logOut: function(){
-      var _this = this;
-
-      this.isLoggedIn = false
-      firebase.auth().signOut().then(function() {
-        // Sign-out successful.
-        // alert ("signed out");
-        _this.$router.go("/")
-        
-
-      }).catch(function(error) {
-        // An error happened.
-      });
     }
   },
-  components: {
+  components:{
     ButtonPrimary
-  },
-  props: {
-    user: {}
   },
   data () {
     return {
-      isLoggedIn: false
+      survey: {},
+      user: {}
     }
   }
 }
 </script>
-
-<style>
-  .app-bar {
-    height: 60px;
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: space-between;
-    padding: 0 8px;
-    background: white;
-    border-bottom: 1px #f3f3f3 solid;
-  }
-</style>

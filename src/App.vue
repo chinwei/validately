@@ -1,8 +1,8 @@
 <template>
   <div id="app">
-    <app-bar></app-bar>
+    <app-bar v-bind:user="user"></app-bar>
     <transition name="slide-fade">
-      <router-view></router-view>
+      <router-view :user="user"></router-view>
     </transition>
   </div>
 </template>
@@ -25,6 +25,25 @@ export default {
   name: 'app',
   components: {
     AppBar
+  },
+  created: function(){
+    var _this = this;
+    firebase.auth().onAuthStateChanged(function(user) {
+      if (user) {
+          // console.log(user, "signed in!")
+         _this.user = user
+
+      } else {
+        // console.log(_this.$route)
+        console.log("not signed in")
+      }
+    });
+
+  },
+  data () {
+    return {
+      user: {}
+    }
   }
 }
 </script>
@@ -38,11 +57,12 @@ export default {
   color: #2c3e50;
   padding: 0;
   margin: 0;
-  background: #F6F5F1;
+  
 }
 
 body {
   margin: 0;
+  background: #F6F5F1;
 }
 
 

@@ -5,16 +5,13 @@ import EditProject from '@/components/EditProject'
 import ViewProject from '@/components/ViewProject'
 import ProjectList from '@/components/ProjectList'
 
+
 Vue.use(Router)
 
 export default new Router({
   routes: [
     {
       path: '/',
-      redirect: '/projects/new'
-    },
-    {
-      path: '/projects/',
       name: 'project-list',
       component: ProjectList
     },
@@ -33,5 +30,12 @@ export default new Router({
       name: 'view-project',
       component: ViewProject
     }
-  ]
+  ],
+  scrollBehavior (to, from, savedPosition) {
+    if (savedPosition) {
+      return savedPosition
+    } else {
+      return { x: 0, y: 0 }
+    }
+  }
 })

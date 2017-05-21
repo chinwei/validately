@@ -11,6 +11,7 @@
   },
   "dependencies": {
     "firebase": "^4.0.0",
+    "firebaseui": "^2.0.0",
     "jquery": "^3.2.1",
     "vue": "^2.2.6",
     "vue-quill-editor": "^2.2.1",

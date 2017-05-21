@@ -75,7 +75,7 @@ export default {
 
       firebase.database().ref(this.$route.params.id).set({
        surveyID: "survey1",
-       title: "Trip Planner",
+       title: _this.survey.title,
        writeup: {
           content: $("#editor .ql-editor").html(),
           contentDelta: _this.quill.getContents()
@@ -116,7 +116,7 @@ export default {
    */
   .ql-container {
     box-sizing: border-box;
-    font-family: Helvetica, Arial, sans-serif;
+    font-family: 'Avenir', Helvetica, Arial, sans-serif;
     font-size: 13px;
     height: 100%;
     margin: 0px;
@@ -924,7 +924,7 @@ export default {
   .ql-toolbar.ql-snow {
     border: 1px solid #ccc;
     box-sizing: border-box;
-    font-family: 'Helvetica Neue', 'Helvetica', 'Arial', sans-serif;
+    font-family: 'Avenir', Helvetica, Arial, sans-serif;
     padding: 8px;
   }
   .ql-toolbar.ql-snow .ql-formats {
