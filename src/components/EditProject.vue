@@ -50,7 +50,7 @@ export default {
     if (this.$route.params.id !== undefined) {
     surveyDB.once('value', function(snapshot) {
 
-      console.log("grabbing data...", _this.survey);
+      // console.log("grabbing data...", _this.survey);
       _this.survey = snapshot.val();
 
       
@@ -92,12 +92,12 @@ export default {
 
         // console.log(url)
 
-        console.log("path:", _this.path)
+        // console.log("path:", _this.path)
 
         
 
         if (this.$route.params.id !== undefined) {
-          console.log("writing to existing project at", _this.path);
+          // console.log("writing to existing project at", _this.path);
 
           var data = {       
             surveyID: "survey1",
@@ -120,7 +120,7 @@ export default {
           _this.$router.push(_this.path)
         } else {
           
-          console.log("writing to new project at", url);
+          // console.log("writing to new project at", url);
           var data = {       
             surveyID: "survey1",
            url: url,
