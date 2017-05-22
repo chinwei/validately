@@ -90,11 +90,11 @@ export default {
         .replace(/\s/g,'-')
         .toLowerCase()
 
-        console.log(url)
+        // console.log(url)
 
         console.log("path:", _this.path)
 
-      
+        
 
         if (this.$route.params.id !== undefined) {
           console.log("writing to existing project at", _this.path);
@@ -115,7 +115,7 @@ export default {
               contentDelta: _this.quill.getContents()
            }}
 
-          firebase.database().ref(_this.path).set(data);
+          firebase.database().ref(_this.$route.params.id).set(data);
 
           _this.$router.push(_this.path)
         } else {

@@ -14,7 +14,7 @@
       <button-primary v-if="survey.owner && survey.owner.uid === user.uid" 
         label="Edit Project" v-on:action="editProject"></button-primary>
      
-        <p>Idea by {{survey.owner.displayName}}</p>
+        <p v-if="survey.ownerh">Idea by {{survey.owner.displayName}}</p>
       <article class="story">
 
 
