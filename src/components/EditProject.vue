@@ -1,30 +1,19 @@
 <template>
-  <div class="app-container" id="edit">
-      <h1>New</h1>
-      <article class="story-block">
-        <div class="story__header">
-          <input type="text" v-model="survey.title"/>
-        </div>
-        <div>
-          <div id="editor">
-          </div>
+  <div id="edit">
+      
+      <button-primary label="submit" v-on:action="handleSubmit"></button-primary>
+      <div>
+      <textarea class="input--title" placeholder="Name Your Idea..." type="text" v-model="survey.title"/>
+      
+      <textarea class="input__long-text" v-model="survey.desc" placeholder="Briefly describe your idea!" type="text"/>
 
-          <!-- <div v-for="key, value in survey.questions">
+      
+      <div id="editor">
+      </div>
+      </div>
+      
 
-            <input type="text" v-model="key.label">
-
-          </div> -->
-
-          <div v-on:click="handleSubmit" class="button button--primary">
-            Submit
-          </div>
-<!-- 
-          <div class="button button--primary" v-on:click="clickHandler">
-            View Page
-          </div> -->
-        </div>
-      </article>
-    </div>
+  </div>
 </template>
 
 <script>
@@ -32,13 +21,17 @@
 import firebase from 'firebase'
 import Quill from 'quill'
 import $ from 'jquery'
+import ButtonPrimary from '@/Components/ButtonPrimary'
 
 export default {
   name: 'edit-project',
   mounted: function(){
 
+
     var _this = this;
-    
+
+
+    console.log(this.$route.params.id)    
     _this.quill = new Quill('#editor', {
        modules: {
            toolbar: [
@@ -50,46 +43,118 @@ export default {
        theme: 'snow'
      });
     
-    console.log(_this.quill.getContents())
+    // console.log(_this.quill.getContents())
 
     var surveyDB = firebase.database().ref(this.$route.params.id);
 
-   
+    if (this.$route.params.id !== undefined) {
     surveyDB.once('value', function(snapshot) {
+
+      console.log("grabbing data...", _this.survey);
       _this.survey = snapshot.val();
 
-      console.log(_this.survey);
+      
 
       _this.quill.setContents(_this.survey.writeup.contentDelta);
     });
+    } else {
+      console.log("nope, this is a new project")
+    }
 
 
 
 
   },
+  props: {
+    user: {}
+  },
+  computed: {
+    path: function(){
+      return '/projects/'+this.$route.params.id;
+    }, 
+  },
+  components: {
+    ButtonPrimary
+  },  
   methods: {
 
 
     handleSubmit: function(e){
       var _this = this;
 
-      firebase.database().ref(this.$route.params.id).set({
-       surveyID: "survey1",
-       title: _this.survey.title,
-       writeup: {
-          content: $("#editor .ql-editor").html(),
-          contentDelta: _this.quill.getContents()
-       },
-       timestamp: new Date()
-      });
 
+      var timestamp = new Date()
+
+      var url = this.survey.title
+        .replace(/[^\w\s]/gi, '')
+        .replace(/\s/g,'-')
+        .toLowerCase()
+
+        console.log(url)
+
+        console.log("path:", _this.path)
+
+      
+
+        if (this.$route.params.id !== undefined) {
+          console.log("writing to existing project at", _this.path);
+
+          var data = {       
+            surveyID: "survey1",
+           url: _this.path,
+           title: _this.survey.title,
+           desc: _this.survey.desc,
+           time: timestamp.toString(),
+           owner: {
+            displayName: _this.user.displayName,
+            email: _this.user.email,
+            uid: _this.user.uid
+           },
+           writeup: {
+              content: $("#editor .ql-editor").html(),
+              contentDelta: _this.quill.getContents()
+           }}
+
+          firebase.database().ref(_this.path).set(data);
+
+          _this.$router.push(_this.path)
+        } else {
+          
+          console.log("writing to new project at", url);
+          var data = {       
+            surveyID: "survey1",
+           url: url,
+           title: _this.survey.title,
+           desc: _this.survey.desc,
+           time: timestamp.toString(),
+           owner: {
+            displayName: _this.user.displayName,
+            email: _this.user.email,
+            uid: _this.user.uid
+           },
+           writeup: {
+              content: $("#editor .ql-editor").html(),
+              contentDelta: _this.quill.getContents()
+           }}
+
+           firebase.database().ref(url).set(data);
+
+           _this.$router.push("/projects/"+url)
+
+        }
+
+
+
+
+      
 
     }
   },
   data () {
     return {
       survey: {
-        title: "Trip Planner",
+        title: "",
+        desc: "",
         writeup: {
            content: "",
            contentDelta: {}
@@ -104,9 +169,47 @@ export default {
 <style>
 
     #edit {
-      width: 600px;
-      margin: 0 auto;
+      /*width: 800px;*/
+      padding: 60px;
     }
+
+    #editor {
+      width: 720px;
+
+    }
+
+
+
+    .input--title {
+      font-family: 'Avenir', Helvetica, Arial, sans-serif;
+      color: #2c3e50;
+      font-size: 34px;
+      background: none;
+      border: none;
+      font-weight: 600;
+      outline: none;
+      margin-bottom: 8px;
+      width: 720px;
+    }
+
+    .input--title::placeholder {
+      color: #2c3e50;
+    }
+
+    .input__long-text {
+      font-family: 'Avenir', Helvetica, Arial, sans-serif;
+      display: block;
+      width: 720px;
+      color: #333333;
+      font-size: 24px;
+      border: 0;
+      outline: none;
+      -webkit-box-shadow: none;
+      -moz-box-shadow: none;
+      box-shadow: none;
+      background: none;
+    }
+
 
   /*!
    * Quill Editor v1.2.4
@@ -117,7 +220,7 @@ export default {
   .ql-container {
     box-sizing: border-box;
     font-family: 'Avenir', Helvetica, Arial, sans-serif;
-    font-size: 13px;
+    font-size: 21px;
     height: 100%;
     margin: 0px;
     position: relative;
@@ -926,6 +1029,8 @@ export default {
     box-sizing: border-box;
     font-family: 'Avenir', Helvetica, Arial, sans-serif;
     padding: 8px;
+    width: 720px;
+    margin-top: 64px;
   }
   .ql-toolbar.ql-snow .ql-formats {
     margin-right: 15px;
@@ -1018,6 +1123,10 @@ export default {
   }
   .ql-container.ql-snow {
     border: 1px solid #ccc;
+  }
+
+  .ql-editor p {
+    margin-bottom: 1em;
   }
 </style>
 

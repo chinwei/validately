@@ -1,7 +1,7 @@
 <template>
   <div class="app-bar">
     <span>
-      <span v-on:click="goBack"> Projects</span>
+      <span v-on:click="goBack">Projects Home</span>
     </span>
 
     <span>

@@ -13,21 +13,9 @@
 
       <button-primary v-if="survey.owner && survey.owner.uid === user.uid" 
         label="Edit Project" v-on:action="editProject"></button-primary>
-      <!-- <p v-if="survey.owner && survey.owner.uid === user.uid">Same!!!</p> -->
-
+     
+        <p>Idea by {{survey.owner.displayName}}</p>
       <article class="story">
-
-      <!-- <p>I was gifted a Rider Waite deck when I started to get interested in the tarot. I've been using it for the past 6 years and found that:</p>
-
-      <ol>
-        <li>I did not relate fully relate to the art </li>
-        <li>...Or the way the descriptions were written</li>
-        <li>...Which inspired me to create my own tarot deck</li>
-      </ol>
-
-      <p>Mystic Mondays was created out of a desire to understand the tarot better as well as explore the meanings behind each cards through illustration & writing.</p>
-
-      <p>Since the Mystic Mondays deck is based on the Rider Waite, it maintains the integrity of the meanings, while keeping the illustrations simple to get to the heart of the matter.</p> -->
 
 
         <div v-if="survey.writeup" v-html="survey.writeup.content"></div>

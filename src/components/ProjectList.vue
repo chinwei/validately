@@ -21,10 +21,12 @@
         <project-list-item 
           v-for="key, value in listArray" 
           v-bind:item="key"
-          v-on:goToProject="goToProject('/projects/'+key.url)"/>
+          v-on:action="goToProject('/projects/'+key.url)"/>
 
-          
-
+       <!--    
+        <button-primary 
+          label="Show 5 more - doesn't work yet" 
+          /> -->
       
         
       </article>
@@ -77,10 +79,14 @@ export default {
       });
       // console.log(_.sortBy(list.time));
 
-      // console.log(_.sortBy(list, 'time'));
+     
+      var sortByDate = _.sortBy(list, function(num, key){
+        // console.log(Date.parse(num.time))
+        return Date.parse(num.time)
+      })
 
 
-      return list.reverse();
+      return sortByDate.reverse()
     }
   },
   data () {

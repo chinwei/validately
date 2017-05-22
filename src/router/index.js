@@ -18,7 +18,7 @@ export default new Router({
     {
       path: '/projects/new',
       name: 'new-project',
-      component: NewProject
+      component: EditProject
     },
     {
       path: '/projects/:id/edit',

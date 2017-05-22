@@ -15,7 +15,7 @@ export default {
   name: 'project-list-item',
   methods:{
     clickHandler: function(){
-      this.$emit("goToProject");
+      this.$emit("action");
     }
   },
   computed: {},
@@ -46,6 +46,7 @@ export default {
     padding: 16px;
     border-bottom: 1px #f3f3f3 solid;
     background: white;
+    cursor: pointer;
   }
 
   div:hover {
