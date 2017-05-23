@@ -21,7 +21,7 @@
         <project-list-item 
           v-for="key, value in listArray" 
           v-bind:item="key"
-          v-on:action="goToProject('/projects/'+key.url)"/>
+          v-on:action="goToProject('projects/'+key.url)"/>
 
        <!--    
         <button-primary 
@@ -49,10 +49,13 @@ export default {
   created: function(){
 
     var _this = this;
-   
-    var surveyDB = firebase.database().ref(this.$route.params.id).orderByChild('time').limitToLast(5).on("child_added", function(snapshot){
 
+
+   
+    var surveyDB = firebase.database().ref().orderByChild('time').limitToLast(5).on("child_added", function(snapshot){
       _this.survey.push(snapshot.val())
+
+      // console.log("route:",_this.$route.params.id);
     });
     
 
@@ -85,7 +88,7 @@ export default {
         return Date.parse(num.time)
       })
 
-
+      
       return sortByDate.reverse()
     }
   },
