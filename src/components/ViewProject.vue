@@ -20,8 +20,8 @@
 
         <div v-if="writeup" v-html="writeup.content"></div>
       
-        <button-primary 
-        label="Load Comments" v-on:action="loadComments"></button-primary>
+       <!--  <button-primary 
+        label="Load Comments" v-on:action="loadComments"></button-primary> -->
 
 
         <!-- <div id="disqus_thread"></div> -->
@@ -54,14 +54,25 @@ export default {
    
     projects.once('value', function(snapshot) {
       _this.projects = snapshot.val();
-      console.log('projects:',snapshot.val());
+      // console.log('projects:',snapshot.val());
     });
 
     writeup.once('value', function(snapshot) {
       _this.writeup = snapshot.val();
-      console.log('write up:',snapshot.val());
+      // console.log('write up:',snapshot.val());
     });
 
+    // Load FB Comments
+    (function(d, s, id) {
+          var js, fjs = d.getElementsByTagName(s)[0];
+          if (d.getElementById(id)) return;
+          js = d.createElement(s); js.id = id;
+          js.src = "//connect.facebook.net/en_US/sdk.js#xfbml=1&version=v2.9&appId=526030481081547";
+          fjs.parentNode.insertBefore(js, fjs);
+        }(document, 'script', 'facebook-jssdk'));
+
+    // console.log("created")
+    
 
 
       /**
@@ -76,28 +87,28 @@ export default {
     // (d.head || d.body).appendChild(s);
     // })();
 
-     var disqus_shortname = "magnetize-1";
-     var pageIdentifier = window.location.hash.replace("/projects/", "");
-     var pageURL = window.location.href.replace(window.location.host+'/#', window.location.host+'/#!')
+    //  var disqus_shortname = "magnetize-1";
+    //  var pageIdentifier = window.location.hash.replace("/projects/", "");
+    //  var pageURL = window.location.href.replace(window.location.host+'/#', window.location.host+'/#!')
 
-     $.ajax({
-            type: "GET",
-            url: "http://" + disqus_shortname + ".disqus.com/embed.js",
-            dataType: "script",
-            cache: true,
-            success : onSuccess
-    });
+    //  $.ajax({
+    //         type: "GET",
+    //         url: "http://" + disqus_shortname + ".disqus.com/embed.js",
+    //         dataType: "script",
+    //         cache: true,
+    //         success : onSuccess
+    // });
      
-    function onSuccess() {
-      DISQUS.reset({
-        reload: true,
-        config: function () {  
-          this.page.identifier = pageIdentifier;
-          this.page.url = pageURL;
-        }
-      }); 
+    // function onSuccess() {
+    //   DISQUS.reset({
+    //     reload: true,
+    //     config: function () {  
+    //       this.page.identifier = pageIdentifier;
+    //       this.page.url = pageURL;
+    //     }
+    //   }); 
       
-    }
+    // }
 
     
     
@@ -110,6 +121,8 @@ export default {
   },
   mounted: function(){
     // console.log(DISQUS)
+    // console.log("mounted");
+    FB.XFBML.parse()
     
   },
   props:{
