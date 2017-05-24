@@ -1,4 +1,4 @@
-<template>
+<!-- <template>
   <div class="app-container" id="edit">
       <button-primary label="submit" v-on:action="handleSubmit"></button-primary>
       <div>
@@ -55,10 +55,10 @@ export default {
       var _this = this;
 
       var timestamp = new Date()
-      
+      var ref = 'ideas/'+this.survey.title.replace(/[^\w\s]/gi, '').replace(/\s/g,'-').toLowerCase()
 
-      firebase.database().ref(this.survey.title.replace(/[^\w\s]/gi, '').replace(/\s/g,'-').toLowerCase()).set({
-       surveyID: "survey1",
+      firebase.database()
+      .ref('ideas/'+this.survey.title.replace(/[^\w\s]/gi, '').replace(/\s/g,'-').toLowerCase()).set({
        url: _this.path,
        title: _this.survey.title,
        desc: _this.survey.desc,
@@ -110,3 +110,4 @@ export default {
  
 </style>
 
+ -->

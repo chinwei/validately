@@ -3,9 +3,9 @@
       
       <button-primary label="submit" v-on:action="handleSubmit"></button-primary>
       <div>
-      <textarea class="input--title" placeholder="Name Your Idea..." type="text" v-model="survey.title"/>
+      <textarea class="input--title" placeholder="Name Your Idea..." type="text" v-model="project.title"/>
       
-      <textarea class="input__long-text" v-model="survey.desc" placeholder="Briefly describe your idea!" type="text"/>
+      <textarea class="input__long-text" v-model="project.desc" placeholder="Briefly describe your idea!" type="text"/>
 
       
       <div id="editor">
@@ -45,18 +45,25 @@ export default {
     
     // console.log(_this.quill.getContents())
 
-    var surveyDB = firebase.database().ref(this.$route.params.id);
+
+
+    var project = firebase.database().ref('projects/'+this.$route.params.id);
+    var writeup = firebase.database().ref('writeup/'+this.$route.params.id);
 
     if (this.$route.params.id !== undefined) {
-    surveyDB.once('value', function(snapshot) {
-
-      // console.log("grabbing data...", _this.survey);
-      _this.survey = snapshot.val();
-
-      
-
-      _this.quill.setContents(_this.survey.writeup.contentDelta);
+    project.once('value', function(snapshot) {
+      _this.project = snapshot.val();
+      console.log(_this.project);
     });
+
+    writeup.once('value', function(snapshot) {
+      _this.writeup = snapshot.val();
+      console.log(_this.writeup);
+      _this.quill.setContents(_this.writeup.contentDelta);
+      
+    });
+
+    
     } else {
       console.log("nope, this is a new project")
     }
@@ -85,59 +92,62 @@ export default {
 
       var timestamp = new Date()
 
-      var url = this.survey.title
+      var url = this.project.title
         .replace(/[^\w\s]/gi, '')
         .replace(/\s/g,'-')
         .toLowerCase()
 
-        // console.log(url)
 
-        // console.log("path:", _this.path)
+
 
         
 
-        if (this.$route.params.id !== undefined) {
-          // console.log("writing to existing project at", _this.path);
+        if (this.$route.params.id !== undefined) { // existing project
 
           var data = {       
-            surveyID: "survey1",
-           url: _this.path,
-           title: _this.survey.title,
-           desc: _this.survey.desc,
+           url: _this.$route.params.id,
+           title: _this.project.title,
+           desc: _this.project.desc,
            time: timestamp.toString(),
            owner: {
             displayName: _this.user.displayName,
             email: _this.user.email,
             uid: _this.user.uid
-           },
-           writeup: {
+             }
+           }
+
+           var writeup = {
               content: $("#editor .ql-editor").html(),
               contentDelta: _this.quill.getContents()
-           }}
+           }
 
-          firebase.database().ref(_this.$route.params.id).set(data);
+          firebase.database().ref('projects/'+_this.$route.params.id).set(data);
+          firebase.database().ref('writeup/'+_this.$route.params.id).set(writeup);
 
           _this.$router.push(_this.path)
         } else {
           
           // console.log("writing to new project at", url);
           var data = {       
-            surveyID: "survey1",
            url: url,
-           title: _this.survey.title,
-           desc: _this.survey.desc,
+           title: _this.project.title,
+           desc: _this.project.desc,
            time: timestamp.toString(),
            owner: {
             displayName: _this.user.displayName,
             email: _this.user.email,
             uid: _this.user.uid
-           },
-           writeup: {
+             }
+           }
+
+           var writeup = {
               content: $("#editor .ql-editor").html(),
               contentDelta: _this.quill.getContents()
-           }}
+           }
+            console.log(url);
+           firebase.database().ref('projects/'+ url).set(data);
+           firebase.database().ref('writeup/'+ url).set(writeup);
 
-           firebase.database().ref(url).set(data);
 
            _this.$router.push("/projects/"+url)
 
@@ -152,6 +162,8 @@ export default {
   },
   data () {
     return {
+      project: {},
+      writeup: {},
       survey: {
         title: "",
         desc: "",

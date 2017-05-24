@@ -52,12 +52,26 @@ export default {
 
 
    
-    var surveyDB = firebase.database().ref().orderByChild('time').limitToLast(5).on("child_added", function(snapshot){
-      _this.survey.push(snapshot.val())
+    var projects = firebase.database().ref('projects/').orderByChild('time').limitToLast(5).on("child_added", function(snapshot){
+      _this.projects.push(snapshot.val())
+      
 
-      // console.log("route:",_this.$route.params.id);
+      
     });
+
+    // var surveyDB = firebase.database().ref("/").on("value", function(snapshot){
+    //   _this.survey = snapshot.val()
+
+    //   console.log(_this.survey)
+    // });
     
+    // var surveyDB = firebase.database().ref();
+    // surveyDB.on('value', function(snapshot) {
+    //   _this.survey = snapshot.val()
+    //   console.log(_this.survey)
+
+    // });
+
 
   },
   components: {
@@ -77,7 +91,7 @@ export default {
   },
   computed: {
     listArray: function(){
-      var list = _.map(this.survey, function(num, key){ 
+      var list = _.map(this.projects, function(num, key){ 
         return num
       });
       // console.log(_.sortBy(list.time));
@@ -88,13 +102,14 @@ export default {
         return Date.parse(num.time)
       })
 
+      console.log(sortByDate.reverse());
       
       return sortByDate.reverse()
     }
   },
   data () {
     return {
-      survey: [],
+      projects: [],
     }
   }
 }

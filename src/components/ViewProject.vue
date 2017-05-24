@@ -2,8 +2,8 @@
   <div>
     <div class="banner">
       <div class="banner__content">
-        <h1>{{survey.title}}</h1>
-        <p>{{survey.desc}}</p>
+        <h1>{{projects.title}}</h1>
+        <p>{{projects.desc}}</p>
         <button-primary label="Subscribe"></button-primary>
       </div>
     </div>
@@ -11,14 +11,14 @@
     <div class="content">
   
 
-      <button-primary v-if="survey.owner && survey.owner.uid === user.uid" 
+      <button-primary v-if="projects.owner && projects.owner.uid === user.uid" 
         label="Edit Project" v-on:action="editProject"></button-primary>
      
-        <p v-if="survey.owner">Idea by {{survey.owner.displayName}}</p>
+        <p v-if="projects.owner">Idea by {{projects.owner.displayName}}</p>
       <article class="story">
 
 
-        <div v-if="survey.writeup" v-html="survey.writeup.content"></div>
+        <div v-if="writeup" v-html="writeup.content"></div>
       
         <button-primary 
         label="Load Comments" v-on:action="loadComments"></button-primary>
@@ -45,17 +45,22 @@ export default {
   created: function(){
 
     var _this = this;
-    // console.log(_this.$route.path)
 
-    var surveyDB = firebase.database().ref(this.$route.params.id);
+    var projects = firebase.database().ref('projects/'+this.$route.params.id);
+    var writeup = firebase.database().ref('writeup/'+this.$route.params.id);
 
    
-    surveyDB.once('value', function(snapshot) {
-      _this.survey = snapshot.val();
-
-      console.log(_this.$route.params.id);
-
+    projects.once('value', function(snapshot) {
+      _this.projects = snapshot.val();
+      console.log('projects:',snapshot.val());
     });
+
+    writeup.once('value', function(snapshot) {
+      _this.writeup = snapshot.val();
+      console.log('write up:',snapshot.val());
+    });
+
+
 
       /**
     *  RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
@@ -70,6 +75,8 @@ export default {
     // })();
 
      var disqus_shortname = "magnetize-1";
+     var pageIdentifier = window.location.hash.replace("/projects/", "");
+     var pageURL = window.location.href.replace(window.location.host+'/#', window.location.host+'/#!')
 
      $.ajax({
             type: "GET",
@@ -83,11 +90,8 @@ export default {
       DISQUS.reset({
         reload: true,
         config: function () {  
-
-          console.log('identifier:', this.page.identifier);
-          console.log('url:', this.page.url);
-          this.page.identifier = window.location.hash.replace("/projects/", "");
-          this.page.url = window.location.href.replace(window.location.host+'/#', window.location.host+'/#!');
+          this.page.identifier = pageIdentifier;
+          this.page.url = pageURL;
         }
       }); 
       
@@ -151,7 +155,8 @@ export default {
   },
   data () {
     return {
-      survey: {}
+      projects: {},
+      writeup: {}
     }
   }
 }
