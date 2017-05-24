@@ -24,7 +24,9 @@
         label="Load Comments" v-on:action="loadComments"></button-primary>
 
 
-        <div id="disqus_thread"></div>
+        <!-- <div id="disqus_thread"></div> -->
+
+        <div class="fb-comments" data-numposts="5"></div>
         
       </article>
       
