@@ -1,8 +1,8 @@
 <template>
    <div v-on:click="clickHandler">
-      <h1>{{item.title}}</h1>
+      <h1>{{item.title}} <span class="name">{{item.owner.displayName}}</span></h1>
       <span class="byline">{{item.desc}}</span>
-      <!-- <span>{{item.time}}</span> -->
+      
       
    </div>
 
@@ -37,6 +37,12 @@ export default {
     margin: 0;
   }
 
+
+  .name {
+    font-size: 12px;
+    font-weight: 600;
+    color: #777;
+  }
   .byline {
     font-size: 14px;
     color: hsla(0, 0%, 27%, 0.74);

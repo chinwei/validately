@@ -1,17 +1,16 @@
 <template>
 	<div id="edit">
-		
+
 		<button-primary label="submit" v-on:action="handleSubmit"></button-primary>
+
 		<div>
 			<textarea class="input--title" placeholder="Name Your Idea..." type="text" v-model="project.title"/>
-			
+
 			<textarea class="input__long-text" v-model="project.desc" placeholder="Briefly describe your idea!" type="text"/>
 
-			
-			<div id="editor">
-			</div>
+
+			<div id="editor"></div>
 		</div>
-		
 
 	</div>
 </template>
@@ -28,24 +27,18 @@
 		mounted: function(){
 
 
-			var _this = this;
-
-
-			console.log(this.$route.params.id)    
-			_this.quill = new Quill('#editor', {
-				modules: {
-					toolbar: [
-					[{ header: [1, 2, false] }],
-					['bold', 'italic', 'underline'],
-					['image', 'code-block']
-					]
-				},
-				theme: 'snow'
-			});
-			
-	// console.log(_this.quill.getContents())
-
-
+		var _this = this;
+  
+		_this.quill = new Quill('#editor', {
+			modules: {
+				toolbar: [
+				[{ header: [1, 2, false] }],
+				['bold', 'italic', 'underline'],
+				['image', 'code-block']
+				]
+			},
+			theme: 'snow'
+		});
 
 	var project = firebase.database().ref('projects/'+this.$route.params.id);
 	var writeup = firebase.database().ref('writeup/'+this.$route.params.id);
@@ -53,24 +46,18 @@
 	if (this.$route.params.id !== undefined) {
 		project.once('value', function(snapshot) {
 			_this.project = snapshot.val();
-			console.log(_this.project);
 		});
 
 		writeup.once('value', function(snapshot) {
 			_this.writeup = snapshot.val();
-			console.log(_this.writeup);
 			_this.quill.setContents(_this.writeup.contentDelta);
-			
+
 		});
 
-		
+
 	} else {
 		console.log("nope, this is a new project")
 	}
-
-
-
-
 },
 props: {
 	user: {}
@@ -79,7 +66,6 @@ components: {
 	ButtonPrimary
 },  
 methods: {
-
 
 	handleSubmit: function(e){
 		var _this = this;
@@ -142,8 +128,6 @@ data () {
 		width: 720px;
 
 	}
-
-
 
 	.input--title {
 		font-family: 'Avenir', Helvetica, Arial, sans-serif;

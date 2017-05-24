@@ -54,6 +54,10 @@ export default {
    
     var projects = firebase.database().ref('projects/').orderByChild('time').limitToLast(5).on("child_added", function(snapshot){
       _this.projects.push(snapshot.val())
+
+      // console.log('grabbing data...');
+      // console.log(snapshot.val());
+
       
 
       
@@ -102,9 +106,9 @@ export default {
         return Date.parse(num.time)
       })
 
-      console.log(sortByDate.reverse());
+      // console.log(sortByDate);
       
-      return sortByDate.reverse()
+      return sortByDate.reverse();
     }
   },
   data () {
