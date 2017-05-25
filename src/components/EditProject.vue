@@ -82,7 +82,8 @@ methods: {
 			title: _this.project.title,
 			desc: _this.project.desc,
 			time: timestamp.toString(),
-			owner: _this.user.uid
+			owner: _this.user.uid,
+
 		}
 
 		if (this.$route.params.id !== undefined) { // existing project
@@ -92,7 +93,7 @@ methods: {
 		} else { // new project
 
 			var key = shortid.generate();
-
+         data.url = key;
 		}
 
       

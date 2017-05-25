@@ -19,16 +19,14 @@
             v-on:action="goToProject('/projects/new')"/>
         </div>
 
+        
+        
+
         <project-list-item 
           v-for="key, value in listArray" 
           v-bind:item="key"
           v-on:action="goToProject('projects/'+key.url)"/>
 
-       <!--    
-        <button-primary 
-          label="Show 5 more - doesn't work yet" 
-          /> -->
-      
         
       </article>
       
