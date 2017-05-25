@@ -4,9 +4,9 @@
 		<button-primary label="submit" v-on:action="handleSubmit"></button-primary>
 
 		<div>
-			<input class="input--title" placeholder="Name Your Idea..." type="text" v-model="project.title"/>
+			<textarea class="input--title" placeholder="Name Your Idea..." type="text" v-model="project.title"/>
 
-			<div class="input__long-text" contenteditable="true" v-model="project.desc" placeholder="Briefly describe your idea!" type="text"/></div>
+			<textarea class="input__long-text" v-model="project.desc" placeholder="Briefly describe your idea!" type="text"/>
 
 
 			<div id="editor"></div>
@@ -18,6 +18,7 @@
 <script>
 
 	import firebase from 'firebase'
+   import shortid from 'shortid'
 	import Quill from 'quill'
 	import $ from 'jquery'
 	import ButtonPrimary from '@/Components/ButtonPrimary'
@@ -81,31 +82,31 @@ methods: {
 			title: _this.project.title,
 			desc: _this.project.desc,
 			time: timestamp.toString(),
-			owner: {
-				displayName: _this.user.displayName,
-				email: _this.user.email,
-				uid: _this.user.uid
-			}
+			owner: _this.user.uid
 		}
 
 		if (this.$route.params.id !== undefined) { // existing project
 
-			data.url = _this.$route.params.id;
+   		var key = _this.$route.params.id;
 
 		} else { // new project
 
-			var url = this.project.title
-			.replace(/[^\w\s]/gi, '')
-			.replace(/\s/g,'-')
-			.toLowerCase()
-			
-			data.url = url
+			var key = shortid.generate();
+
 		}
 
-		firebase.database().ref('projects/'+ data.url).set(data);
-		firebase.database().ref('writeup/'+ data.url).set(writeup);
+      
+      
 
-		_this.$router.push("/projects/"+ data.url)
+		var projectRef = firebase.database().ref('/projects/'+key);
+		var writeupRef = firebase.database().ref('/writeup/'+key)
+
+      projectRef.set(data);
+      writeupRef.set(writeup);
+
+      
+
+		_this.$router.push("/projects/"+ key);
 
 	}
 },
@@ -120,10 +121,7 @@ data () {
 
 <style>
 
-   [contenteditable=true]:empty:before {
-     content: attr(placeholder);
-     display: block; /* For Firefox */
-   }
+ 
 
 	#edit {
 		/*width: 800px;*/

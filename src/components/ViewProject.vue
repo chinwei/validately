@@ -2,8 +2,8 @@
   <div>
     <div class="banner">
       <div class="banner__content">
-        <h1>{{projects.title}}</h1>
-        <p>{{projects.desc}}</p>
+        <h1>{{project.title}}</h1>
+        <p>{{project.desc}}</p>
         <button-primary label="Subscribe"></button-primary>
       </div>
     </div>
@@ -11,20 +11,16 @@
     <div class="content">
   
 
-      <button-primary v-if="projects.owner && projects.owner.uid === user.uid" 
+      <button-primary v-if="project.owner === user.uid" 
         label="Edit Project" v-on:action="editProject"></button-primary>
      
-        <p v-if="projects.owner">Idea by {{projects.owner.displayName}}</p>
+        <p v-if="owner">Idea by {{owner.displayName}}</p>
       <article class="story">
 
+   
 
         <div v-if="writeup" v-html="writeup.content"></div>
-      
-       <!--  <button-primary 
-        label="Load Comments" v-on:action="loadComments"></button-primary> -->
-
-
-        <!-- <div id="disqus_thread"></div> -->
+  
 
         <div class="fb-comments" data-numposts="5"></div>
         
@@ -48,21 +44,32 @@ export default {
 
     var _this = this;
 
-    var projects = firebase.database().ref('projects/'+this.$route.params.id);
+    var project = firebase.database().ref('projects/'+this.$route.params.id);
     var writeup = firebase.database().ref('writeup/'+this.$route.params.id);
-
    
-    projects.once('value', function(snapshot) {
-      _this.projects = snapshot.val();
-      // console.log('projects:',snapshot.val());
+    project.once('value', function(snapshot) {
+      
+      _this.project = snapshot.val();
+
+      var owner = firebase.database().ref('users/'+_this.project.owner);
+
+      owner.once('value', function(snapshot) {
+        _this.owner = snapshot.val();
+        
+      });
     });
 
     writeup.once('value', function(snapshot) {
       _this.writeup = snapshot.val();
-      // console.log('write up:',snapshot.val());
     });
 
-    // Load FB Comments
+    
+  },
+  mounted: function(){
+
+    var FB;
+    
+
     (function(d, s, id) {
           var js, fjs = d.getElementsByTagName(s)[0];
           if (d.getElementById(id)) return;
@@ -71,59 +78,8 @@ export default {
           fjs.parentNode.insertBefore(js, fjs);
         }(document, 'script', 'facebook-jssdk'));
 
-    // console.log("created")
-    
+    if (FB) FB.XFBML.parse();
 
-
-      /**
-    *  RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
-    *  LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables*/
-    
-
-    // (function() { // DON'T EDIT BELOW THIS LINE
-    // var d = document, s = d.createElement('script');
-    // s.src = 'https://magnetize-1.disqus.com/embed.js';
-    // s.setAttribute('data-timestamp', +new Date());
-    // (d.head || d.body).appendChild(s);
-    // })();
-
-    //  var disqus_shortname = "magnetize-1";
-    //  var pageIdentifier = window.location.hash.replace("/projects/", "");
-    //  var pageURL = window.location.href.replace(window.location.host+'/#', window.location.host+'/#!')
-
-    //  $.ajax({
-    //         type: "GET",
-    //         url: "http://" + disqus_shortname + ".disqus.com/embed.js",
-    //         dataType: "script",
-    //         cache: true,
-    //         success : onSuccess
-    // });
-     
-    // function onSuccess() {
-    //   DISQUS.reset({
-    //     reload: true,
-    //     config: function () {  
-    //       this.page.identifier = pageIdentifier;
-    //       this.page.url = pageURL;
-    //     }
-    //   }); 
-      
-    // }
-
-    
-    
-
-
-    
-
-
-
-  },
-  mounted: function(){
-    // console.log(DISQUS)
-    // console.log("mounted");
-    FB.XFBML.parse()
-    
   },
   props:{
     user: {}
@@ -139,39 +95,13 @@ export default {
       this.$router.push(this.$route.path+"/edit")
     },
     loadComments: function(){
-
-
-      //  var disqus_shortname = "magnetize-1";
-
-      //  $.ajax({
-      //         type: "GET",
-      //         url: "http://" + disqus_shortname + ".disqus.com/embed.js",
-      //         dataType: "script",
-      //         cache: true,
-      //         success : onSuccess
-      // });
-       
-      // function onSuccess() {
-      //   DISQUS.reset({
-      //     reload: true,
-      //     config: function () {  
-
-      //       console.log('identifier:', this.page.identifier);
-      //       console.log('url:', this.page.url);
-      //       this.page.identifier = window.location.hash.replace("/projects/", "");
-      //       this.page.url = window.location.href.replace(window.location.host+'/#', window.location.host+'/#!');
-      //     }
-      //   }); 
-        
-      // }
-
-    
     }
   },
   data () {
     return {
-      projects: {},
-      writeup: {}
+      project: {},
+      writeup: {},
+      owner: {}
     }
   }
 }

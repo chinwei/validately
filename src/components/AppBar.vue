@@ -48,6 +48,9 @@ export default {
       console.log(this);
       var _this = this;
 
+
+
+
       var provider = new firebase.auth.FacebookAuthProvider();
       
 

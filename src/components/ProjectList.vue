@@ -9,13 +9,14 @@
 
       <article>
 
-        <button-primary v-if="user.uid"
-          label="New Project" 
-          v-on:action="goToProject('/projects/new')"/>
+        
           
 
         <div class="list__header">
           <h1>Recent Projects</h1>
+          <button-primary v-if="user.uid"
+            label="New Project" 
+            v-on:action="goToProject('/projects/new')"/>
         </div>
 
         <project-list-item 
@@ -52,29 +53,17 @@ export default {
 
 
    
-    var projects = firebase.database().ref('projects/').orderByChild('time').limitToLast(5).on("child_added", function(snapshot){
+    var projects = firebase.database()
+      .ref('projects/')
+      .orderByChild('time')
+      .limitToLast(5)
+      .on("child_added", function(snapshot){
+
       _this.projects.push(snapshot.val())
 
-      // console.log('grabbing data...');
-      // console.log(snapshot.val());
-
-      
-
-      
     });
 
-    // var surveyDB = firebase.database().ref("/").on("value", function(snapshot){
-    //   _this.survey = snapshot.val()
-
-    //   console.log(_this.survey)
-    // });
     
-    // var surveyDB = firebase.database().ref();
-    // surveyDB.on('value', function(snapshot) {
-    //   _this.survey = snapshot.val()
-    //   console.log(_this.survey)
-
-    // });
 
 
   },
@@ -128,6 +117,10 @@ export default {
 .list__header {
   padding: 16px;
   background: white;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
 }
 
 
