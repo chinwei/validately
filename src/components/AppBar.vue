@@ -1,13 +1,17 @@
 <template>
   <div class="app-bar">
-    <span>
+    <svg v-on:click="goBack" class="link" width="150" height="50">
+        <use xlink:href="./static/assets/sprites.svg#logo"></use>
+      </svg>
+    <!-- <span>
       <span v-on:click="goBack">Projects Home</span>
-    </span>
+    </span> -->
 
     <span>
       <button-primary v-if="!user.uid" label="Login with Facebook" v-on:action="loginUser"></button-primary>
     </span>
 
+  
 
     <strong v-if="user.uid" v-on:click="logOut">{{user.displayName}}</strong>
   </div>
