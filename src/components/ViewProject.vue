@@ -4,7 +4,7 @@
       <div class="banner__content">
         <h1>{{project.title}}</h1>
         <p>{{project.desc}}</p>
-        <button-primary label="Subscribe"></button-primary>
+        <button-primary label="Subscribe" v-on:action="toggleLike"></button-primary>
       </div>
     </div>
   
@@ -44,12 +44,14 @@ export default {
 
     var _this = this;
 
-    var project = firebase.database().ref('projects/'+this.$route.params.id);
-    var writeup = firebase.database().ref('writeup/'+this.$route.params.id);
+    this.projectDB = firebase.database().ref('projects/'+this.$route.params.id);
+    this.writeupDB = firebase.database().ref('writeup/'+this.$route.params.id);
    
-    project.once('value', function(snapshot) {
+    this.projectDB.once('value', function(snapshot) {
       
       _this.project = snapshot.val();
+
+      // console.log("key:",this.projectDB.key);
 
       var owner = firebase.database().ref('users/'+_this.project.owner);
 
@@ -59,7 +61,7 @@ export default {
       });
     });
 
-    writeup.once('value', function(snapshot) {
+    this.writeupDB.once('value', function(snapshot) {
       _this.writeup = snapshot.val();
     });
 
@@ -94,7 +96,22 @@ export default {
     editProject: function(){
       this.$router.push(this.$route.path+"/edit")
     },
-    loadComments: function(){
+    toggleLike: function(){
+      
+      var likesRef = firebase.database().ref('users/'+this.user.uid+'/likes/'+this.projectDB.key)
+
+      likesRef.transaction(function(currentLikes) {
+
+        if (currentLikes == true) currentLikes = null
+          currentLikes = true ? null : true
+
+        return currentLikes;
+      });
+      
+      
+
+
+
     }
   },
   data () {
