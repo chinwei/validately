@@ -97,13 +97,21 @@ export default {
       this.$router.push(this.$route.path+"/edit")
     },
     toggleLike: function(){
+
+      console.log('users/'+this.user.uid+'/likes/'+this.projectDB.key);
       
       var likesRef = firebase.database().ref('users/'+this.user.uid+'/likes/'+this.projectDB.key)
 
-      likesRef.transaction(function(currentLikes) {
+      // likesRef.set()
 
-        if (currentLikes == true) currentLikes = null
-          currentLikes = true ? null : true
+      likesRef.transaction(function(currentLikes) {
+        console.log("currentLikes:",currentLikes)
+
+
+          currentLikes = !currentLikes;
+
+          if (!currentLikes) currentLikes = null;
+
 
         return currentLikes;
       });
