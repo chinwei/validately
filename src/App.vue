@@ -35,7 +35,7 @@ export default {
     var _this = this;
     firebase.auth().onAuthStateChanged(function(user) {
       if (user) {
-          // console.log(user, "signed in!")
+          console.log(user, "signed in!")
          _this.user = user
 
       } else {
