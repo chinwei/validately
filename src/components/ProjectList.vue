@@ -138,8 +138,10 @@ export default {
 }
 
 .banner--main {
-  background: #4990E2;
+  background: url('/static/assets/header-bg.jpg') center center;
+  background-size: cover;
   color: white;
+  padding: 5em;
   justify-content: center;
   font-size: 28px;
 }

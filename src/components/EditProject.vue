@@ -4,9 +4,9 @@
 		<button-primary label="submit" v-on:action="handleSubmit"></button-primary>
 
 		<div>
-			<textarea class="input--title" placeholder="Name Your Idea..." type="text" v-model="project.title"/>
+			<input class="input--title" placeholder="Name Your Idea..." type="text" v-model="project.title"/>
 
-			<textarea class="input__long-text" v-model="project.desc" placeholder="Briefly describe your idea!" type="text"/>
+			<div class="input__long-text" contenteditable="true" v-model="project.desc" placeholder="Briefly describe your idea!" type="text"/></div>
 
 
 			<div id="editor"></div>
@@ -37,6 +37,7 @@
 				['image', 'code-block']
 				]
 			},
+         placeholder: "hello there!",
 			theme: 'snow'
 		});
 
@@ -118,6 +119,11 @@ data () {
 </script>
 
 <style>
+
+   [contenteditable=true]:empty:before {
+     content: attr(placeholder);
+     display: block; /* For Firefox */
+   }
 
 	#edit {
 		/*width: 800px;*/
@@ -974,7 +980,7 @@ data () {
    	background-color: #000;
    }
    .ql-toolbar.ql-snow {
-   	border: 1px solid #ccc;
+   	/*border: 1px solid #ccc;*/
    	box-sizing: border-box;
    	font-family: 'Avenir', Helvetica, Arial, sans-serif;
    	padding: 8px;
@@ -1071,7 +1077,7 @@ data () {
    	color: #06c;
    }
    .ql-container.ql-snow {
-   	border: 1px solid #ccc;
+   	/*border: 1px solid #ccc;*/
    }
 
    .ql-editor p {

@@ -8,12 +8,19 @@
     </span> -->
 
     <span>
+ <!--      <button-primary v-if="user.uid"
+        label="New Project" 
+        v-on:action="goToProject('/projects/new')"/> -->
+
       <button-primary v-if="!user.uid" label="Login with Facebook" v-on:action="loginUser"></button-primary>
+      
+      <strong v-if="user.uid" v-on:click="logOut">{{user.displayName}}</strong>
+
     </span>
 
   
 
-    <strong v-if="user.uid" v-on:click="logOut">{{user.displayName}}</strong>
+    
   </div>
 </template>
 
@@ -32,6 +39,9 @@ export default {
   methods: {
     goBack: function(){
         this.$router.replace("/")
+    },
+    goToProject: function(path){
+      this.$router.push({ path: path })
     },
     loginUser: function(){
 
