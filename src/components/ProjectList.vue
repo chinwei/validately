@@ -9,8 +9,21 @@
 
       <article>
 
+
+        <div class="list__header">
+          <h1>Projects You Like</h1>
+        </div>
+
+   
         
-          
+        <div v-if="owners">
+          <project-list-item 
+            v-for="key, value in owners.likes"
+            v-bind:item="projectObj[value]"
+            v-on:action="goToProject('projects/'+projectObj[value].url)"/>
+        </div>
+
+
 
         <div class="list__header">
           <h1>Recent Projects</h1>
@@ -19,20 +32,11 @@
             v-on:action="goToProject('/projects/new')"/>
         </div>
 
-        <!-- {{listArray}} -->
-<!-- 
-        <ul>
-          <li v-for="key, value in listArray">
-            {{owners[key.owner].displayName}}
-          </li>
-        </ul>
- -->
+     
 
         <project-list-item 
-          v-if="owners[key.owner]"
           v-for="key, value in listArray" 
           v-bind:item="key"
-          v-bind:owner="owners[key.owner]"
           v-on:action="goToProject('projects/'+key.url)"/>
 
         
@@ -58,18 +62,44 @@ export default {
     var _this = this;
 
 
-   
-    var projects = firebase.database()
-      .ref('projects/')
+   var projectRef = firebase.database().ref('projects/');
+
+    projectRef
       .orderByChild('time')
       .limitToLast(5)
       .on("child_added", function(snapshot){
 
+      // console.log(snapshot.key)
       _this.projects.push(snapshot.val())
+      _this.projectObj[snapshot.key] = snapshot.val()
+
 
     });
 
     
+
+    
+
+
+  },
+  mounted: function(){
+    // console.log(this.owners)
+
+
+    var _this = this;
+    var likedProjectRef = firebase.database().ref('projects/')
+      .orderByChild('time')
+      .limitToLast(5)
+      .on("value", function(snapshot){
+
+      // console.log("getting BJoURlSZZ:",snapshot.val());
+      // _this.projects.push(snapshot.val())
+      _this.projectObj = snapshot.val()
+
+      // console.log("projectObj: ",_this.projectObj);
+
+
+    });;
 
 
   },
@@ -98,7 +128,7 @@ export default {
      
       var sortByDate = _.sortBy(list, function(num, key){
         // console.log(Date.parse(num.time))
-        return Date.parse(num.time)
+        return sortByDate;
       })
 
       // console.log(sortByDate);
@@ -112,18 +142,21 @@ export default {
       var _this = this;
       var owners = {}
 
-      _.each(this.listArray, function(num, key){
-        // console.log(num.owner, key)
+      
 
+        // console.log(num, key)
         var owner = firebase.database()
-          .ref('users/'+num.owner)
+          .ref('users/'+_this.user.uid)
           .on("value", function(snapshot){
 
-            owners[num.owner] = snapshot.val()
-        });
-      })
+            // console.log(snapshot.val());
 
-      // console.log(owners)
+            owners = snapshot.val()
+            // owners[num.owner.uid] = snapshot.val()
+        });
+      
+
+      // console.log(owners.displayName)
       // owner[key.owner].displayName
 
 
@@ -133,7 +166,8 @@ export default {
   },
   data () {
     return {
-      projects: []
+      projects: [],
+      projectObj: {}
     }
   }
 }

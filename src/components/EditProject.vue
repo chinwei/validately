@@ -81,33 +81,36 @@ methods: {
 		var data = {       
 			title: _this.project.title,
 			desc: _this.project.desc,
-			time: timestamp.toString(),
-			owner: _this.user.uid,
-
+			time: Date.parse(timestamp).toString(),
+			owner: {
+            uid: _this.user.uid,
+            displayName: _this.user.displayName
+         }
 		}
 
 		if (this.$route.params.id !== undefined) { // existing project
 
-   		var key = _this.$route.params.id;
+   		data.url = _this.$route.params.id;
+         
 
 		} else { // new project
 
-			var key = shortid.generate();
-         data.url = key;
+			data.url = shortid.generate();
+
 		}
 
       
       
 
-		var projectRef = firebase.database().ref('/projects/'+key);
-		var writeupRef = firebase.database().ref('/writeup/'+key)
+		var projectRef = firebase.database().ref('/projects/'+data.url);
+		var writeupRef = firebase.database().ref('/writeup/'+data.url)
 
       projectRef.set(data);
       writeupRef.set(writeup);
 
       
 
-		_this.$router.push("/projects/"+ key);
+		_this.$router.push("/projects/"+ data.url);
 
 	}
 },

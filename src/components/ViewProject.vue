@@ -11,10 +11,12 @@
     <div class="content">
   
 
-      <button-primary v-if="project.owner === user.uid" 
+      <button-primary v-if="project.owner.uid === user.uid" 
         label="Edit Project" v-on:action="editProject"></button-primary>
      
-        <p v-if="owner">Idea by {{owner.displayName}}</p>
+    
+
+        <p v-if="project.owner">Idea by {{project.owner.displayName}}</p>
       <article class="story">
 
    
@@ -51,14 +53,12 @@ export default {
       
       _this.project = snapshot.val();
 
-      // console.log("key:",this.projectDB.key);
+      // var owner = firebase.database().ref('users/'+_this.project.owner);
 
-      var owner = firebase.database().ref('users/'+_this.project.owner);
-
-      owner.once('value', function(snapshot) {
-        _this.owner = snapshot.val();
+      // owner.once('value', function(snapshot) {
+      //   _this.owner = snapshot.val();
         
-      });
+      // });
     });
 
     this.writeupDB.once('value', function(snapshot) {
@@ -98,14 +98,14 @@ export default {
     },
     toggleLike: function(){
 
-      console.log('users/'+this.user.uid+'/likes/'+this.projectDB.key);
+      // console.log('users/'+this.user.uid+'/likes/'+this.projectDB.key);
       
       var likesRef = firebase.database().ref('users/'+this.user.uid+'/likes/'+this.projectDB.key)
 
       // likesRef.set()
 
       likesRef.transaction(function(currentLikes) {
-        console.log("currentLikes:",currentLikes)
+        // console.log("currentLikes:",currentLikes)
 
 
           currentLikes = !currentLikes;
