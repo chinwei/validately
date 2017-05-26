@@ -19,12 +19,20 @@
             v-on:action="goToProject('/projects/new')"/>
         </div>
 
-        
-        
+        <!-- {{listArray}} -->
+<!-- 
+        <ul>
+          <li v-for="key, value in listArray">
+            {{owners[key.owner].displayName}}
+          </li>
+        </ul>
+ -->
 
         <project-list-item 
+          v-if="owners[key.owner]"
           v-for="key, value in listArray" 
           v-bind:item="key"
+          v-bind:owner="owners[key.owner]"
           v-on:action="goToProject('projects/'+key.url)"/>
 
         
@@ -96,11 +104,36 @@ export default {
       // console.log(sortByDate);
       
       return sortByDate.reverse();
+    },
+    owners: function() {
+
+
+      // console.log(this.listArray);
+      var _this = this;
+      var owners = {}
+
+      _.each(this.listArray, function(num, key){
+        // console.log(num.owner, key)
+
+        var owner = firebase.database()
+          .ref('users/'+num.owner)
+          .on("value", function(snapshot){
+
+            owners[num.owner] = snapshot.val()
+        });
+      })
+
+      // console.log(owners)
+      // owner[key.owner].displayName
+
+
+
+      return owners;
     }
   },
   data () {
     return {
-      projects: [],
+      projects: []
     }
   }
 }

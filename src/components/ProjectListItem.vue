@@ -1,9 +1,8 @@
 <template>
    <div v-on:click="clickHandler">
-      <h1>{{item.title}} <span class="name">{{item.owner.displayName}}</span></h1>
+      <h1>{{item.title}} <span class="name">{{owner.displayName}}</span></h1>
       <span class="byline">{{item.desc}}</span>
-      
-      
+
    </div>
 
 </template>
@@ -13,14 +12,20 @@
 
 export default {
   name: 'project-list-item',
+  created: function(){
+
+    // console.log('users/'+this.item.owner);
+
+      
+  },
   methods:{
     clickHandler: function(){
       this.$emit("action");
     }
   },
-  computed: {},
   props:{
-    item: {}
+    item: {},
+    owner: {}
   },
   data () {
     return {
