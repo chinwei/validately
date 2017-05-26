@@ -4,14 +4,15 @@
       <div class="banner__content">
         <h1>{{project.title}}</h1>
         <p>{{project.desc}}</p>
-        <button-primary label="Subscribe" v-on:action="toggleLike"></button-primary>
+
+        <button-primary label="Subscribe" :disabled="subscribed" v-on:action="toggleLike"></button-primary>
       </div>
     </div>
   
     <div class="content">
   
 
-      <button-primary v-if="project.owner.uid === user.uid" 
+      <button-primary v-if="project.owner && project.owner.uid === user.uid" 
         label="Edit Project" v-on:action="editProject"></button-primary>
      
     
@@ -48,22 +49,37 @@ export default {
 
     this.projectDB = firebase.database().ref('projects/'+this.$route.params.id);
     this.writeupDB = firebase.database().ref('writeup/'+this.$route.params.id);
+    
    
     this.projectDB.once('value', function(snapshot) {
       
       _this.project = snapshot.val();
 
-      // var owner = firebase.database().ref('users/'+_this.project.owner);
+      console.log(snapshot.key);
 
-      // owner.once('value', function(snapshot) {
-      //   _this.owner = snapshot.val();
-        
-      // });
+      var likesRef = firebase.database()
+        .ref('users/'+_this.user.uid+'/likes/'+snapshot.key)
+
+      // console.log('users/'+this.user.uid+'/likes/'+snapshot.key);
+
+      likesRef.on("value", function(snapshot){
+        // console.log(snapshot.val());
+
+        if (snapshot.val()) _this.subscribed = true;
+
+        console.log(_this.subscribed);
+      })
+
     });
 
     this.writeupDB.once('value', function(snapshot) {
       _this.writeup = snapshot.val();
     });
+
+
+
+    
+    
 
     
   },
@@ -100,10 +116,12 @@ export default {
 
       // console.log('users/'+this.user.uid+'/likes/'+this.projectDB.key);
       
+      var _this = this;
+
       var likesRef = firebase.database().ref('users/'+this.user.uid+'/likes/'+this.projectDB.key)
 
-      // likesRef.set()
-
+      
+      
       likesRef.transaction(function(currentLikes) {
         // console.log("currentLikes:",currentLikes)
 
@@ -112,6 +130,9 @@ export default {
 
           if (!currentLikes) currentLikes = null;
 
+          console.log(currentLikes);
+
+          _this.subscribed = currentLikes;
 
         return currentLikes;
       });
@@ -126,7 +147,8 @@ export default {
     return {
       project: {},
       writeup: {},
-      owner: {}
+      owner: {},
+      subscribed: true
     }
   }
 }

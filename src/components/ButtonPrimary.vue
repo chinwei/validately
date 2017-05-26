@@ -1,12 +1,13 @@
 <template>
-	<div class="button button--primary" v-on:click="clickHandler">{{label}}</div>
+	<div class="button button--primary" :disabled="disabled" v-on:click="clickHandler">{{label}}</div>
 </template>
 
 <script>
 	export default {
 		name: "button-primary",
 		props: {
-			label: ""
+			label: "",
+			disabled: false
 		},
 		methods: {
 			clickHandler: function(){
@@ -34,4 +35,9 @@
 .button:hover {
 	background: #73d275;
 }
+
+.button[disabled] {
+	background: rgba(115, 210, 117, 0.27);
+}
+
 </style>

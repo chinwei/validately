@@ -9,16 +9,13 @@
 
       <article>
 
-
         <div class="list__header">
           <h1>Projects You Like</h1>
         </div>
 
-   
-        
-        <div v-if="owners">
+        <div v-if="currentUserTarget">
           <project-list-item 
-            v-for="key, value in owners.likes"
+            v-for="key, value in currentUserTarget.likes"
             v-bind:item="projectObj[value]"
             v-on:action="goToProject('projects/'+projectObj[value].url)"/>
         </div>
@@ -28,7 +25,7 @@
         <div class="list__header">
           <h1>Recent Projects</h1>
           <button-primary v-if="user.uid"
-            label="New Project" 
+            label="New Project"
             v-on:action="goToProject('/projects/new')"/>
         </div>
 
@@ -69,7 +66,6 @@ export default {
       .limitToLast(5)
       .on("child_added", function(snapshot){
 
-      // console.log(snapshot.key)
       _this.projects.push(snapshot.val())
       _this.projectObj[snapshot.key] = snapshot.val()
 
@@ -123,45 +119,28 @@ export default {
       var list = _.map(this.projects, function(num, key){ 
         return num
       });
-      // console.log(_.sortBy(list.time));
-
      
       var sortByDate = _.sortBy(list, function(num, key){
-        // console.log(Date.parse(num.time))
+
         return sortByDate;
       })
-
-      // console.log(sortByDate);
       
       return sortByDate.reverse();
     },
-    owners: function() {
+    currentUserTarget: function() {
 
-
-      // console.log(this.listArray);
       var _this = this;
-      var owners = {}
+      var currentUserTarget = {}
 
+      firebase.database()
+        .ref('users/'+_this.user.uid)
+        .on("value", function(snapshot){
+
+        currentUserTarget = snapshot.val();
+
+      });
       
-
-        // console.log(num, key)
-        var owner = firebase.database()
-          .ref('users/'+_this.user.uid)
-          .on("value", function(snapshot){
-
-            // console.log(snapshot.val());
-
-            owners = snapshot.val()
-            // owners[num.owner.uid] = snapshot.val()
-        });
-      
-
-      // console.log(owners.displayName)
-      // owner[key.owner].displayName
-
-
-
-      return owners;
+      return currentUserTarget;
     }
   },
   data () {
