@@ -36,7 +36,7 @@
 	background: #73d275;
 }
 
-.button[disabled] {
+.button[disabled], .button.is--loading {
 	background: rgba(115, 210, 117, 0.27);
 }
 

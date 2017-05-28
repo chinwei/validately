@@ -1,8 +1,8 @@
 <template>
   <div class="app-bar">
     <svg v-on:click="goBack" class="link" width="150" height="50">
-        <use xlink:href="./static/assets/sprites.svg#logo"></use>
-      </svg>
+      <use xlink:href="./static/assets/sprites.svg#logo"></use>
+    </svg>
     <!-- <span>
       <span v-on:click="goBack">Projects Home</span>
     </span> -->
@@ -12,7 +12,10 @@
         label="New Project" 
         v-on:action="goToProject('/projects/new')"/> -->
 
-      <button-primary v-if="!user.uid" label="Login with Facebook" v-on:action="loginUser"></button-primary>
+      <button-primary v-if="!user.uid" 
+        label="Login with Facebook" 
+        v-bind:class="{'is--loading': isLoading}" 
+        v-on:action="loginUser"></button-primary>
       
       <strong v-if="user.uid" v-on:click="logOut">{{user.displayName}}</strong>
 
@@ -34,7 +37,7 @@ import ButtonPrimary from '@/components/ButtonPrimary'
 export default {
   name: 'app-bar',
   created: function(){
-  
+    // console.log("app bar created...", this.user)
   },
   methods: {
     goBack: function(){
@@ -47,6 +50,8 @@ export default {
 
       console.log(this);
       var _this = this;
+
+      _this.isLoading = true
 
 
 
@@ -63,6 +68,8 @@ export default {
         var user = result.user;
 
         _this.isLoggedIn = true;
+
+        _this.isLoading = false;
         
         console.log(user);
 
@@ -101,7 +108,8 @@ export default {
   },
   data () {
     return {
-      isLoggedIn: false
+      isLoggedIn: false,
+      isLoading: false
     }
   }
 }

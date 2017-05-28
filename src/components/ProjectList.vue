@@ -7,34 +7,50 @@
 
     <div class="content">
 
-      <article>
-
-        <div class="list__header">
-          <h1>Projects You Like</h1>
-        </div>
-
-        <div v-if="currentUserTarget">
-          <project-list-item 
-            v-for="key, value in currentUserTarget.likes"
-            v-bind:item="projectObj[value]"
-            v-on:action="goToProject('projects/'+projectObj[value].url)"/>
-        </div>
+      <article> 
 
 
-
-        <div class="list__header">
-          <h1>Recent Projects</h1>
+        
+        <div v-if="user.uid" class="list__header">
+          <h1>Projects You Created</h1>
           <button-primary v-if="user.uid"
             label="New Project"
             v-on:action="goToProject('/projects/new')"/>
         </div>
 
+        <project-list-item 
+          v-for="key, value in currentUserProjectObj"
+          v-bind:item="key"
+          v-on:action="goToProject('projects/'+key.url)"/>
+
+
+        <div v-if="user.uid" style="margin-top: 32px" class="list__header">
+          <h1>Projects You Like</h1>
+        </div>
+
      
+
+        <project-list-item 
+          v-for="key, value in currentUserTargetObj.likes"
+          v-bind:item="projectObj[value]"
+          v-on:action="goToProject('projects/'+projectObj[value].url)"/>
+
+
+        <div class="list__header" style="margin-top: 32px">
+          <h1>Recent Projects</h1>
+         
+        </div>
+
+        
 
         <project-list-item 
           v-for="key, value in listArray" 
           v-bind:item="key"
           v-on:action="goToProject('projects/'+key.url)"/>
+
+
+
+       
 
         
       </article>
@@ -54,10 +70,14 @@ import ButtonPrimary from '@/components/ButtonPrimary'
 
 export default {
   name: 'project-list',
-  created: function(){
+  created() {
+    console.log(this.user)
 
     var _this = this;
 
+
+    this.getCreatedProjects();
+    this.getLikedProjects();
 
    var projectRef = firebase.database().ref('projects/');
 
@@ -69,33 +89,24 @@ export default {
       _this.projects.push(snapshot.val())
       _this.projectObj[snapshot.key] = snapshot.val()
 
-
     });
-
-    
-
-    
-
-
   },
-  mounted: function(){
-    // console.log(this.owners)
-
+  mounted() {
 
     var _this = this;
-    var likedProjectRef = firebase.database().ref('projects/')
+
+
+    var ref = firebase.database().ref('projects/');
+    
+    ref
       .orderByChild('time')
       .limitToLast(5)
       .on("value", function(snapshot){
 
-      // console.log("getting BJoURlSZZ:",snapshot.val());
-      // _this.projects.push(snapshot.val())
       _this.projectObj = snapshot.val()
 
-      // console.log("projectObj: ",_this.projectObj);
+    });
 
-
-    });;
 
 
   },
@@ -104,7 +115,7 @@ export default {
     ButtonPrimary
   },
   props:{
-    user: ""
+    user: {}
   },
   methods:{
     goToProject: function(path){
@@ -112,10 +123,31 @@ export default {
     },
     clickHandler: function() {
       this.$router.push({ path: path })
+    },
+    getCreatedProjects: function(){
+      var _this = this;
+
+      firebase.database()
+        .ref('projects/')
+        .orderByChild('owner/uid')
+        .equalTo(_this.user.uid)
+        .limitToLast(5)
+        .on("value", function(snapshot){
+          _this.currentUserProjectObj = snapshot.val()
+        });
+    },
+    getLikedProjects: function(){
+      var _this = this;
+
+      firebase.database()
+        .ref('users/'+this.user.uid)
+        .on("value", function(snapshot){
+        _this.currentUserTargetObj = snapshot.val();
+      });
     }
   },
   computed: {
-    listArray: function(){
+    listArray(){
       var list = _.map(this.projects, function(num, key){ 
         return num
       });
@@ -126,27 +158,29 @@ export default {
       })
       
       return sortByDate.reverse();
-    },
-    currentUserTarget: function() {
-
-      var _this = this;
-      var currentUserTarget = {}
-
-      firebase.database()
-        .ref('users/'+_this.user.uid)
-        .on("value", function(snapshot){
-
-        currentUserTarget = snapshot.val();
-
-      });
-      
-      return currentUserTarget;
     }
+  },
+  watch: {
+    user: function (val) {
+
+      console.log("user..", val)
+
+      this.getCreatedProjects();
+      this.getLikedProjects();
+
+
+
+      
+
+
+    },
   },
   data () {
     return {
       projects: [],
-      projectObj: {}
+      projectObj: {},
+      currentUserProjectObj: {},
+      currentUserTargetObj: {}
     }
   }
 }

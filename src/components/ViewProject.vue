@@ -5,7 +5,10 @@
         <h1>{{project.title}}</h1>
         <p>{{project.desc}}</p>
 
-        <button-primary label="Subscribe" :disabled="subscribed" v-on:action="toggleLike"></button-primary>
+        <svg v-on:click="toggleLike" v-bind:class="{ active: subscribed }" class="like-icon" viewBox="0 0 100 100" width="40" height="40">
+          <use xlink:href="./static/assets/sprites.svg#heart"></use>
+        </svg>
+
       </div>
     </div>
   
@@ -60,14 +63,12 @@ export default {
       var likesRef = firebase.database()
         .ref('users/'+_this.user.uid+'/likes/'+snapshot.key)
 
-      // console.log('users/'+this.user.uid+'/likes/'+snapshot.key);
-
       likesRef.on("value", function(snapshot){
+
+
+        _this.subscribed = snapshot.val() ? true : false
+
         // console.log(snapshot.val());
-
-        if (snapshot.val()) _this.subscribed = true;
-
-        console.log(_this.subscribed);
       })
 
     });
@@ -155,6 +156,25 @@ export default {
 </script>
 
 <style>
+
+
+.like-icon {
+  cursor: pointer;
+  stroke: #FF4651;
+  stroke-width: 4px;
+  fill: none;
+
+}
+
+.like-icon:hover {
+  fill: #FFD8DB;
+}
+
+.like-icon.active {
+ fill: #FF4651; 
+}
+
+
 
 .app-container {
   width: 600px;

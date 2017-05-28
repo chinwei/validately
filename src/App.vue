@@ -7,7 +7,7 @@
 
     <app-bar v-bind:user="user"></app-bar>
     <transition name="slide-fade">
-      <router-view :user="user"></router-view>
+      <router-view v-bind:user="user"></router-view>
     </transition>
   </div>
 </template>
