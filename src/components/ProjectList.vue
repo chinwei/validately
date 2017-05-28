@@ -127,6 +127,7 @@ export default {
     getCreatedProjects: function(){
       var _this = this;
 
+      if (_this.user.uid) {
       firebase.database()
         .ref('projects/')
         .orderByChild('owner/uid')
@@ -135,15 +136,18 @@ export default {
         .on("value", function(snapshot){
           _this.currentUserProjectObj = snapshot.val()
         });
+      }
     },
     getLikedProjects: function(){
       var _this = this;
 
-      firebase.database()
-        .ref('users/'+this.user.uid)
-        .on("value", function(snapshot){
-        _this.currentUserTargetObj = snapshot.val();
-      });
+      if (this.user.uid) {
+        firebase.database()
+          .ref('users/'+this.user.uid)
+          .on("value", function(snapshot){
+          _this.currentUserTargetObj = snapshot.val();
+        });
+      }
     }
   },
   computed: {
