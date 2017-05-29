@@ -11,6 +11,7 @@
 
 
         
+        
         <div v-if="user.uid" class="list__header">
           <h1>Projects You Created</h1>
           <button-primary v-if="user.uid"
@@ -20,6 +21,7 @@
 
         <project-list-item 
           v-for="key, value in currentUserProjectObj"
+          :key="key"
           v-bind:item="key"
           v-on:action="goToProject('projects/'+key.url)"/>
 
@@ -32,6 +34,7 @@
 
         <project-list-item 
           v-for="key, value in currentUserTargetObj.likes"
+          :key="key"
           v-bind:item="projectObj[value]"
           v-on:action="goToProject('projects/'+projectObj[value].url)"/>
 
@@ -45,6 +48,7 @@
 
         <project-list-item 
           v-for="key, value in listArray" 
+          :key="key"
           v-bind:item="key"
           v-on:action="goToProject('projects/'+key.url)"/>
 

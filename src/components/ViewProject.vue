@@ -5,7 +5,7 @@
         <h1>{{project.title}}</h1>
         <p>{{project.desc}}</p>
 
-        <svg v-on:click="toggleLike" v-bind:class="{ active: subscribed }" class="like-icon" viewBox="0 0 100 100" width="40" height="40">
+        <svg v-on:click="toggleLike" v-bind:class="{ active: likes }" class="like-icon" viewBox="0 0 100 100" width="40" height="40">
           <use xlink:href="./static/assets/sprites.svg#heart"></use>
         </svg>
 
@@ -66,7 +66,7 @@ export default {
       likesRef.on("value", function(snapshot){
 
 
-        _this.subscribed = snapshot.val() ? true : false
+        _this.likes = snapshot.val() ? true : false
 
         // console.log(snapshot.val());
       })
@@ -87,6 +87,7 @@ export default {
   mounted: function(){
 
     var FB;
+    var _this = this;
     
 
     (function(d, s, id) {
@@ -98,6 +99,17 @@ export default {
         }(document, 'script', 'facebook-jssdk'));
 
     if (FB) FB.XFBML.parse();
+
+
+
+    var LikedRef = firebase.database().ref('projects/'+this.projectDB.key+'/liked/');
+
+    LikedRef.on('value', function(snapshot){
+
+      _this.likedCount = snapshot.numChildren()
+    })
+
+
 
   },
   props:{
@@ -115,30 +127,39 @@ export default {
     },
     toggleLike: function(){
 
-      // console.log('users/'+this.user.uid+'/likes/'+this.projectDB.key);
+      console.log('users/'+this.user.uid+'/likes/'+this.projectDB.key);
       
       var _this = this;
 
       var likesRef = firebase.database().ref('users/'+this.user.uid+'/likes/'+this.projectDB.key)
 
+      var LikedRef = firebase.database().ref('projects/'+this.projectDB.key+'/liked/');
+
       
       
       likesRef.transaction(function(currentLikes) {
-        // console.log("currentLikes:",currentLikes)
-
 
           currentLikes = !currentLikes;
 
           if (!currentLikes) currentLikes = null;
 
-          console.log(currentLikes);
-
-          _this.subscribed = currentLikes;
+          _this.likes = currentLikes;
 
         return currentLikes;
       });
+
+      console.log('user id:',this.user.uid)
       
-      
+      LikedRef.child(this.user.uid).transaction(function(currentLiked) {
+
+          currentLiked = !currentLiked;
+
+          if (!currentLiked) currentLiked = null;
+
+        return currentLiked;
+      });
+
+
 
 
 
@@ -149,7 +170,9 @@ export default {
       project: {},
       writeup: {},
       owner: {},
-      subscribed: true
+      likes: true,
+      likedCount: ''
+      
     }
   }
 }
