@@ -201,7 +201,8 @@ export default {
 }
 </script>
 
-<style>
+<style lang="scss">
+
 
 
 .like-icon {
@@ -209,17 +210,13 @@ export default {
   stroke: #FF4651;
   stroke-width: 4px;
   fill: none;
-
+  &:hover {
+    fill: #FFD8DB;
+  }
+  &.active {
+    fill: #FF4651; 
+  }
 }
-
-.like-icon:hover {
-  fill: #FFD8DB;
-}
-
-.like-icon.active {
- fill: #FF4651; 
-}
-
 
 
 .app-container {
