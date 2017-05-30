@@ -102,6 +102,12 @@ h1 {
   margin: 0;
 }
 
+a {
+  text-decoration: none;
+  color: #333;
+}
+
+
 /* Enter and leave animations can use different */
 /* durations and timing functions.              */
 .slide-fade-enter-active {

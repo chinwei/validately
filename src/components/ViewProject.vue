@@ -1,11 +1,12 @@
 <template>
   <div>
+    <login-overlay v-on:hideOverlay="hideOverlay" v-bind:isVisible="isVisible"></login-overlay>
     <div class="banner">
       <div class="banner__content">
         <h1>{{project.title}}</h1>
         <p>{{project.desc}}</p>
 
-        <svg v-on:click="toggleLike" v-bind:class="{ active: likes }" class="like-icon" viewBox="0 0 100 100" width="40" height="40">
+        <svg v-on:click="onLikeTrigger" v-bind:class="{ active: likes }" class="like-icon" viewBox="0 0 100 100" width="40" height="40">
           <use xlink:href="./static/assets/sprites.svg#heart"></use>
         </svg>
 
@@ -43,6 +44,7 @@
 import firebase from 'firebase'
 import $ from 'jquery'
 import ButtonPrimary from '@/components/ButtonPrimary'
+import LoginOverlay from '@/components/LoginOverlay'
 
 export default {
   name: 'view-project',
@@ -58,17 +60,13 @@ export default {
       
       _this.project = snapshot.val();
 
-      console.log(snapshot.key);
-
       var likesRef = firebase.database()
         .ref('users/'+_this.user.uid+'/likes/'+snapshot.key)
 
       likesRef.on("value", function(snapshot){
 
-
         _this.likes = snapshot.val() ? true : false
 
-        // console.log(snapshot.val());
       })
 
     });
@@ -77,12 +75,6 @@ export default {
       _this.writeup = snapshot.val();
     });
 
-
-
-    
-    
-
-    
   },
   mounted: function(){
 
@@ -115,10 +107,37 @@ export default {
   props:{
     user: {}
   },
+  watch: {
+    user: function(val){
+      var _this = this;
+      console.log("user changed!", val)
+
+      this.projectDB.once('value', function(snapshot) {
+        
+        _this.project = snapshot.val();
+
+        var likesRef = firebase.database()
+          .ref('users/'+_this.user.uid+'/likes/'+snapshot.key)
+
+        likesRef.on("value", function(snapshot){
+
+          _this.likes = snapshot.val() ? true : false
+
+        })
+
+      });
+
+
+    }
+  },
   components:{
-    ButtonPrimary
+    ButtonPrimary,
+    LoginOverlay
   },
   methods: {
+    hideOverlay(){
+      this.isVisible = false
+    },
     goBack: function(){
         this.$router.replace("/projects/")
     },
@@ -126,16 +145,12 @@ export default {
       this.$router.push(this.$route.path+"/edit")
     },
     toggleLike: function(){
-
-      console.log('users/'+this.user.uid+'/likes/'+this.projectDB.key);
       
       var _this = this;
 
       var likesRef = firebase.database().ref('users/'+this.user.uid+'/likes/'+this.projectDB.key)
 
       var LikedRef = firebase.database().ref('projects/'+this.projectDB.key+'/liked/');
-
-      
       
       likesRef.transaction(function(currentLikes) {
 
@@ -163,6 +178,13 @@ export default {
 
 
 
+    },
+    onLikeTrigger(){
+      if (this.user.uid) {
+        this.toggleLike();
+      } else {
+        this.isVisible = true
+      }
     }
   },
   data () {
@@ -170,8 +192,9 @@ export default {
       project: {},
       writeup: {},
       owner: {},
-      likes: true,
-      likedCount: ''
+      likes: false,
+      likedCount: '',
+      isVisible: false
       
     }
   }

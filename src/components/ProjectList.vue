@@ -1,6 +1,6 @@
 <template>
   <div class="container">
-
+    <login-overlay v-on:hideOverlay="hideOverlay" v-bind:isVisible="isVisible"></login-overlay>
     <div class="banner banner--main">
       Help grow ideas
     </div>
@@ -9,14 +9,11 @@
 
       <article> 
 
-
-        
-        
-        <div v-if="user.uid" class="list__header">
+        <div class="list__header">
           <h1>Projects You Created</h1>
-          <button-primary v-if="user.uid"
+          <button-primary
             label="New Project"
-            v-on:action="goToProject('/projects/new')"/>
+            v-on:action="goToNewProject"/>
         </div>
 
         <project-list-item 
@@ -51,12 +48,7 @@
           :key="key"
           v-bind:item="key"
           v-on:action="goToProject('projects/'+key.url)"/>
-
-
-
-       
-
-        
+  
       </article>
       
     </div>
@@ -70,6 +62,7 @@ import firebase from 'firebase'
 import _ from 'underscore'
 import ProjectListItem from '@/components/ProjectListItem'
 import ButtonPrimary from '@/components/ButtonPrimary'
+import LoginOverlay from '@/components/LoginOverlay'
 
 
 export default {
@@ -110,22 +103,28 @@ export default {
       _this.projectObj = snapshot.val()
 
     });
-
-
-
   },
   components: {
     ProjectListItem,
-    ButtonPrimary
+    ButtonPrimary,
+    LoginOverlay
   },
   props:{
     user: {}
   },
   methods:{
     goToProject: function(path){
-      this.$router.push({ path: path })
+      // console.log(this.user.uid)
+      this.$router.push({ path: path })  
     },
-    clickHandler: function() {
+    goToNewProject(){
+      if (this.user.uid) {
+        this.goToProject('/projects/new');
+      } else {
+        this.isVisible = true
+      }
+    },
+    clickHandler() {
       this.$router.push({ path: path })
     },
     getCreatedProjects: function(){
@@ -152,6 +151,9 @@ export default {
           _this.currentUserTargetObj = snapshot.val();
         });
       }
+    },
+    hideOverlay(){
+      this.isVisible = false
     }
   },
   computed: {
@@ -176,11 +178,6 @@ export default {
       this.getCreatedProjects();
       this.getLikedProjects();
 
-
-
-      
-
-
     },
   },
   data () {
@@ -188,13 +185,17 @@ export default {
       projects: [],
       projectObj: {},
       currentUserProjectObj: {},
-      currentUserTargetObj: {}
+      currentUserTargetObj: {},
+      isVisible: false
     }
   }
 }
 </script>
 
 <style>
+
+
+
 
 .content {
   text-align: left;

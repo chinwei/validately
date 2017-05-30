@@ -3,14 +3,7 @@
     <svg v-on:click="goBack" class="link" width="150" height="50">
       <use xlink:href="./static/assets/sprites.svg#logo"></use>
     </svg>
-    <!-- <span>
-      <span v-on:click="goBack">Projects Home</span>
-    </span> -->
-
     <span>
- <!--      <button-primary v-if="user.uid"
-        label="New Project" 
-        v-on:action="goToProject('/projects/new')"/> -->
 
       <button-primary v-if="!user.uid" 
         label="Login with Facebook" 
@@ -20,10 +13,6 @@
       <strong v-if="user.uid" v-on:click="logOut">{{user.displayName}}</strong>
 
     </span>
-
-  
-
-    
   </div>
 </template>
 
@@ -52,8 +41,6 @@ export default {
       var _this = this;
 
       _this.isLoading = true
-
-
 
 
       var provider = new firebase.auth.FacebookAuthProvider();
