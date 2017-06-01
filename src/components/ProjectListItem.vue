@@ -1,14 +1,17 @@
 <template>
    <div class="list-item" v-if="item" v-on:click="clickHandler">
-      <h1>{{item.title}} <span class="name">{{item.owner.displayName}}</span></h1>
+      <h1>{{item.title}}</h1>
       <span class="byline">{{item.desc}}</span>
       
-      <div style="margin-top: 8px">
-        <svg class="like-icon" viewBox="0 0 100 100" width="16" height="16">
-          <use xlink:href="./static/assets/sprites.svg#heart"></use>
-        </svg>
+      <div>
+        <div class="info-row">
+          <span class="name" style="margin-right: 8px">{{item.owner.displayName}}</span>
+          <svg style="margin-right: 3px" class="like-icon" viewBox="0 0 100 100" width="16" height="16">
+            <use xlink:href="./static/assets/sprites.svg#heart"></use>
+          </svg>
 
-        <span class="liked-count">{{likedCount}}</span>
+          <span class="liked-count">{{likedCount}}</span>
+        </div>
 
       </div>
 
@@ -52,12 +55,19 @@ export default {
 <style scoped>
 
 
- 
+
 
 
   h1 {
     font-size: 20px;
     margin: 0;
+  }
+
+  .info-row {
+    margin-top: 8px;
+    display: flex;
+    flex-direction: row;
+    align-items: center
   }
 
   .liked-count {
@@ -75,6 +85,7 @@ export default {
     font-size: 12px;
     font-weight: 400;
     color: #777;
+    letter-spacing: 1px;
   }
   .byline {
     font-size: 14px;

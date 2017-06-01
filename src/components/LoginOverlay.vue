@@ -6,7 +6,7 @@
             <use xlink:href="./static/assets/sprites.svg#logo"></use>
           </svg>
           <h2>Join the community</h2>
-          <p>Validately is a community for people to contribute and grow ideas. Join us :)</p>
+          <p>GoCreate is a community for people to contribute and grow ideas. Join us :)</p>
            <button-primary 
            label="Login with Facebook" 
            v-bind:class="{'is--loading': isLoading}" 

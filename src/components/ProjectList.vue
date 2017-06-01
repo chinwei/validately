@@ -2,7 +2,13 @@
   <div class="container">
     <login-overlay v-on:hideOverlay="hideOverlay" v-bind:isVisible="isVisible"></login-overlay>
     <div class="banner banner--main">
-      Help grow ideas
+      <div class="banner__content">
+        <div class="banner__title">Enrich Your Ideas</div>
+        <p class="banner__writeup">GoCreate is a community for people to contribute and grow ideas.</p>
+        <button-primary
+          label="Post a Project"
+          v-on:action="goToNewProject"/>
+      </div>
     </div>
 
     <div class="content">
@@ -10,10 +16,8 @@
       <article> 
 
         <div class="list__header">
-          <h1>Projects You Created</h1>
-          <button-primary
-            label="New Project"
-            v-on:action="goToNewProject"/>
+          <h1>Your Projects</h1>
+          
         </div>
 
         <project-list-item 
@@ -24,7 +28,7 @@
 
 
         <div v-if="user.uid" style="margin-top: 32px" class="list__header">
-          <h1>Projects You Like</h1>
+          <h1>Projects You Liked</h1>
         </div>
 
      
@@ -192,7 +196,7 @@ export default {
 }
 </script>
 
-<style>
+<style lang="scss">
 
 
 
@@ -218,12 +222,29 @@ export default {
 }
 
 .banner--main {
-  background: url('/static/assets/header-bg.jpg') center center;
+  background: url('/static/assets/header-bg-2.jpg') center center;
   background-size: cover;
   color: white;
-  padding: 5em;
+  padding: 10em 5em;
   justify-content: center;
+  
+
+  .banner__content {
+    width: 400px;
+    text-align: center;
+  }
+}
+
+.banner__content {
+  color: #333;
+  
+}
+
+.banner__title {
   font-size: 28px;
+
+  font-weight: 600;
+  display: block;
 }
 
 </style>

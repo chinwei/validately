@@ -9,8 +9,10 @@
         label="Login with Facebook" 
         v-bind:class="{'is--loading': isLoading}" 
         v-on:action="loginUser"></button-primary>
-      
-      <strong v-if="user.uid" v-on:click="logOut">{{user.displayName}}</strong>
+        <div v-if="user.uid" class="profile-image img-container" v-on:click="logOut">
+          <img v-bind:src="user.photoURL" alt="">
+        </div>
+      <!-- <strong v-if="user.uid" v-on:click="logOut">{{user.displayName}}</strong> -->
 
     </span>
   </div>
@@ -102,15 +104,31 @@ export default {
 }
 </script>
 
-<style>
+<style lang="scss">
   .app-bar {
     height: 60px;
     display: flex;
     flex-direction: row;
     align-items: center;
     justify-content: space-between;
-    padding: 0 8px;
+    padding: 0 16px;
     background: white;
     border-bottom: 1px #f3f3f3 solid;
   }
+
+  .profile-image {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    overflow: hidden;
+
+    img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+  }
+
+
+
 </style>

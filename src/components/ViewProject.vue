@@ -2,7 +2,7 @@
   <div>
     <login-overlay v-on:hideOverlay="hideOverlay" v-bind:isVisible="isVisible"></login-overlay>
     <div class="banner">
-      <div class="banner__content">
+      <div class="banner__content story-banner">
         <h1>{{project.title}}</h1>
         <p>{{project.desc}}</p>
 
