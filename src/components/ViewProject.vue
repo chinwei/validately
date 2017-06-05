@@ -78,9 +78,16 @@ export default {
   },
   mounted: function(){
 
-    var FB;
     var _this = this;
     
+
+    window.fbAsyncInit = function() {
+       FB.init({
+         appId      : '526030481081547',
+         xfbml      : true,
+         version    : 'v2.1'
+       });
+     };
 
     (function(d, s, id) {
           var js, fjs = d.getElementsByTagName(s)[0];
@@ -91,8 +98,6 @@ export default {
         }(document, 'script', 'facebook-jssdk'));
 
     if (FB) FB.XFBML.parse();
-
-
 
     var LikedRef = firebase.database().ref('projects/'+this.projectDB.key+'/liked/');
 
@@ -234,7 +239,8 @@ img {
 
 .content {
   background: white;
-  padding: 60px;
+  padding: 60px 3vw 60px 3vw;
+
 }
 
 

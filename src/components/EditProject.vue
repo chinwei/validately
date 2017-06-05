@@ -1,15 +1,25 @@
 <template>
 	<div id="edit">
-
-		<button-primary label="submit" v-on:action="handleSubmit"></button-primary>
+      
 
 		<div>
-			<textarea class="input--title" placeholder="Name Your Idea..." type="text" v-model="project.title"/>
+			<input class="input--title" placeholder="Name Your Idea..." type="text" v-model="project.title"/>
 
 			<textarea class="input__long-text" v-model="project.desc" placeholder="Briefly describe your idea!" type="text"/>
+         
+         
+         <div id="toolbar" class="ql-toolbar ql-snow">
+           <!-- Add buttons as you would before -->
+           <button class="ql-bold"></button>
+           <button class="ql-italic"></button>
 
-
-			<div id="editor"></div>
+           <!-- But you can also add your own -->
+           <button id="custom-button">&#8486;</button>
+         </div>
+         <div>
+      		<div id="editor"></div>
+         </div>
+         <button-primary label="submit" v-on:action="handleSubmit"></button-primary>
 		</div>
 
 	</div>
@@ -32,11 +42,9 @@
   
 		_this.quill = new Quill('#editor', {
 			modules: {
-				toolbar: [
-				[{ header: [1, 2, false] }],
-				['bold', 'italic', 'underline'],
-				['image', 'code-block']
-				]
+				toolbar: {
+               container: '#toolbar',  // Selector for toolbar container
+             }
 			},
          placeholder: "hello there!",
 			theme: 'snow'
@@ -128,14 +136,19 @@ data () {
  
 
 	#edit {
-		/*width: 800px;*/
-		padding: 60px;
+		width: 720px;
+		padding: 120px 60px;
 	}
 
 	#editor {
-		width: 720px;
-
+		width: 100%;
 	}
+
+   .button-row {
+      display: flex;
+      flex-direction: row;
+      justify-content: flex-end;
+   }
 
 	.input--title {
 		font-family: 'Avenir', Helvetica, Arial, sans-serif;
@@ -146,17 +159,16 @@ data () {
 		font-weight: 600;
 		outline: none;
 		margin-bottom: 8px;
-		width: 720px;
+      width: 100%;
 	}
 
 	.input--title::placeholder {
-		color: #2c3e50;
+		color: #BDBDBD;
 	}
 
 	.input__long-text {
 		font-family: 'Avenir', Helvetica, Arial, sans-serif;
 		display: block;
-		width: 720px;
 		color: #333333;
 		font-size: 24px;
 		border: 0;
@@ -165,7 +177,12 @@ data () {
 		-moz-box-shadow: none;
 		box-shadow: none;
 		background: none;
+      width: 100%;
 	}
+
+   .input__long-text::placeholder {
+      color: #BDBDBD;
+   }
 
 
   /*!
@@ -206,7 +223,7 @@ data () {
    	height: 100%;
    	outline: none;
    	overflow-y: auto;
-   	padding: 12px 15px;
+   	padding: 12px 0px;
    	tab-size: 4;
    	-moz-tab-size: 4;
    	text-align: left;
@@ -547,9 +564,9 @@ data () {
    	text-align: right;
    }
    .ql-editor.ql-blank::before {
-   	color: rgba(0,0,0,0.6);
+   	color: #bdbdbd;
    	content: attr(data-placeholder);
-   	font-style: italic;
+   	/*font-style: italic;*/
    	pointer-events: none;
    	position: absolute;
    }
@@ -985,9 +1002,10 @@ data () {
    	/*border: 1px solid #ccc;*/
    	box-sizing: border-box;
    	font-family: 'Avenir', Helvetica, Arial, sans-serif;
-   	padding: 8px;
+   	padding: 0px;
    	width: 720px;
-   	margin-top: 64px;
+   	margin-top: 32px;
+      /*display: none;*/
    }
    .ql-toolbar.ql-snow .ql-formats {
    	margin-right: 15px;

@@ -222,10 +222,10 @@ export default {
 }
 
 .banner--main {
-  background: url('/static/assets/header-bg-2.jpg') center center;
+  background: url('/static/assets/header-bg.jpg') center center;
   background-size: cover;
   color: white;
-  padding: 10em 5em;
+  padding: 20vh 3vw;
   justify-content: center;
   
 
