@@ -8,7 +8,7 @@
 			<textarea class="input__long-text" v-model="project.desc" placeholder="Briefly describe your idea!" type="text"/>
          
          
-         <div id="toolbar" class="ql-toolbar ql-snow">
+         <div id="toolbar" v-bind:class="{'is--active':isFocused}" class="ql-toolbar ql-snow">
            <!-- Add buttons as you would before -->
            <button class="ql-bold"></button>
            <button class="ql-italic"></button>
@@ -49,6 +49,22 @@
          placeholder: "hello there!",
 			theme: 'snow'
 		});
+
+      _this.quill.on('selection-change', function(range, oldRange, source) {
+        if (range) {
+          if (range.length == 0) {
+            console.log('User cursor is on', range.index);
+            _this.isFocused = true;
+          } else {
+            var text = _this.quill.getText(range.index, range.length);
+            console.log('User has highlighted', text);
+            _this.isFocused = true;
+          }
+        } else {
+          console.log('Cursor not in the editor');
+          _this.isFocused = false;
+        }
+      });
 
 	var project = firebase.database().ref('projects/'+this.$route.params.id);
 	var writeup = firebase.database().ref('writeup/'+this.$route.params.id);
@@ -126,6 +142,7 @@ data () {
 	return {
 		project: {},
 		writeup: {},
+      isFocused: false
 	}
 }
 }
@@ -184,6 +201,14 @@ data () {
       color: #BDBDBD;
    }
 
+   .ql-toolbar {
+      opacity: 0;
+      transition: 0.2s opacity ease;
+   }
+   .ql-toolbar.is--active {
+      opacity: 1;
+   }
+   
 
   /*!
    * Quill Editor v1.2.4
