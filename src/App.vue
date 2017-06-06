@@ -16,6 +16,7 @@
 import firebase from 'firebase'
 import AppBar from '@/components/AppBar'
 
+
 var config = {
   apiKey: "AIzaSyA_2Bu81WuWrjLoJHP3EFDo41jYgNJ8BUM",
   authDomain: "validately-948d9.firebaseapp.com",

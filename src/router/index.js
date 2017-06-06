@@ -4,7 +4,6 @@ import EditProject from '@/components/EditProject'
 import ViewProject from '@/components/ViewProject'
 import ProjectList from '@/components/ProjectList'
 
-
 Vue.use(Router)
 
 export default new Router({

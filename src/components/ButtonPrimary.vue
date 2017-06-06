@@ -1,5 +1,8 @@
 <template>
-	<div class="button button--primary" :disabled="disabled" v-on:click="clickHandler">{{label}}</div>
+	<div 
+		class="button button--primary" 
+		:disabled="disabled" 
+		v-on:click="clickHandler">{{label}}</div>
 </template>
 
 <script>
@@ -22,22 +25,23 @@
 
 <style scoped>
 .button {
-  background: #69C263;
+  background-color: #69C263;
   padding: 10px 16px;
   color: white;
   font-weight: 600;
   border-radius: 3px;
   display: inline-block;
   cursor: pointer;
+  transition: background-color 0.3s ease;
 
 }
 
 .button:hover {
-	background: #73d275;
+	background-color: #73d275;
 }
 
 .button[disabled], .button.is--loading {
-	background: rgba(115, 210, 117, 0.27);
+	background-color: #DFF0DA;
 }
 
 </style>

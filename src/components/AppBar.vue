@@ -111,7 +111,7 @@ export default {
     flex-direction: row;
     align-items: center;
     justify-content: space-between;
-    padding: 0 16px;
+    padding: 0 3vw 0 1vw;
     background: white;
     border-bottom: 1px #f3f3f3 solid;
   }

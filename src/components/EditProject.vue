@@ -3,23 +3,37 @@
       
 
 		<div>
-			<input class="input--title" placeholder="Name Your Idea..." type="text" v-model="project.title"/>
+			<input 
+            class="input-text input--title" 
+            v-bind:class="{'is--error':$v.project.title.$error && $v.project.title.$dirty}" 
+            placeholder="Name Your Project..." 
+            type="text" 
+            v-model="project.title" 
+            @input="$v.project.title.$touch()"/>
 
-			<textarea class="input__long-text" v-model="project.desc" placeholder="Briefly describe your idea!" type="text"/>
-         
+			<textarea 
+            class="input-text input__long-text" 
+            v-bind:class="{'is--error':$v.project.desc.$error && $v.project.desc.$dirty}" 
+            v-model="project.desc" 
+            placeholder="Briefly describe your project!" 
+            type="text" 
+            @input="$v.project.desc.$touch()"/>
+
+            <p>{{$v.project.desc}}</p>
          
          <div id="toolbar" v-bind:class="{'is--active':isFocused}" class="ql-toolbar ql-snow">
            <!-- Add buttons as you would before -->
            <button class="ql-bold"></button>
            <button class="ql-italic"></button>
+           <button class="ql-image"></button>
 
            <!-- But you can also add your own -->
-           <button id="custom-button">&#8486;</button>
+<!--            <button id="custom-button">&#8486;</button> -->
          </div>
          <div>
       		<div id="editor"></div>
          </div>
-         <button-primary label="submit" v-on:action="handleSubmit"></button-primary>
+         <button-primary v-bind:disabled="$v.project.title.$error" label="submit" v-on:action="handleSubmit"></button-primary>
 		</div>
 
 	</div>
@@ -32,6 +46,7 @@
 	import Quill from 'quill'
 	import $ from 'jquery'
 	import ButtonPrimary from '@/Components/ButtonPrimary'
+   import { required, maxLength } from 'vuelidate/lib/validators'
 
 	export default {
 		name: 'edit-project',
@@ -46,8 +61,8 @@
                container: '#toolbar',  // Selector for toolbar container
              }
 			},
-         placeholder: "hello there!",
-			theme: 'snow'
+         placeholder: "Describe your project in more detail!",
+			theme: 'snow',
 		});
 
       _this.quill.on('selection-change', function(range, oldRange, source) {
@@ -65,6 +80,7 @@
           _this.isFocused = false;
         }
       });
+
 
 	var project = firebase.database().ref('projects/'+this.$route.params.id);
 	var writeup = firebase.database().ref('writeup/'+this.$route.params.id);
@@ -88,6 +104,17 @@
 props: {
 	user: {}
 },
+validations: {
+    project: {
+       title: {
+         required,
+       },
+       desc: {
+         required,
+         maxLength: maxLength(160)
+       }
+    }
+  },
 components: {
 	ButtonPrimary
 },  
@@ -140,7 +167,10 @@ methods: {
 },
 data () {
 	return {
-		project: {},
+		project: {
+         title: '',
+         desc: ''
+      },
 		writeup: {},
       isFocused: false
 	}
@@ -151,6 +181,9 @@ data () {
 <style>
 
  
+   .input-text.is--error {
+      border-bottom: 1px #FF4651 dotted;
+   }
 
 	#edit {
 		width: 720px;
@@ -195,6 +228,7 @@ data () {
 		box-shadow: none;
 		background: none;
       width: 100%;
+      resize: none;
 	}
 
    .input__long-text::placeholder {

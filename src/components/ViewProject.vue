@@ -3,25 +3,35 @@
     <login-overlay v-on:hideOverlay="hideOverlay" v-bind:isVisible="isVisible"></login-overlay>
     <div class="banner">
       <div class="banner__content story-banner">
+        
         <h1>{{project.title}}</h1>
+        <div v-if="project.owner">By {{project.owner.displayName}}</div>
         <p>{{project.desc}}</p>
 
-        <svg v-on:click="onLikeTrigger" v-bind:class="{ active: likes }" class="like-icon" viewBox="0 0 100 100" width="40" height="40">
-          <use xlink:href="./static/assets/sprites.svg#heart"></use>
-        </svg>
+        <div>
+          
+          <svg v-on:click="onLikeTrigger" v-bind:class="{ active: likes }" class="like-icon" viewBox="0 0 100 100" width="40" height="40">
+            <use xlink:href="./static/assets/sprites.svg#heart"></use>
+          </svg>
 
+          
+
+        </div>
+        
       </div>
     </div>
   
     <div class="content">
   
+    <button-primary v-if="project.owner && project.owner.uid === user.uid" 
+      label="Edit Project" v-on:action="editProject"></button-primary>
+    
 
-      <button-primary v-if="project.owner && project.owner.uid === user.uid" 
-        label="Edit Project" v-on:action="editProject"></button-primary>
+      
      
     
 
-        <p v-if="project.owner">Idea by {{project.owner.displayName}}</p>
+        
       <article class="story">
 
    
@@ -41,10 +51,13 @@
 
 <script>
 
+
 import firebase from 'firebase'
 import $ from 'jquery'
 import ButtonPrimary from '@/components/ButtonPrimary'
 import LoginOverlay from '@/components/LoginOverlay'
+
+
 
 export default {
   name: 'view-project',
@@ -239,7 +252,7 @@ img {
 
 .content {
   background: white;
-  padding: 60px 3vw 60px 3vw;
+  padding: 0px 3vw 60px 3vw;
 
 }
 
@@ -261,7 +274,7 @@ img {
 .story {
   max-width: 720px;
   text-align: left;
-  font-size: 21px;
+  font-size: 18px;
   line-height: 1.5;
 }
 

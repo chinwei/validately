@@ -216,7 +216,7 @@ export default {
 
 
 .banner {
-  padding: 60px; 
+  padding: 60px 3vw 30px; 
   display: flex;
   align-items: center;
 }
