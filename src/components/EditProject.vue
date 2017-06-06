@@ -19,7 +19,6 @@
             type="text" 
             @input="$v.project.desc.$touch()"/>
 
-            <p>{{$v.project.desc}}</p>
          
          <div id="toolbar" v-bind:class="{'is--active':isFocused}" class="ql-toolbar ql-snow">
            <!-- Add buttons as you would before -->

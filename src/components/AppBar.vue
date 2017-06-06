@@ -1,20 +1,23 @@
 <template>
   <div class="app-bar">
-    <svg v-on:click="goBack" class="link" width="150" height="50">
-      <use xlink:href="./static/assets/sprites.svg#logo"></use>
-    </svg>
-    <span>
+    <div class="app-bar__content">
+      <svg v-on:click="goBack" class="link" width="150" height="50">
+        <use xlink:href="./static/assets/sprites.svg#logo"></use>
+      </svg>
+      <span>
 
-      <button-primary v-if="!user.uid" 
-        label="Login with Facebook" 
-        v-bind:class="{'is--loading': isLoading}" 
-        v-on:action="loginUser"></button-primary>
+        <button-primary v-if="!user.uid" 
+          label="Login with Facebook" 
+          v-bind:class="{'is--loading': isLoading}" 
+          v-on:action="loginUser"></button-primary>
         <div v-if="user.uid" class="profile-image img-container" v-on:click="logOut">
           <img v-bind:src="user.photoURL" alt="">
         </div>
-      <!-- <strong v-if="user.uid" v-on:click="logOut">{{user.displayName}}</strong> -->
+       
 
-    </span>
+      </span>
+      
+    </div>
   </div>
 </template>
 
@@ -106,6 +109,10 @@ export default {
 
 <style lang="scss">
   .app-bar {
+    width: 100%;
+  }
+
+  .app-bar__content {
     height: 60px;
     display: flex;
     flex-direction: row;

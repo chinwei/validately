@@ -15,7 +15,7 @@
 
       <article> 
 
-        <div class="list__header">
+        <div v-if="user.uid" class="list__header">
           <h1>Your Projects</h1>
           
         </div>
@@ -40,18 +40,16 @@
           v-on:action="goToProject('projects/'+projectObj[value].url)"/>
 
 
-        <div class="list__header" style="margin-top: 32px">
+        <!-- <div class="list__header" style="margin-top: 32px">
           <h1>Recent Projects</h1>
          
         </div>
-
-        
 
         <project-list-item 
           v-for="key, value in listArray" 
           :key="key"
           v-bind:item="key"
-          v-on:action="goToProject('projects/'+key.url)"/>
+          v-on:action="goToProject('projects/'+key.url)"/> -->
   
       </article>
       
@@ -225,7 +223,8 @@ export default {
   background: url('/static/assets/header-bg.jpg') center center;
   background-size: cover;
   color: white;
-  padding: 20vh 3vw;
+  padding: 0 3vw;
+  height: 100vh;
   justify-content: center;
   
 

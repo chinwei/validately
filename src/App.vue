@@ -83,6 +83,9 @@ export default {
 </script>
 
 <style>
+
+
+
 #app {
   font-family: 'Avenir', Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
@@ -92,6 +95,11 @@ export default {
   padding: 0;
   margin: 0;
   
+}
+
+.app-bar {
+  position: fixed;
+  top: 0;
 }
 
 body {
