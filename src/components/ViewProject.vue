@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="content-container">
     <login-overlay v-on:hideOverlay="hideOverlay" v-bind:isVisible="isVisible"></login-overlay>
     <div class="banner">
       <div class="banner__content story-banner">

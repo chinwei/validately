@@ -82,9 +82,12 @@ export default {
 }
 </script>
 
-<style>
+<style lang="scss">
 
 
+.content-container {
+  padding-top: 60px
+}
 
 #app {
   font-family: 'Avenir', Helvetica, Arial, sans-serif;

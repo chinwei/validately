@@ -1,21 +1,23 @@
 <template>
-	<div id="edit">
+	<div class="content-container" id="edit">
       
 
 		<div>
 			<input 
             class="input-text input--title" 
             v-bind:class="{'is--error':$v.project.title.$error && $v.project.title.$dirty}" 
-            placeholder="Name Your Project..." 
+            placeholder="Name Your Project here..." 
             type="text" 
             v-model="project.title" 
             @input="$v.project.title.$touch()"/>
+
+            <!-- <p>{{$v.validationGroup}}</p> -->
 
 			<textarea 
             class="input-text input__long-text" 
             v-bind:class="{'is--error':$v.project.desc.$error && $v.project.desc.$dirty}" 
             v-model="project.desc" 
-            placeholder="Briefly describe your project!" 
+            placeholder="Briefly describe your project here!" 
             type="text" 
             @input="$v.project.desc.$touch()"/>
 
@@ -32,7 +34,7 @@
          <div>
       		<div id="editor"></div>
          </div>
-         <button-primary v-bind:disabled="$v.project.title.$error" label="submit" v-on:action="handleSubmit"></button-primary>
+         <button-primary v-bind:disabled="$v.validationGroup.$error || !$v.validationGroup.$dirty" label="submit" v-on:action="handleSubmit"></button-primary>
 		</div>
 
 	</div>
@@ -104,6 +106,7 @@ props: {
 	user: {}
 },
 validations: {
+   validationGroup: ['project.title', 'project.desc'],
     project: {
        title: {
          required,
@@ -111,7 +114,8 @@ validations: {
        desc: {
          required,
          maxLength: maxLength(160)
-       }
+       },
+       
     }
   },
 components: {

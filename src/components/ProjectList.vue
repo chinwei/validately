@@ -40,7 +40,7 @@
           v-on:action="goToProject('projects/'+projectObj[value].url)"/>
 
 
-        <!-- <div class="list__header" style="margin-top: 32px">
+        <div class="list__header" style="margin-top: 32px">
           <h1>Recent Projects</h1>
          
         </div>
@@ -49,7 +49,7 @@
           v-for="key, value in listArray" 
           :key="key"
           v-bind:item="key"
-          v-on:action="goToProject('projects/'+key.url)"/> -->
+          v-on:action="goToProject('projects/'+key.url)"/>
   
       </article>
       

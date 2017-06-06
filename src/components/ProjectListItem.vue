@@ -85,7 +85,7 @@ export default {
     font-size: 12px;
     font-weight: 400;
     color: #777;
-    letter-spacing: 1px;
+    letter-spacing: 0.5px;
   }
   .byline {
     font-size: 14px;
