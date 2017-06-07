@@ -1,8 +1,8 @@
 <template>
-	<div class="content-container" id="edit">
+	<div class="content-container">
       
 
-		<div>
+		<div class="content">
 			<input 
             class="input-text input--title" 
             v-bind:class="{'is--error':$v.project.title.$error && $v.project.title.$dirty}" 
@@ -189,8 +189,8 @@ data () {
    }
 
 	#edit {
-		width: 720px;
-		padding: 120px 60px;
+		/*width: 720px;*/
+		/*padding: 120px 60px;*/
 	}
 
 	#editor {

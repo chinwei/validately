@@ -14,6 +14,7 @@
 
 <script>
 import firebase from 'firebase'
+import fastclick from 'fastclick'
 import AppBar from '@/components/AppBar'
 
 
@@ -65,6 +66,14 @@ export default {
       }
     });
 
+
+    // FastClick
+    if ('addEventListener' in document) {
+        document.addEventListener('DOMContentLoaded', function() {
+            FastClick.attach(document.body);
+        }, false);
+    }
+
     
 
     
@@ -84,9 +93,18 @@ export default {
 
 <style lang="scss">
 
+* {
+    -webkit-touch-callout:none;                /* prevent callout to copy image, etc when tap to hold */
+    -webkit-text-size-adjust:none;             /* prevent webkit from resizing text to fit */
+    -webkit-tap-highlight-color:rgba(0,0,0,0); /* prevent tap highlight color / shadow */
+    -webkit-user-select:'text';                  /* prevent copy paste, to allow, change 'none' to 'text' */
+}
+
 
 .content-container {
-  padding-top: 60px
+  padding-top: 60px;
+  position: relative;
+  z-index: 1;
 }
 
 #app {
@@ -103,6 +121,7 @@ export default {
 .app-bar {
   position: fixed;
   top: 0;
+  z-index: 9999;
 }
 
 body {

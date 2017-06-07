@@ -1,5 +1,5 @@
 <template>
-  <div class="container">
+  <div class="content-container">
     <login-overlay v-on:hideOverlay="hideOverlay" v-bind:isVisible="isVisible"></login-overlay>
     <div class="banner banner--main">
       <div class="banner__content">
@@ -70,7 +70,7 @@ import LoginOverlay from '@/components/LoginOverlay'
 export default {
   name: 'project-list',
   created() {
-    console.log(this.user)
+    // console.log(this.user)
 
     var _this = this;
 

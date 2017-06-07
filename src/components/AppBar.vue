@@ -1,7 +1,7 @@
 <template>
   <div class="app-bar">
     <div class="app-bar__content">
-      <svg v-on:click="goBack" class="link" width="150" height="50">
+      <svg v-on:click="goBack" class="logo-icon link" width="150" height="50">
         <use xlink:href="./static/assets/sprites.svg#logo"></use>
       </svg>
       <span>
@@ -108,6 +108,11 @@ export default {
 </script>
 
 <style lang="scss">
+
+.logo-icon {
+  cursor: pointer;
+}
+
   .app-bar {
     width: 100%;
   }

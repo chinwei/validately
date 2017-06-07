@@ -252,7 +252,7 @@ img {
 
 .content {
   background: white;
-  padding: 0px 3vw 60px 3vw;
+  padding: 60px 3vw 60px 3vw;
 
 }
 
