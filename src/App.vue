@@ -126,7 +126,7 @@ export default {
 
 body {
   margin: 0;
-  background: #F6F5F1;
+  // background: #F6F5F1;
 }
 
 

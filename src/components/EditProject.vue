@@ -6,7 +6,7 @@
 			<input 
             class="input-text input--title" 
             v-bind:class="{'is--error':$v.project.title.$error && $v.project.title.$dirty}" 
-            placeholder="Name Your Project here..." 
+            placeholder="Name Your Project..." 
             type="text" 
             v-model="project.title" 
             @input="$v.project.title.$touch()"/>
@@ -184,9 +184,6 @@ data () {
 <style>
 
  
-   .input-text.is--error {
-      border-bottom: 1px #FF4651 dotted;
-   }
 
 	#edit {
 		/*width: 720px;*/
@@ -217,7 +214,13 @@ data () {
 
 	.input--title::placeholder {
 		color: #BDBDBD;
+
 	}
+
+
+   .input-text.is--error::placeholder {
+      color: #FF4651;
+   }
 
 	.input__long-text {
 		font-family: 'Avenir', Helvetica, Arial, sans-serif;

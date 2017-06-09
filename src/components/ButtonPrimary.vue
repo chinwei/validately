@@ -1,8 +1,8 @@
 <template>
-	<div 
+	<button 
 		class="button button--primary" 
 		:disabled="disabled" 
-		v-on:click="clickHandler">{{label}}</div>
+		v-on:click="clickHandler">{{label}}</button>
 </template>
 
 <script>
@@ -24,6 +24,31 @@
 </script>
 
 <style scoped>
+
+/* Reset `button` and button-style `input` default styles */
+input[type="submit"],
+input[type="reset"],
+input[type="button"],
+button {
+    background: none;
+    border: 0;
+    color: inherit;
+    /* cursor: default; */
+    font: inherit;
+    line-height: normal;
+    overflow: visible;
+    padding: 0;
+    -webkit-appearance: button; /* for input */
+    -webkit-user-select: none; /* for button */
+       -moz-user-select: none;
+        -ms-user-select: none;
+}
+input::-moz-focus-inner,
+button::-moz-focus-inner {
+    border: 0;
+    padding: 0;
+}
+
 .button {
   background-color: #69C263;
   padding: 10px 16px;
