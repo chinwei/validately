@@ -10,10 +10,11 @@
 
       <span>
 
-        <button-primary v-if="!user.uid" 
+        <button-basic v-if="!user.uid" 
           label="Login with Facebook" 
+          modifiers="button--primary"
           v-bind:class="{'is--loading': isLoading}" 
-          v-on:action="loginUser"></button-primary>
+          v-on:action="loginUser"></button-basic>
         <!-- <div v-if="user.uid" class="profile-image img-container" v-on:click="logOut">
           <img v-bind:src="user.photoURL" alt="">
         </div> -->
@@ -31,7 +32,7 @@
 
 import firebase from 'firebase'
 import firebaseui from 'firebaseui'
-import ButtonPrimary from '@/components/ButtonPrimary'
+import ButtonBasic from '@/components/ButtonBasic'
 
 export default {
   name: 'app-bar',
@@ -105,7 +106,7 @@ export default {
     }
   },
   components: {
-    ButtonPrimary
+    ButtonBasic
   },
   props: {
     user: {}

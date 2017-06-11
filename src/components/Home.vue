@@ -5,8 +5,9 @@
         <div class="banner__content">
           <div class="banner__title">Build better ideas with real stories</div>
           <p class="banner__writeup">Empower your ideas with meaningful feedback</p>
-          <button-primary
+          <button-basic
             label="Start a Project"
+            modifiers="button--primary"
             v-on:action="goToNewProject"/>
         </div>
       </div>
@@ -14,14 +15,14 @@
 </template>
 
 <script>
-import ButtonPrimary from '@/components/ButtonPrimary'
+import ButtonBasic from '@/components/ButtonBasic'
 import LoginOverlay from '@/components/LoginOverlay'
 
 
 export default {
   name: 'home',
   components: {
-    ButtonPrimary,
+    ButtonBasic,
     LoginOverlay
   },
   props:{

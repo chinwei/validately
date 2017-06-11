@@ -183,10 +183,6 @@ a {
 
 
 
-.content {
-  text-align: left;
-}
-
 .list__header {
   padding: 16px;
   background: white;
@@ -196,7 +192,7 @@ a {
   align-items: center;
   border-bottom: 1px #f3f3f3 solid;
   margin-bottom: 1em;
-  font-size: 1.4em;
+  font-size: 1.2em;
 }
 
 
@@ -210,9 +206,10 @@ img {
 
 .content {
   background: white;
-  padding: 60px 3vw 60px 3vw;
+  padding: 120px 3vw 60px 3vw;
   max-width: 720px;
   margin: 0 auto;
+  text-align: left;
 
 }
 
@@ -247,7 +244,7 @@ img {
 
 
 .banner__title {
-  font-size: 80px;
+  font-size: 5em;
   font-weight: 500;
   display: block;
   margin-bottom: 0.5em;

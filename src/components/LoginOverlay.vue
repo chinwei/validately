@@ -7,10 +7,10 @@
           </svg>
           <h2>Join the community</h2>
           <p>GoCreate is a community for people to contribute and grow ideas. Join us :)</p>
-           <button-primary 
+           <button-basic 
            label="Login with Facebook" 
            v-bind:class="{'is--loading': isLoading}" 
-           v-on:action="loginUser"></button-primary>
+           v-on:action="loginUser"></button-basic>
       </div>
   </div>
 
@@ -21,7 +21,7 @@
 
 import firebase from 'firebase'
 import firebaseui from 'firebaseui'
-import ButtonPrimary from '@/components/ButtonPrimary'
+import ButtonBasic from '@/components/ButtonBasic'
 
 export default {
   name: 'login-overlay',
@@ -69,7 +69,7 @@ export default {
     }
   },
   components: {
-    ButtonPrimary
+    ButtonBasic
   },
   props: {
     user: {},

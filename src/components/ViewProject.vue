@@ -4,13 +4,29 @@
     <div class="banner">
       <div class="banner__content story-banner">
         
+        
+        <div class="profile">
+          <span class="l-flex-row">
+            <div v-if="user.uid" class="profile-image img-container">
+              <img v-bind:src="user.photoURL" alt="">
+            </div>
+            <div class="profile__name" v-if="project.owner">{{project.owner.displayName}}</div>  
+          </span>
+          <span>
+            <button-basic 
+              v-if="project.owner && project.owner.uid === user.uid" 
+              label="Edit Project"
+              modifiers="button--text"
+              v-on:action="editProject">
+            </button-basic>
+          </span>
+        </div>
         <h1>{{project.title}}</h1>
-        <div v-if="project.owner">By {{project.owner.displayName}}</div>
         <p>{{project.desc}}</p>
 
         <div>
           
-          <svg v-on:click="onLikeTrigger" v-bind:class="{ active: likes }" class="like-icon" viewBox="0 0 100 100" width="40" height="40">
+          <svg v-on:click="onLikeTrigger" v-bind:class="{ active: likes }" class="like-icon" viewBox="0 0 100 100" width="32" height="32">
             <use xlink:href="/static/assets/sprites.svg#heart"></use>
           </svg>
 
@@ -23,8 +39,7 @@
   
     <div class="content">
   
-    <button-primary v-if="project.owner && project.owner.uid === user.uid" 
-      label="Edit Project" v-on:action="editProject"></button-primary>
+ 
     
 
       
@@ -54,7 +69,7 @@
 
 import firebase from 'firebase'
 import $ from 'jquery'
-import ButtonPrimary from '@/components/ButtonPrimary'
+import ButtonBasic from '@/components/ButtonBasic'
 import LoginOverlay from '@/components/LoginOverlay'
 
 
@@ -149,7 +164,7 @@ export default {
     }
   },
   components:{
-    ButtonPrimary,
+    ButtonBasic,
     LoginOverlay
   },
   methods: {
@@ -221,8 +236,26 @@ export default {
 
 <style lang="scss">
 
+.profile {
+  margin-bottom: 24px;
+  justify-content: space-between;
+  @extend .l-flex-row;
+}
 
+.profile__name {
+  font-size: 0.9em;
+  font-weight: 500;
+}
 
+.profile-image {
+  margin-right: 8px;
+}
+
+.l-flex-row {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
 
 
 </style>

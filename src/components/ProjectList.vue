@@ -4,8 +4,9 @@
     <div class="banner banner--secondary">
       <div class="banner__content">
         <div class="banner__title">Start something people love</div>
-        <button-primary
+        <button-basic
           label="Start a Project"
+          modifiers="button--primary"
           v-on:action="goToNewProject"/>
       </div>
     </div>
@@ -64,7 +65,7 @@
 import firebase from 'firebase'
 import _ from 'underscore'
 import ProjectListItem from '@/components/ProjectListItem'
-import ButtonPrimary from '@/components/ButtonPrimary'
+import ButtonBasic from '@/components/ButtonBasic'
 import LoginOverlay from '@/components/LoginOverlay'
 
 
@@ -109,7 +110,7 @@ export default {
   },
   components: {
     ProjectListItem,
-    ButtonPrimary,
+    ButtonBasic,
     LoginOverlay
   },
   props:{

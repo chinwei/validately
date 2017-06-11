@@ -3,6 +3,26 @@
       
 
 		<div class="content">
+         <div class="profile">
+           <span class="l-flex-row">
+             <div v-if="user.uid" class="profile-image img-container">
+               <img v-bind:src="user.photoURL" alt="">
+             </div>
+             <div class="profile__name">{{user.displayName}}</div>  
+           </span>
+
+
+           <span>
+             <button-basic 
+               v-bind:disabled="$v.validationGroup.$error" 
+               label="submit" 
+               modifiers="button--primary"
+               v-on:action="handleSubmit">
+            </button-basic>
+           </span>
+         </div>
+
+
 			<input 
             class="input-text input--title" 
             v-bind:class="{'is--error':$v.project.title.$error && $v.project.title.$dirty}" 
@@ -15,7 +35,7 @@
 
 			<textarea 
             class="input-text input__long-text" 
-            v-bind:class="{'is--error':$v.project.desc.$error && $v.project.desc.$dirty, 'is--hidden': !$v.project.title.$dirty}" 
+            v-bind:class="{'is--error':$v.project.desc.$error && $v.project.desc.$dirty, 'is--hidden': $v.project.title.$error && !$v.project.title.$dirty}" 
             v-model="project.desc" 
             placeholder="Briefly describe your project here!" 
             type="text" 
@@ -31,10 +51,10 @@
            <!-- But you can also add your own -->
 <!--            <button id="custom-button">&#8486;</button> -->
          </div>
-         <div class="editor-container" v-bind:class="{'is--hidden': !$v.project.desc.$dirty}">
+         <div class="editor-container" v-bind:class="{'is--hidden': $v.project.desc.$error}">
       		<div id="editor"></div>
          </div>
-         <button-primary v-bind:disabled="$v.validationGroup.$error || !$v.validationGroup.$dirty" label="submit" v-on:action="handleSubmit"></button-primary>
+         
 		</div>
 
 	</div>
@@ -46,7 +66,7 @@
    import shortid from 'shortid'
 	import Quill from 'quill'
 	import $ from 'jquery'
-	import ButtonPrimary from '@/Components/ButtonPrimary'
+	import ButtonBasic from '@/components/ButtonBasic'
    import { required, maxLength } from 'vuelidate/lib/validators'
 
 	export default {
@@ -119,7 +139,7 @@ validations: {
     }
   },
 components: {
-	ButtonPrimary
+	ButtonBasic
 },  
 methods: {
 
