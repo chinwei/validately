@@ -1,5 +1,6 @@
 import Vue from 'vue'
 import Router from 'vue-router'
+import Home from '@/components/Home'
 import EditProject from '@/components/EditProject'
 import ViewProject from '@/components/ViewProject'
 import ProjectList from '@/components/ProjectList'
@@ -36,15 +37,21 @@ const scrollBehavior = (to, from, savedPosition) => {
   }
 }
 
+
+
 export default new Router({
   mode: 'history',
   scrollBehavior,
   routes: [
     {
       path: '/',
+      name: 'home',
+      component: Home,
+    },
+    {
+      path: '/projects/',
       name: 'project-list',
       component: ProjectList,
-      meta: { scrollToTop: true }
     },
     {
       path: '/projects/new',
@@ -60,7 +67,6 @@ export default new Router({
       path: '/projects/:id/',
       name: 'view-project',
       component: ViewProject,
-      meta: { scrollToTop: true }
     }
   ]
 

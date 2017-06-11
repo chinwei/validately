@@ -1,55 +1,56 @@
 <template>
   <div class="content-container">
     <login-overlay v-on:hideOverlay="hideOverlay" v-bind:isVisible="isVisible"></login-overlay>
-    <div class="banner banner--main">
+    <div class="banner banner--secondary">
       <div class="banner__content">
-        <div class="banner__title">Enrich Your Ideas</div>
-        <p class="banner__writeup">GoCreate is a community for people to contribute and grow ideas.</p>
+        <div class="banner__title">Start something people love</div>
         <button-primary
-          label="Post a Project"
+          label="Start a Project"
           v-on:action="goToNewProject"/>
       </div>
     </div>
-
     <div class="content">
 
       <article> 
+        <div class="list">
+          <div v-if="user.uid" class="list__header">
+            <h1>Projects You Created</h1>
+          </div>
 
-        <div v-if="user.uid" class="list__header">
-          <h1>Your Projects</h1>
+          <project-list-item 
+            v-for="key, value in currentUserProjectObj"
+            :key="key"
+            v-bind:item="key"
+            v-on:action="goToProject('/projects/'+key.url)"/>
+        </div>
+
+        <!-- {{currentUserTargetObj.likes}} -->
+
+        <div class="list">
+          <div v-if="user.uid" class="list__header">
+            <h1>Projects You Liked</h1>
+          </div>
+
+
+          <project-list-item 
+            v-for="key, value in currentUserTargetObj.likes"
+            :key="key"
+            v-bind:item="projectObj[value]"
+            v-on:action="goToProject('/projects/'+projectObj[value].url)"/>
           
         </div>
 
-        <project-list-item 
-          v-for="key, value in currentUserProjectObj"
-          :key="key"
-          v-bind:item="key"
-          v-on:action="goToProject('projects/'+key.url)"/>
+        <div class="list">
+          <div class="list__header">
+            <h1>Recent Projects</h1>
+          </div>
 
-
-        <div v-if="user.uid" style="margin-top: 32px" class="list__header">
-          <h1>Projects You Liked</h1>
+          <project-list-item 
+            v-for="key, value in listArray" 
+            :key="key"
+            v-bind:item="key"
+            v-on:action="goToProject('projects/'+key.url)"/>
         </div>
-
-     
-
-        <project-list-item 
-          v-for="key, value in currentUserTargetObj.likes"
-          :key="key"
-          v-bind:item="projectObj[value]"
-          v-on:action="goToProject('projects/'+projectObj[value].url)"/>
-
-
-        <div class="list__header" style="margin-top: 32px">
-          <h1>Recent Projects</h1>
-         
-        </div>
-
-        <project-list-item 
-          v-for="key, value in listArray" 
-          :key="key"
-          v-bind:item="key"
-          v-on:action="goToProject('projects/'+key.url)"/>
   
       </article>
       
@@ -195,56 +196,11 @@ export default {
 </script>
 
 <style lang="scss">
-
-
-
-
-.content {
-  text-align: left;
-}
-
-.list__header {
-  padding: 16px;
-  background: white;
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  align-items: center;
+.banner--secondary .banner__content {
+  text-align: center;
 }
 
 
-.banner {
-  padding: 60px 3vw 30px; 
-  display: flex;
-  align-items: center;
-}
-
-.banner--main {
-  background: url('/static/assets/header-bg.jpg') center center;
-  background-size: cover;
-  color: white;
-  padding: 0 3vw;
-  height: 100vh;
-  justify-content: center;
-  
-
-  .banner__content {
-    width: 400px;
-    text-align: center;
-  }
-}
-
-.banner__content {
-  color: #333;
-  
-}
-
-.banner__title {
-  font-size: 28px;
-
-  font-weight: 600;
-  display: block;
-}
 
 </style>
 

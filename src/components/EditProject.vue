@@ -15,7 +15,7 @@
 
 			<textarea 
             class="input-text input__long-text" 
-            v-bind:class="{'is--error':$v.project.desc.$error && $v.project.desc.$dirty}" 
+            v-bind:class="{'is--error':$v.project.desc.$error && $v.project.desc.$dirty, 'is--hidden': !$v.project.title.$dirty}" 
             v-model="project.desc" 
             placeholder="Briefly describe your project here!" 
             type="text" 
@@ -31,7 +31,7 @@
            <!-- But you can also add your own -->
 <!--            <button id="custom-button">&#8486;</button> -->
          </div>
-         <div>
+         <div class="editor-container" v-bind:class="{'is--hidden': !$v.project.desc.$dirty}">
       		<div id="editor"></div>
          </div>
          <button-primary v-bind:disabled="$v.validationGroup.$error || !$v.validationGroup.$dirty" label="submit" v-on:action="handleSubmit"></button-primary>
@@ -183,62 +183,20 @@ data () {
 
 <style>
 
- 
+   
 
-	#edit {
-		/*width: 720px;*/
-		/*padding: 120px 60px;*/
-	}
-
-	#editor {
-		width: 100%;
-	}
-
-   .button-row {
-      display: flex;
-      flex-direction: row;
-      justify-content: flex-end;
+   #editor {
+      width: 100%;
+      
    }
 
-	.input--title {
-		font-family: 'Avenir', Helvetica, Arial, sans-serif;
-		color: #2c3e50;
-		font-size: 34px;
-		background: none;
-		border: none;
-		font-weight: 600;
-		outline: none;
-		margin-bottom: 8px;
-      width: 100%;
-	}
-
-	.input--title::placeholder {
-		color: #BDBDBD;
-
-	}
-
-
-   .input-text.is--error::placeholder {
-      color: #FF4651;
+   .editor-container {
+      opacity: 1;
+      transition: opacity 0.3s ease;
    }
 
-	.input__long-text {
-		font-family: 'Avenir', Helvetica, Arial, sans-serif;
-		display: block;
-		color: #333333;
-		font-size: 24px;
-		border: 0;
-		outline: none;
-		-webkit-box-shadow: none;
-		-moz-box-shadow: none;
-		box-shadow: none;
-		background: none;
-      width: 100%;
-      resize: none;
-	}
-
-   .input__long-text::placeholder {
-      color: #BDBDBD;
+   .editor-container.is--hidden {
+     opacity: 0;
    }
 
    .ql-toolbar {

@@ -1,18 +1,23 @@
 <template>
   <div class="app-bar">
     <div class="app-bar__content">
-      <svg v-on:click="goBack" class="logo-icon link" width="150" height="50">
-        <use xlink:href="./static/assets/sprites.svg#logo"></use>
-      </svg>
+      <span class="app-bar__project-row">
+        <svg v-on:click="goBack" class="logo-icon link u-spacing-mr-l" width="150" height="50">
+          <use xlink:href="/static/assets/sprites.svg#logo"></use>
+        </svg>
+        <a href="#" v-on:click.prevent="goToProject('/projects/new')" class="u-spacing-mr-l">Start a Project</a>
+      </span>
+
       <span>
 
         <button-primary v-if="!user.uid" 
           label="Login with Facebook" 
           v-bind:class="{'is--loading': isLoading}" 
           v-on:action="loginUser"></button-primary>
-        <div v-if="user.uid" class="profile-image img-container" v-on:click="logOut">
+        <!-- <div v-if="user.uid" class="profile-image img-container" v-on:click="logOut">
           <img v-bind:src="user.photoURL" alt="">
-        </div>
+        </div> -->
+        <span v-if="user.uid" v-on:click="logOut">{{user.displayName}}</span>
        
 
       </span>
@@ -35,7 +40,14 @@ export default {
   },
   methods: {
     goBack: function(){
-        this.$router.replace("/")
+        console.log("user", this.user.uid)
+
+        if (!this.user.uid) {
+          this.$router.replace("/");
+        } else {
+          this.$router.replace("/projects");
+        }
+        
     },
     goToProject: function(path){
       this.$router.push({ path: path })
@@ -63,7 +75,7 @@ export default {
 
         _this.isLoading = false;
         
-        console.log(user);
+        // console.log(user);
 
         // ...
       }).catch(function(error) {
@@ -84,7 +96,7 @@ export default {
       firebase.auth().signOut().then(function() {
         // Sign-out successful.
         // alert ("signed out");
-        _this.$router.go("/")
+        _this.$router.replace("/")
         
 
       }).catch(function(error) {
@@ -113,6 +125,8 @@ export default {
   cursor: pointer;
 }
 
+
+
   .app-bar {
     width: 100%;
   }
@@ -126,6 +140,25 @@ export default {
     padding: 0 3vw 0 1vw;
     background: white;
     border-bottom: 1px #f3f3f3 solid;
+  }
+
+  .u-spacing-mr-m {
+    margin-right: 8px 
+  }
+
+  .u-spacing-mr-l {
+    margin-right: 32px 
+  }
+
+  .app-bar__project-row {
+    display: flex;
+    align-items: center;
+
+    a {
+      font-weight: 500;
+      font-size: 18px;
+    }
+
   }
 
   .profile-image {

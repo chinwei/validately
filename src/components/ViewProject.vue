@@ -11,7 +11,7 @@
         <div>
           
           <svg v-on:click="onLikeTrigger" v-bind:class="{ active: likes }" class="like-icon" viewBox="0 0 100 100" width="40" height="40">
-            <use xlink:href="./static/assets/sprites.svg#heart"></use>
+            <use xlink:href="/static/assets/sprites.svg#heart"></use>
           </svg>
 
           
@@ -222,61 +222,6 @@ export default {
 <style lang="scss">
 
 
-
-.like-icon {
-  cursor: pointer;
-  stroke: #FF4651;
-  stroke-width: 4px;
-  fill: none;
-  &:hover {
-    fill: #FFD8DB;
-  }
-  &.active {
-    fill: #FF4651; 
-  }
-}
-
-
-.app-container {
-  width: 600px;
-  margin: 0 auto;
-  text-align: left;
-  padding: 32px;
-}
-
-
-
-img {
-  width: 100%;
-}
-
-.content {
-  background: white;
-  padding: 60px 3vw 60px 3vw;
-
-}
-
-
-
-.banner__content {
-  text-align: left;
-  width: 720px;
-}
-
-.banner__content h1 {
-  font-size: 36px;
-}
-
-.banner__content p {
-  font-size: 24px;
-}
-
-.story {
-  max-width: 720px;
-  text-align: left;
-  font-size: 18px;
-  line-height: 1.5;
-}
 
 
 
