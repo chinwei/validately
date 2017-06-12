@@ -5,7 +5,7 @@
       
       <div>
         <div class="info-row">
-          <span class="name" style="margin-right: 8px">by {{item.owner.displayName}}</span>
+          <span class="name" style="margin-right: 8px">{{item.owner.displayName}}</span>
           <svg style="margin-right: 3px" class="like-icon" viewBox="0 0 100 100" width="16" height="16">
             <use xlink:href="./static/assets/sprites.svg#heart"></use>
           </svg>

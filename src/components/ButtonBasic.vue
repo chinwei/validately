@@ -35,6 +35,7 @@ button {
     background: none;
     border: 0;
     color: inherit;
+    outline: none;
     /* cursor: default; */
     font: inherit;
     line-height: normal;
@@ -65,6 +66,17 @@ button::-moz-focus-inner {
   transition: background-color 0.3s ease;
 	&:hover {
 		background-color: #73d275;
+	}
+}
+
+.button--muted {
+  background-color: #ddd;
+  padding: 8px 16px;
+  color: white;
+  border-radius: 3px;
+  transition: background-color 0.3s ease;
+	&:hover {
+		background-color: #eee;
 	}
 }
 

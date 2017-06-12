@@ -13,12 +13,16 @@
 
 
            <span>
+           <!--  <button-basic 
+              label="Cancel" 
+              modifiers="button--muted"
+              v-on:action="handleSubmit"/> -->
+
              <button-basic 
-               v-bind:disabled="$v.validationGroup.$error" 
+               v-bind:disabled="$v.validationGroup.$error || $v.validationGroup.$invalid" 
                label="submit" 
                modifiers="button--primary"
-               v-on:action="handleSubmit">
-            </button-basic>
+               v-on:action="handleSubmit"/>
            </span>
          </div>
 
@@ -35,12 +39,14 @@
 
 			<textarea 
             class="input-text input__long-text" 
-            v-bind:class="{'is--error':$v.project.desc.$error && $v.project.desc.$dirty, 'is--hidden': $v.project.title.$error && !$v.project.title.$dirty}" 
+            v-bind:class="{'is--error':$v.project.desc.$error && $v.project.desc.$dirty, 'is--hidden': $v.project.title.$invalid && !$v.project.title.$error}" 
             v-model="project.desc" 
             placeholder="Briefly describe your project here!" 
             type="text" 
             @input="$v.project.desc.$touch()"/>
 
+
+         <!-- <p>{{project.value}}</p> -->
          
          <div id="toolbar" v-bind:class="{'is--active':isFocused}" class="ql-toolbar ql-snow">
            <!-- Add buttons as you would before -->
@@ -51,9 +57,11 @@
            <!-- But you can also add your own -->
 <!--            <button id="custom-button">&#8486;</button> -->
          </div>
-         <div class="editor-container" v-bind:class="{'is--hidden': $v.project.desc.$error}">
-      		<div id="editor"></div>
+         <div class="editor-container" v-bind:class="{'is--hidden': $v.project.desc.$invalid && !$v.project.desc.$error}">
+      		<div v-model="project.value" id="editor"></div>
          </div>
+
+
          
 		</div>
 
@@ -72,6 +80,8 @@
 	export default {
 		name: 'edit-project',
 		mounted: function(){
+
+      this.handleUpdatedEditor();
 
 
 		var _this = this;
@@ -102,6 +112,10 @@
         }
       });
 
+       this.quill.on('text-change', () => {
+         this.project.value = $("#editor .ql-editor").html();
+      })
+
 
 	var project = firebase.database().ref('projects/'+this.$route.params.id);
 	var writeup = firebase.database().ref('writeup/'+this.$route.params.id);
@@ -126,7 +140,7 @@ props: {
 	user: {}
 },
 validations: {
-   validationGroup: ['project.title', 'project.desc'],
+   validationGroup: ['project.title', 'project.desc', 'project.value'],
     project: {
        title: {
          required,
@@ -135,6 +149,9 @@ validations: {
          required,
          maxLength: maxLength(160)
        },
+       value:{
+         required
+       }
        
     }
   },
@@ -142,6 +159,9 @@ components: {
 	ButtonBasic
 },  
 methods: {
+   cancel(){
+      // this.$router.push("/projects/"+ data.url)
+   },
 
 	handleSubmit: function(e){
 		var _this = this;
@@ -186,16 +206,22 @@ methods: {
 
 		_this.$router.push("/projects/"+ data.url);
 
-	}
+	},
+   handleUpdatedEditor() {
+      console.log(this.quill);
+     
+    }
 },
 data () {
 	return {
 		project: {
          title: '',
-         desc: ''
+         desc: '',
+         value: ''
       },
 		writeup: {},
-      isFocused: false
+      isFocused: false,
+      
 	}
 }
 }

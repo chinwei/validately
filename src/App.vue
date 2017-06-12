@@ -65,6 +65,7 @@ export default {
       } else {
         // console.log(_this.$route)
         console.log("not signed in")
+        _this.user = '';
       }
     });
 
@@ -158,16 +159,27 @@ a {
 
 .like-icon {
   cursor: pointer;
-  stroke: #FF4651;
+  stroke: #ddd;
   stroke-width: 4px;
   fill: none;
   &:hover {
-    fill: #FFD8DB;
+    fill: #f3f3f3;
+    stroke: #f3f3f3;
   }
   &.active {
     fill: #FF4651; 
+    stroke: #FF4651; 
   }
 }
+
+.facebook-icon {
+  cursor: pointer;
+  fill: #ccc;
+  &:hover {
+    fill: #aaa;
+  }
+}
+
 
 
 .app-container {
@@ -206,7 +218,7 @@ img {
 
 .content {
   background: white;
-  padding: 120px 3vw 60px 3vw;
+  padding: 60px 3vw 60px 3vw;
   max-width: 720px;
   margin: 0 auto;
   text-align: left;

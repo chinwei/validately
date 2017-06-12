@@ -13,11 +13,13 @@
     <div class="content">
 
       <article> 
-        <div class="list">
-          <div v-if="user.uid" class="list__header">
+        <div v-if="currentUserProjectObj != undefined" class="list">
+          <div class="list__header">
             <h1>Projects You Created</h1>
           </div>
 
+          
+          
           <project-list-item 
             v-for="key, value in currentUserProjectObj"
             :key="key"
@@ -25,10 +27,9 @@
             v-on:action="goToProject('/projects/'+key.url)"/>
         </div>
 
-        <!-- {{currentUserTargetObj.likes}} -->
 
-        <div class="list">
-          <div v-if="user.uid" class="list__header">
+        <div v-if="currentUserTargetObj.likes != undefined" class="list">
+          <div class="list__header">
             <h1>Projects You Liked</h1>
           </div>
 
@@ -41,7 +42,8 @@
           
         </div>
 
-        <div class="list">
+
+        <div v-if="listArray.length > 0" class="list">
           <div class="list__header">
             <h1>Recent Projects</h1>
           </div>

@@ -1,14 +1,19 @@
 <template>
   <div v-bind:class="{'is--visible': isVisible}" class="overlay">
       <div class="overlay__content">
-          <a v-on:click.prevent="hideOverlay" class="overlay__close-btn" href="#">Close</a>
-          <svg class="link" width="150" height="50">
-            <use xlink:href="./static/assets/sprites.svg#logo"></use>
-          </svg>
-          <h2>Join the community</h2>
-          <p>GoCreate is a community for people to contribute and grow ideas. Join us :)</p>
+          <!-- <a v-on:click.prevent="hideOverlay" class="overlay__close-btn" href="#">Close</a> -->
+          
+          <button-basic 
+          label="Close" 
+          modifiers="button--text overlay__close-btn"
+          v-bind:class="{'is--loading': isLoading}" 
+          v-on:action="hideOverlay"></button-basic>
+
+          <h1 class="banner__title">Start and grow ideas</h1>
+          <!-- <p>Join to like ideas</p> -->
            <button-basic 
            label="Login with Facebook" 
+           modifiers="button--primary"
            v-bind:class="{'is--loading': isLoading}" 
            v-on:action="loginUser"></button-basic>
       </div>
@@ -85,7 +90,9 @@ export default {
 }
 </script>
 
-<style scoped>
+<style>
+
+
 
 .overlay {
   width: 100vw;
@@ -94,7 +101,7 @@ export default {
   top: 0;
   left: 0;
   background: white;
-  opacity: 0.9;
+  opacity: 0.95;
   z-index: 9999;
   display: none;
   flex-direction: column;
@@ -116,7 +123,6 @@ export default {
   position: absolute;
   top: 0;
   right: 0;
-  font-weight: 600;
 }
 
 .overlay--login {

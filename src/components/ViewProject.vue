@@ -26,8 +26,12 @@
 
         <div>
           
-          <svg v-on:click="onLikeTrigger" v-bind:class="{ active: likes }" class="like-icon" viewBox="0 0 100 100" width="32" height="32">
+          <svg v-on:click="onLikeTrigger" v-bind:class="{ active: likes }" class="like-icon u-spacing-mr-m" viewBox="0 0 100 100" width="24" height="24">
             <use xlink:href="/static/assets/sprites.svg#heart"></use>
+          </svg>
+
+          <svg v-on:click="shareToFB" class="facebook-icon" viewBox="0 0 100 100" width="24" height="24">
+            <use xlink:href="/static/assets/sprites.svg#facebook"></use>
           </svg>
 
           
@@ -39,14 +43,7 @@
   
     <div class="content">
   
- 
-    
 
-      
-     
-    
-
-        
       <article class="story">
 
    
@@ -176,6 +173,13 @@ export default {
     },
     editProject: function(){
       this.$router.push(this.$route.path+"/edit")
+    },
+    shareToFB: function(){
+      FB.ui({
+          method: 'share',
+          display: 'popup',
+          href: window.location.href
+        }, function(response){});
     },
     toggleLike: function(){
       

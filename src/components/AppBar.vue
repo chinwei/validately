@@ -98,6 +98,7 @@ export default {
         // Sign-out successful.
         // alert ("signed out");
         _this.$router.replace("/")
+        this.$emit("loggedOut");
         
 
       }).catch(function(error) {
