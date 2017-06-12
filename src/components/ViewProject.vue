@@ -42,7 +42,8 @@
     </div>
   
     <div class="content">
-  
+        
+        {{likedCount}}
 
       <article class="story">
 
@@ -78,60 +79,14 @@ export default {
     var _this = this;
 
     this.projectDB = firebase.database().ref('projects/'+this.$route.params.id);
-    this.writeupDB = firebase.database().ref('writeup/'+this.$route.params.id);
     
-   
-    this.projectDB.once('value', function(snapshot) {
-      
-      _this.project = snapshot.val();
-
-      var likesRef = firebase.database()
-        .ref('users/'+_this.user.uid+'/likes/'+snapshot.key)
-
-      likesRef.on("value", function(snapshot){
-
-        _this.likes = snapshot.val() ? true : false
-
-      })
-
-    });
-
-    this.writeupDB.once('value', function(snapshot) {
-      _this.writeup = snapshot.val();
-    });
+    this.getWriteupContents();
 
   },
   mounted: function(){
 
-    var _this = this;
-    
-
-    window.fbAsyncInit = function() {
-       FB.init({
-         appId      : '526030481081547',
-         xfbml      : true,
-         version    : 'v2.1'
-       });
-     };
-
-    (function(d, s, id) {
-          var js, fjs = d.getElementsByTagName(s)[0];
-          if (d.getElementById(id)) return;
-          js = d.createElement(s); js.id = id;
-          js.src = "//connect.facebook.net/en_US/sdk.js#xfbml=1&version=v2.9&appId=526030481081547";
-          fjs.parentNode.insertBefore(js, fjs);
-        }(document, 'script', 'facebook-jssdk'));
-
-    if (FB) FB.XFBML.parse();
-
-    var LikedRef = firebase.database().ref('projects/'+this.projectDB.key+'/liked/');
-
-    LikedRef.on('value', function(snapshot){
-
-      _this.likedCount = snapshot.numChildren()
-    })
-
-
+    this.initFBComments();
+    this.getLikedCount();
 
   },
   props:{
@@ -139,25 +94,7 @@ export default {
   },
   watch: {
     user: function(val){
-      var _this = this;
-      console.log("user changed!", val)
-
-      this.projectDB.once('value', function(snapshot) {
-        
-        _this.project = snapshot.val();
-
-        var likesRef = firebase.database()
-          .ref('users/'+_this.user.uid+'/likes/'+snapshot.key)
-
-        likesRef.on("value", function(snapshot){
-
-          _this.likes = snapshot.val() ? true : false
-
-        })
-
-      });
-
-
+      this.updateLikes();
     }
   },
   components:{
@@ -173,6 +110,57 @@ export default {
     },
     editProject: function(){
       this.$router.push(this.$route.path+"/edit")
+    },
+    getWriteupContents(){
+      var _this = this;
+      this.writeupDB = firebase.database().ref('writeup/'+this.$route.params.id);
+      
+      this.writeupDB.once('value', function(snapshot) {
+        _this.writeup = snapshot.val();
+      });
+
+    },
+    updateLikes(){
+      var _this = this;
+      this.projectDB.once('value', function(snapshot) {
+        _this.project = snapshot.val();
+
+        var likesRef = firebase.database()
+          .ref('users/'+_this.user.uid+'/likes/'+snapshot.key)
+
+        likesRef.on("value", function(snapshot){
+          _this.likes = snapshot.val() ? true : false
+        })
+
+      });
+    },
+    getLikedCount(){
+      var _this = this;
+      var LikedRef = firebase.database()
+        .ref('projects/'+this.projectDB.key+'/liked/');
+
+      LikedRef.on('value', function(snapshot){
+        _this.likedCount = snapshot.numChildren()
+      })
+    },
+    initFBComments(){
+      window.fbAsyncInit = function() {
+         FB.init({
+           appId      : '526030481081547',
+           xfbml      : true,
+           version    : 'v2.1'
+         });
+       };
+
+      (function(d, s, id) {
+            var js, fjs = d.getElementsByTagName(s)[0];
+            if (d.getElementById(id)) return;
+            js = d.createElement(s); js.id = id;
+            js.src = "//connect.facebook.net/en_US/sdk.js#xfbml=1&version=v2.9&appId=526030481081547";
+            fjs.parentNode.insertBefore(js, fjs);
+          }(document, 'script', 'facebook-jssdk'));
+
+      if (FB) FB.XFBML.parse();
     },
     shareToFB: function(){
       FB.ui({
