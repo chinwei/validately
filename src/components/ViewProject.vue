@@ -42,7 +42,7 @@
   
     <div class="content">
         
-        {{likedCount}}
+        <!-- {{likedCount}} -->
 
       <article class="story">
 
@@ -124,7 +124,6 @@ export default {
       this.projectDB.once('value', function(snapshot) {
         _this.project = snapshot.val();
 
-        console.log("project:", _this.project);
 
         var likesRef = firebase.database()
           .ref('users/'+_this.user.uid+'/likes/'+snapshot.key)
@@ -196,6 +195,7 @@ export default {
           if (!currentLiked) currentLiked = null;
 
         return currentLiked;
+
       });
     },
     onLikeTrigger(){
@@ -216,7 +216,42 @@ export default {
       isVisible: false
       
     }
-  }
+  },
+  head: {
+      // To use "this" in the component, it is necessary to return the object through a function
+      title: function () {
+        return {
+          inner: this.project.title
+        }
+      },
+      description: function () {
+        return {
+          inner: this.project.desc
+        }
+      },
+      meta: [
+        { 
+          property: 'og:title', 
+          content: function () {
+            return {
+              inner: this.project.title
+            }
+          }
+        },
+        { 
+          property: 'og:description', 
+          content: function () {
+            return {
+              inner: this.project.desc
+            }
+          }
+        },
+        { 
+          property: 'og:url', 
+          content: window.location.href
+        },
+      ]
+    }
 }
 </script>
 

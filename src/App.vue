@@ -37,17 +37,15 @@ export default {
     var _this = this;
     firebase.auth().onAuthStateChanged(function(user) {
       if (user) {
-          // console.log(user, "signed in!")
          _this.user = user;
-
-         // console.log(_this.user.uid);
 
          var users = firebase.database()
            .ref('/users/')
            .child(_this.user.uid)
            .once('value', function(snapshot){
              var exists = (snapshot.val() !== null);
-             // console.log(exists);
+
+             // console.log(window.location.pathname);
 
             if (!exists) {
               users = firebase.database().ref('/users/'+_this.user.uid).set({
@@ -57,25 +55,17 @@ export default {
               })
             } else {
               if (window.location.pathname == "/") _this.$router.replace("/projects");
-
             }
 
            })
 
       } else {
-        // console.log(_this.$route)
-        console.log("not signed in")
         _this.user = '';
       }
     });
 
 
-    // FastClick
-    if ('addEventListener' in document) {
-        document.addEventListener('DOMContentLoaded', function() {
-            FastClick.attach(document.body);
-        }, false);
-    }
+  
 
 
 

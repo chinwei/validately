@@ -4,7 +4,10 @@ import Home from '@/components/Home'
 import EditProject from '@/components/EditProject'
 import ViewProject from '@/components/ViewProject'
 import ProjectList from '@/components/ProjectList'
+import VueHead from 'vue-head'
 
+
+Vue.use(VueHead)
 Vue.use(Router)
 
 
@@ -40,6 +43,7 @@ const scrollBehavior = (to, from, savedPosition) => {
 
 
 export default new Router({
+  hashbang: true,
   routes: [
     {
       path: '/',

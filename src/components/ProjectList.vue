@@ -26,6 +26,7 @@
         </div>
 
 
+
         <div v-if="currentUserTargetObj.likes != undefined" class="list">
           <div class="list__header">
             <h1>Projects You Liked</h1>
@@ -92,7 +93,7 @@ export default {
 
 
 
-      
+
   },
   mounted() {
 
