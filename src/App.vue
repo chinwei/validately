@@ -126,6 +126,15 @@ a {
   color: #333;
 }
 
+ul {
+  margin: 0;
+  padding: 0;
+}
+
+li {
+  list-style: none
+}
+
 
 /* Enter and leave animations can use different */
 /* durations and timing functions.              */
@@ -149,24 +158,20 @@ a {
 
 .like-icon {
   cursor: pointer;
-  stroke: #ddd;
-  stroke-width: 4px;
-  fill: none;
+  fill: #ddd;
   &:hover {
-    fill: #f3f3f3;
-    stroke: #f3f3f3;
+    fill: #ccc;
   }
   &.active {
     fill: #FF4651; 
-    stroke: #FF4651; 
   }
 }
 
 .facebook-icon {
   cursor: pointer;
-  fill: #ccc;
+  fill: #ddd;
   &:hover {
-    fill: #aaa;
+    fill: #ccc;
   }
 }
 
@@ -340,5 +345,7 @@ img {
     margin-bottom: 4em;
   }
 
+
+  
 
 </style>

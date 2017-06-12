@@ -8,20 +8,26 @@
         <a href="#" v-on:click.prevent="goToProject('/projects/new')" class="u-spacing-mr-l">Start a Project</a>
       </span>
 
-      <span>
+      <div class="menu-container">
 
         <button-basic v-if="!user.uid" 
           label="Login with Facebook" 
           modifiers="button--primary"
           v-bind:class="{'is--loading': isLoading}" 
           v-on:action="loginUser"></button-basic>
-        <!-- <div v-if="user.uid" class="profile-image img-container" v-on:click="logOut">
-          <img v-bind:src="user.photoURL" alt="">
-        </div> -->
-        <span v-if="user.uid" v-on:click="logOut">{{user.displayName}}</span>
+
+        <div v-bind:class="{'is--expanded': isExpanded}" class="dropdown" >
+          <div v-on:click="isExpanded = !isExpanded" v-if="user.uid">{{user.displayName}}</div>
+          <div class="dropdown-target">
+            <ul>
+              <li><a href="#" v-on:click.prevent="logOut">Log Out</a></li>
+            </ul>
+          </div>
+        </div>
+
        
 
-      </span>
+      </div>
       
     </div>
   </div>
@@ -85,10 +91,14 @@ export default {
         // ...
       });
     },
+    toggleDropdown(){
+      this.isdropdownVisible = !this.isdropdownVisible;
+    },
     logOut: function(){
       var _this = this;
 
-      this.isLoggedIn = false
+      this.isLoggedIn = false;
+      this.isExpanded = false;
       firebase.auth().signOut().then(function() {
         // Sign-out successful.
         // alert ("signed out");
@@ -110,7 +120,8 @@ export default {
   data () {
     return {
       isLoggedIn: false,
-      isLoading: false
+      isLoading: false,
+      isExpanded: false
     }
   }
 }
@@ -138,6 +149,46 @@ export default {
     background: white;
     border-bottom: 1px #f3f3f3 solid;
   }
+
+  .menu-container {
+    height: 100%;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+  }
+
+  .dropdown {
+    height: 100%;
+    padding: 0 8px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    position: relative;
+
+    &.is--expanded .dropdown-target {
+      opacity: 1;
+      top: 50px;
+      
+    }
+  }
+
+
+
+  .dropdown-target {
+    position: absolute;
+    padding: 8px;
+    left: 0;
+    background: white;
+    border: 1px #f3f3f3 solid;
+    border-radius: 5px;
+    box-shadow: #F3F3F3 0px 3px 4px;
+    width: 100%;
+    opacity: 0;
+    top: 55px;
+    transition: top 0.3s ease, opacity 0.3s ease;
+  }
+
+
 
   .u-spacing-mr-m {
     margin-right: 8px 
