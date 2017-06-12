@@ -178,7 +178,9 @@ methods: {
 			time: Date.parse(timestamp).toString(),
 			owner: {
             uid: _this.user.uid,
-            displayName: _this.user.displayName
+            displayName: _this.user.displayName,
+            email: _this.user.email,
+            photoURL: _this.user.photoURL
          }
 		}
 

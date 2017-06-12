@@ -4,11 +4,10 @@
     <div class="banner">
       <div class="banner__content story-banner">
         
-        
         <div class="profile">
           <span class="l-flex-row">
-            <div v-if="user.uid" class="profile-image img-container">
-              <img v-bind:src="user.photoURL" alt="">
+            <div v-if="project.owner.uid" class="profile-image img-container">
+              <img v-bind:src="project.owner.photoURL" alt="">
             </div>
             <div class="profile__name" v-if="project.owner">{{project.owner.displayName}}</div>  
           </span>
@@ -81,7 +80,7 @@ export default {
     this.projectDB = firebase.database().ref('projects/'+this.$route.params.id);
     
     this.getWriteupContents();
-
+    this.updateLikes();
   },
   mounted: function(){
 
@@ -124,6 +123,8 @@ export default {
       var _this = this;
       this.projectDB.once('value', function(snapshot) {
         _this.project = snapshot.val();
+
+        console.log("project:", _this.project);
 
         var likesRef = firebase.database()
           .ref('users/'+_this.user.uid+'/likes/'+snapshot.key)
@@ -188,8 +189,6 @@ export default {
         return currentLikes;
       });
 
-      console.log('user id:',this.user.uid)
-      
       LikedRef.child(this.user.uid).transaction(function(currentLiked) {
 
           currentLiked = !currentLiked;
@@ -198,11 +197,6 @@ export default {
 
         return currentLiked;
       });
-
-
-
-
-
     },
     onLikeTrigger(){
       if (this.user.uid) {

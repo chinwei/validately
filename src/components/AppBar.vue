@@ -36,13 +36,8 @@ import ButtonBasic from '@/components/ButtonBasic'
 
 export default {
   name: 'app-bar',
-  created: function(){
-    // console.log("app bar created...", this.user)
-  },
   methods: {
     goBack: function(){
-        console.log("user", this.user.uid)
-
         if (!this.user.uid) {
           this.$router.replace("/");
         } else {

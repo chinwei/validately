@@ -30,7 +30,6 @@ export default {
   },
   methods:{
     goToProject: function(path){
-      // console.log(this.user.uid)
       this.$router.push({ path: path })  
     },
     goToNewProject(){

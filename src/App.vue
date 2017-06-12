@@ -52,10 +52,10 @@ export default {
             if (!exists) {
               users = firebase.database().ref('/users/'+_this.user.uid).set({
                 displayName: _this.user.displayName,
-                email: _this.user.email
+                email: _this.user.email,
+                photoURL: _this.user.photoURL
               })
             } else {
-              console.log("window location:", window.location.pathname)
               if (window.location.pathname == "/") _this.$router.replace("/projects");
 
             }

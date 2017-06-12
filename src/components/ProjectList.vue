@@ -17,8 +17,6 @@
           <div class="list__header">
             <h1>Projects You Created</h1>
           </div>
-
-          
           
           <project-list-item 
             v-for="key, value in currentUserProjectObj"
@@ -74,10 +72,8 @@ import LoginOverlay from '@/components/LoginOverlay'
 export default {
   name: 'project-list',
   created() {
-    // console.log(this.user)
 
     var _this = this;
-
 
     this.getCreatedProjects();
     this.getLikedProjects();
@@ -93,6 +89,10 @@ export default {
       _this.projectObj[snapshot.key] = snapshot.val()
 
     });
+
+
+
+      
   },
   mounted() {
 
