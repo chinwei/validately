@@ -42,19 +42,28 @@ export function logout() {
 	});
 }
 
-function checkLoggedIn(result) {
-	console.log(result);
-	return result
+function checkLoggedIn(user) {
+	// console.log(user);
+
+	if (user) {
+		return 'true'
+	} else {
+		return 'false'
+	}
+
 }
 
-export function isLoggedIn(callback) {
+export function isLoggedIn() {
+
 	firebase.auth().onAuthStateChanged(function(user) {
-		callback(user);
+		checkLoggedIn(user);
 	});
+
+	return true
 }
 
 
-isLoggedIn(checkLoggedIn);
+// isLoggedIn(checkLoggedIn);
 
 
 
@@ -65,9 +74,6 @@ function onComplete(a){ // When the code completes, do this
 
 function getFive(whenDone){ 
     var a;
-
-
-
     setTimeout(function(){
          a=5;
          whenDone(a);

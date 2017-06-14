@@ -5,6 +5,7 @@ import EditProject from '@/components/EditProject'
 import ViewProject from '@/components/ViewProject'
 import ProjectList from '@/components/ProjectList'
 import VueHead from 'vue-head'
+import { login, logout, isLoggedIn } from '../../utils/auth';
 
 
 Vue.use(VueHead)
@@ -49,11 +50,19 @@ export default new Router({
       path: '/',
       name: 'home',
       component: Home,
+      beforeEnter: (to, from, next) => {
+        // ...
+        console.log(isLoggedIn());
+        // isLoggedIn();
+        next();
+        
+        
+      }
     },
     {
       path: '/projects/',
       name: 'project-list',
-      component: ProjectList,
+      component: ProjectList
     },
     {
       path: '/projects/new',
@@ -68,7 +77,7 @@ export default new Router({
     {
       path: '/projects/:id/',
       name: 'view-project',
-      component: ViewProject,
+      component: ViewProject
     }
   ]
 

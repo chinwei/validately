@@ -35,40 +35,44 @@ export default {
   },
   created: function(){
     var _this = this;
-    firebase.auth().onAuthStateChanged(function(user) {
-      if (user) {
-         _this.user = user;
 
-         var users = firebase.database()
-           .ref('/users/')
-           .child(_this.user.uid)
-           .once('value', function(snapshot){
-             var exists = (snapshot.val() !== null);
+    this.checkLoggedIn();
 
-             // console.log(window.location.pathname);
+  },
+  methods: {
+    checkLoggedIn(){
+      var _this = this;
+      firebase.auth().onAuthStateChanged(function(user) {
+        if (user) {
+          _this.user = user;
+          _this.addUser(user);
 
-            if (!exists) {
-              users = firebase.database().ref('/users/'+_this.user.uid).set({
-                displayName: _this.user.displayName,
-                email: _this.user.email,
-                photoURL: _this.user.photoURL
-              })
-            } else {
-              if (window.location.pathname == "/") _this.$router.replace("/projects");
-            }
+        } else {
+          _this.user = '';
+        }
+      });
+    },
+    addUser(user){
 
+      var users = firebase.database()
+        .ref('/users/')
+        .child(user.uid)
+        .once('value', function(snapshot){
+          var exists = (snapshot.val() !== null);
+
+         if (!exists) {
+            console.log('user added!');
+           users = firebase.database().ref('/users/'+user.uid).set({
+             displayName: user.displayName,
+             email: user.email,
+             photoURL: user.photoURL
            })
+         } else {
+          console.log('existing user');
+         }
 
-      } else {
-        _this.user = '';
-      }
-    });
-
-
-  
-
-
-
+        })
+    }
   },
   data () {
     return {
