@@ -1,19 +1,20 @@
 <template>
   <div class="content-container">
-    <login-overlay v-on:hideOverlay="hideOverlay" v-bind:isVisible="isVisible"></login-overlay>
     <div class="banner">
       <div class="banner__content story-banner">
         
-        <div class="profile">
+        <!-- {{project.owner}} -->
+
+        <div class="profile" v-if="project.owner">
           <span class="l-flex-row">
-            <div v-if="project.owner.uid" class="profile-image img-container">
+            <div class="profile-image img-container">
               <img v-bind:src="project.owner.photoURL" alt="">
             </div>
-            <div class="profile__name" v-if="project.owner">{{project.owner.displayName}}</div>  
+            <div class="profile__name">{{project.owner.displayName}}</div>  
           </span>
           <span>
             <button-basic 
-              v-if="project.owner && project.owner.uid === user.uid" 
+              v-if="project.owner.uid === user.uid" 
               label="Edit Project"
               modifiers="button--text"
               v-on:action="editProject">
@@ -46,11 +47,8 @@
 
       <article class="story">
 
-   
-
         <div v-if="writeup" v-html="writeup.content"></div>
   
-
         <div class="fb-comments" data-numposts="5"></div>
         
       </article>
@@ -77,9 +75,6 @@ export default {
 
     var _this = this;
 
-    var userAuth = JSON.parse(localStorage.getItem('userAuth'));
-    this.user = userAuth;
-
     this.projectDB = firebase.database().ref('projects/'+this.$route.params.id);
     
     this.getWriteupContents();
@@ -92,7 +87,7 @@ export default {
 
   },
   props:{
-    
+    user:{}
   },
   watch: {
     user: function(val){
@@ -215,9 +210,7 @@ export default {
       owner: {},
       likes: false,
       likedCount: '',
-      isVisible: false,
-      user: {}
-      
+      isVisible: false
     }
   },
   head: {
@@ -227,33 +220,20 @@ export default {
           inner: this.project.title
         }
       },
-      description: function () {
-        return {
-          inner: this.project.desc
-        }
-      },
-      meta: [
-        { 
-          property: 'og:title', 
-          content: function () {
-            return {
-              inner: this.project.title
-            }
-          }
-        },
-        { 
-          property: 'og:description', 
-          content: function () {
-            return {
-              inner: this.project.desc
-            }
-          }
-        },
-        { 
-          property: 'og:url', 
-          content: window.location.href
-        },
-      ]
+      // meta: [
+      //   { 
+      //     property: 'og:title', 
+      //     content: function () {
+      //       return {
+      //         inner: this.project.title
+      //       }
+      //     }
+      //   },
+      //   { 
+      //     property: 'og:url', 
+      //     content: window.location.href
+      //   },
+      // ]
     }
 }
 </script>
