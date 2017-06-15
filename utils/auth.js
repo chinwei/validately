@@ -2,12 +2,14 @@ import firebase from 'firebase'
 import firebaseui from 'firebaseui'
 import Router from 'vue-router';
 
-// var provider = new firebase.auth.FacebookAuthProvider();
+var provider = new firebase.auth.FacebookAuthProvider();
 
 var router = new Router({
 });
 
-export function login() {
+console.log
+
+export function login(callback) {
 
     var _this = this;
 
@@ -17,6 +19,15 @@ export function login() {
       var token = result.credential.accessToken;
       // The signed-in user info.
       var user = result.user;
+      localStorage.setItem('userAuth', JSON.stringify(user));
+      
+      console.log(window.location.pathname)
+
+      if (window.location.pathname === '/') {
+      	router.replace('/projects/')
+      }
+
+      callback();
 
     }).catch(function(error) {
       // Handle Errors here.
@@ -36,20 +47,18 @@ export function logout() {
 	firebase.auth().signOut().then(function() {
 	
 	router.replace('/');
+	localStorage.removeItem('userAuth');
 
 	}).catch(function(error) {
 
 	});
 }
 
-function checkLoggedIn(user) {
-	// console.log(user);
 
-	if (user) {
-		return 'true'
-	} else {
-		return 'false'
-	}
+function checkLoggedIn(user) {
+	console.log(user);
+
+	
 
 }
 
@@ -59,7 +68,6 @@ export function isLoggedIn() {
 		checkLoggedIn(user);
 	});
 
-	return true
 }
 
 

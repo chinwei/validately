@@ -52,10 +52,14 @@ export default new Router({
       component: Home,
       beforeEnter: (to, from, next) => {
         // ...
-        console.log(isLoggedIn());
-        // isLoggedIn();
-        next();
-        
+        // Retrieve the object from storage
+        var userAuth = localStorage.getItem('userAuth');
+        // console.log('userAuth: ', JSON.parse(userAuth));
+        if (userAuth) {
+          next('/projects/')
+        } else {
+          next();
+        }
         
       }
     },

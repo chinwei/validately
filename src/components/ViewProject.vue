@@ -77,6 +77,9 @@ export default {
 
     var _this = this;
 
+    var userAuth = JSON.parse(localStorage.getItem('userAuth'));
+    this.user = userAuth;
+
     this.projectDB = firebase.database().ref('projects/'+this.$route.params.id);
     
     this.getWriteupContents();
@@ -89,7 +92,7 @@ export default {
 
   },
   props:{
-    user: {}
+    
   },
   watch: {
     user: function(val){
@@ -123,7 +126,6 @@ export default {
       var _this = this;
       this.projectDB.once('value', function(snapshot) {
         _this.project = snapshot.val();
-
 
         var likesRef = firebase.database()
           .ref('users/'+_this.user.uid+'/likes/'+snapshot.key)
@@ -213,7 +215,8 @@ export default {
       owner: {},
       likes: false,
       likedCount: '',
-      isVisible: false
+      isVisible: false,
+      user: {}
       
     }
   },

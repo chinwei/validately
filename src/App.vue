@@ -16,6 +16,7 @@
 import firebase from 'firebase'
 import fastclick from 'fastclick'
 import AppBar from '@/components/AppBar'
+import { login, logout} from '../utils/auth'
 
 
 var config = {
@@ -60,13 +61,23 @@ export default {
         .once('value', function(snapshot){
           var exists = (snapshot.val() !== null);
 
-         if (!exists) {
+          localStorage.setItem('userAuth', JSON.stringify(user));
+
+
+
+          // console.log(localStorage);
+
+          if (!exists) {
             console.log('user added!');
            users = firebase.database().ref('/users/'+user.uid).set({
              displayName: user.displayName,
              email: user.email,
              photoURL: user.photoURL
            })
+
+
+
+
          } else {
           console.log('existing user');
          }

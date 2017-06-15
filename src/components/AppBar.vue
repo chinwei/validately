@@ -14,13 +14,13 @@
           label="Login with Facebook" 
           modifiers="button--primary"
           v-bind:class="{'is--loading': isLoading}" 
-          v-on:action="loginUser"></button-basic>
+          v-on:action="handleLogin"></button-basic>
 
         <div v-bind:class="{'is--expanded': isExpanded}" class="dropdown" >
           <div v-on:click="isExpanded = !isExpanded" v-if="user.uid">{{user.displayName}}</div>
           <div class="dropdown-target">
             <ul>
-              <li><a href="#" v-on:click.prevent="logOut">Log Out</a></li>
+              <li><a href="#" v-on:click.prevent="handleLogout">Log Out</a></li>
             </ul>
           </div>
         </div>
@@ -39,10 +39,22 @@
 import firebase from 'firebase'
 import firebaseui from 'firebaseui'
 import ButtonBasic from '@/components/ButtonBasic'
+import { login, logout} from '../../utils/auth'
 
 export default {
   name: 'app-bar',
   methods: {
+    handleLogin(){
+      var _this = this;
+      this.isLoading = true;
+      login(function(){
+        _this.isLoading = false;
+      })
+    },
+    handleLogout(){
+      logout()
+      this.isExpanded = false;
+    },
     goBack: function(){
         if (!this.user.uid) {
           this.$router.replace("/");
@@ -53,43 +65,6 @@ export default {
     },
     goToProject: function(path){
       this.$router.push({ path: path })
-    },
-    loginUser: function(){
-
-      console.log(this);
-      var _this = this;
-
-      _this.isLoading = true
-
-
-      var provider = new firebase.auth.FacebookAuthProvider();
-      
-
-      firebase.auth().signInWithPopup(provider).then(function(result) {
-        // This gives you a Facebook Access Token. You can use it to access the Facebook API.
-
-        console.log(this);
-        var token = result.credential.accessToken;
-        // The signed-in user info.
-        var user = result.user;
-
-        _this.isLoggedIn = true;
-
-        _this.isLoading = false;
-        
-        // console.log(user);
-
-        // ...
-      }).catch(function(error) {
-        // Handle Errors here.
-        var errorCode = error.code;
-        var errorMessage = error.message;
-        // The email of the user's account used.
-        var email = error.email;
-        // The firebase.auth.AuthCredential type that was used.
-        var credential = error.credential;
-        // ...
-      });
     },
     toggleDropdown(){
       this.isdropdownVisible = !this.isdropdownVisible;
