@@ -75,6 +75,8 @@ export default {
 
     var _this = this;
 
+
+
     this.projectDB = firebase.database().ref('projects/'+this.$route.params.id);
     
     this.getWriteupContents();
@@ -141,14 +143,18 @@ export default {
       })
     },
     initFBComments(){
+      // console.log("fb here? 1")
+
       window.fbAsyncInit = function() {
          FB.init({
            appId      : '526030481081547',
            xfbml      : true,
            version    : 'v2.1'
          });
-       };
 
+
+       };
+      
       (function(d, s, id) {
             var js, fjs = d.getElementsByTagName(s)[0];
             if (d.getElementById(id)) return;
@@ -157,7 +163,13 @@ export default {
             fjs.parentNode.insertBefore(js, fjs);
           }(document, 'script', 'facebook-jssdk'));
 
-      if (FB) FB.XFBML.parse();
+
+      if (typeof(FB) !== 'undefined') {
+        FB.XFBML.parse();
+      }
+
+     
+
     },
     shareToFB: function(){
       FB.ui({
@@ -220,20 +232,20 @@ export default {
           inner: this.project.title
         }
       },
-      // meta: [
-      //   { 
-      //     property: 'og:title', 
-      //     content: function () {
-      //       return {
-      //         inner: this.project.title
-      //       }
-      //     }
-      //   },
-      //   { 
-      //     property: 'og:url', 
-      //     content: window.location.href
-      //   },
-      // ]
+      meta: [
+        { 
+          property: 'og:title', 
+          content: function () {
+            return {
+              inner: this.project.title
+            }
+          }
+        },
+        { 
+          property: 'og:url', 
+          content: window.location.href
+        },
+      ]
     }
 }
 </script>

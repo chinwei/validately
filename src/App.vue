@@ -40,7 +40,6 @@ export default {
     var _this = this;
 
     this.checkLoggedIn();
-
   },
   methods: {
     hideOverlay(){
