@@ -1,6 +1,6 @@
 <template>
   <div class="content-container">
-    <login-overlay v-on:hideOverlay="hideOverlay" v-bind:isVisible="isVisible"></login-overlay>
+    
     <div class="banner banner--secondary">
       <div class="banner__content">
         <div class="banner__title">Start something people love</div>
@@ -51,7 +51,7 @@
             v-for="key, value in listArray" 
             :key="key"
             v-bind:item="key"
-            v-on:action="goToProject('projects/'+key.url)"/>
+            v-on:action="goToProject('/projects/'+key.url)"/>
         </div>
   
       </article>
@@ -67,7 +67,7 @@ import firebase from 'firebase'
 import _ from 'underscore'
 import ProjectListItem from '@/components/ProjectListItem'
 import ButtonBasic from '@/components/ButtonBasic'
-import LoginOverlay from '@/components/LoginOverlay'
+
 
 
 export default {
@@ -113,8 +113,7 @@ export default {
   },
   components: {
     ProjectListItem,
-    ButtonBasic,
-    LoginOverlay
+    ButtonBasic
   },
   props:{
     user: {}
@@ -159,9 +158,6 @@ export default {
         });
       }
     },
-    hideOverlay(){
-      this.isVisible = false
-    }
   },
   computed: {
     listArray(){

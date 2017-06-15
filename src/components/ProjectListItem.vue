@@ -2,7 +2,7 @@
    <div class="list-item" v-if="item" v-on:click="clickHandler">
       <h1>{{item.title}}</h1>
       <span class="byline">{{item.desc}}</span>
-      
+
       <div>
         <div class="info-row">
           <span class="name" style="margin-right: 8px">{{item.owner.displayName}}</span>

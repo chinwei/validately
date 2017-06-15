@@ -5,7 +5,7 @@
         <svg v-on:click="goBack" class="logo-icon link u-spacing-mr-l" width="150" height="50">
           <use xlink:href="/static/assets/sprites.svg#logo"></use>
         </svg>
-        <a href="#" v-on:click.prevent="goToProject('/projects/new')" class="u-spacing-mr-l">Start a Project</a>
+        <a href="#" v-on:click.prevent="goToNewProject" class="u-spacing-mr-l">Start a Project</a>
       </span>
 
       <div class="menu-container">
@@ -55,36 +55,27 @@ export default {
       logout()
       this.isExpanded = false;
     },
-    goBack: function(){
-        if (!this.user.uid) {
-          this.$router.replace("/");
-        } else {
-          this.$router.replace("/projects");
-        }
-        
+    goToNewProject(){
+      
+      console.log('any users? ',this.user.uid)
+
+      console.log(this.user.uid !== undefined)
+      if (this.user.uid !== undefined) {
+        this.goTo('/projects/new');
+      } else {
+        this.$emit("showOverlay");
+      }
     },
-    goToProject: function(path){
+
+    goBack: function(){
+      this.$router.replace("/");
+    },
+    goTo: function(path){
       this.$router.push({ path: path })
     },
     toggleDropdown(){
       this.isdropdownVisible = !this.isdropdownVisible;
     },
-    logOut: function(){
-      var _this = this;
-
-      this.isLoggedIn = false;
-      this.isExpanded = false;
-      firebase.auth().signOut().then(function() {
-        // Sign-out successful.
-        // alert ("signed out");
-        _this.$router.replace("/")
-        this.$emit("loggedOut");
-        
-
-      }).catch(function(error) {
-        // An error happened.
-      });
-    }
   },
   components: {
     ButtonBasic
@@ -96,7 +87,8 @@ export default {
     return {
       isLoggedIn: false,
       isLoading: false,
-      isExpanded: false
+      isExpanded: false,
+      isVisible: false
     }
   }
 }

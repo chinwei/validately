@@ -21,8 +21,6 @@ export function login(callback) {
       var user = result.user;
       localStorage.setItem('userAuth', JSON.stringify(user));
       
-      console.log(window.location.pathname)
-
       if (window.location.pathname === '/') {
       	router.replace('/projects/')
       }
@@ -62,10 +60,14 @@ function checkLoggedIn(user) {
 
 }
 
-export function isLoggedIn() {
+export function isLoggedIn(yes, no) {
 
 	firebase.auth().onAuthStateChanged(function(user) {
-		checkLoggedIn(user);
+		if (user) {
+	      yes(user)
+	    } else {
+	      no(user)
+	    }
 	});
 
 }

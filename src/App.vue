@@ -1,11 +1,11 @@
 <template>
   <div id="app">
-    
+    <login-overlay v-on:hideOverlay="hideOverlay" v-bind:isVisible="isVisible"></login-overlay>
     <div id="fb-root"></div>
 
 
 
-    <app-bar v-bind:user="user"></app-bar>
+    <app-bar v-bind:user="user" v-on:showOverlay="showOverlay"></app-bar>
     <transition name="slide-fade">
       <router-view v-bind:user="user"></router-view>
     </transition>
@@ -16,6 +16,7 @@
 import firebase from 'firebase'
 import fastclick from 'fastclick'
 import AppBar from '@/components/AppBar'
+import LoginOverlay from '@/components/LoginOverlay'
 import { login, logout} from '../utils/auth'
 
 
@@ -32,7 +33,8 @@ firebase.initializeApp(config);
 export default {
   name: 'app',
   components: {
-    AppBar
+    AppBar,
+    LoginOverlay
   },
   created: function(){
     var _this = this;
@@ -41,6 +43,12 @@ export default {
 
   },
   methods: {
+    hideOverlay(){
+      this.isVisible = false
+    },
+    showOverlay(){
+      this.isVisible = true
+    },
     checkLoggedIn(){
       var _this = this;
       firebase.auth().onAuthStateChanged(function(user) {
@@ -63,10 +71,6 @@ export default {
 
           localStorage.setItem('userAuth', JSON.stringify(user));
 
-
-
-          // console.log(localStorage);
-
           if (!exists) {
             console.log('user added!');
            users = firebase.database().ref('/users/'+user.uid).set({
@@ -74,9 +78,6 @@ export default {
              email: user.email,
              photoURL: user.photoURL
            })
-
-
-
 
          } else {
           console.log('existing user');
@@ -87,7 +88,8 @@ export default {
   },
   data () {
     return {
-      user: {}
+      user: {},
+      isVisible: false
     }
   }
 }
