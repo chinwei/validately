@@ -16,8 +16,8 @@
           v-bind:class="{'is--loading': isLoading}" 
           v-on:action="handleLogin"></button-basic>
 
-        <div v-bind:class="{'is--expanded': isExpanded}" class="dropdown" >
-          <div v-on:click="isExpanded = !isExpanded" v-if="user.uid">{{user.displayName}}</div>
+        <div v-on:click="isExpanded = !isExpanded" v-bind:class="{'is--expanded': isExpanded}" class="dropdown" >
+          <div v-if="user.uid">{{user.displayName}}</div>
           <div class="dropdown-target">
             <ul>
               <li><a href="#" v-on:click.prevent="handleLogout">Log Out</a></li>
@@ -112,7 +112,7 @@ export default {
     flex-direction: row;
     align-items: center;
     justify-content: space-between;
-    padding: 0 3vw 0 1vw;
+    padding: 0 0 0 1vw;
     background: white;
     border-bottom: 1px #f3f3f3 solid;
   }
@@ -126,15 +126,23 @@ export default {
 
   .dropdown {
     height: 100%;
-    padding: 0 8px;
+    padding: 0 20px;
     display: flex;
     flex-direction: row;
     align-items: center;
     position: relative;
+    box-shadow: 0;
+    transition: box-shadow 0.3s ease;
+    cursor: pointer;
+
+    &:hover {
+      box-shadow: 0px 2px 3px #ccc;
+    }
 
     &.is--expanded .dropdown-target {
       opacity: 1;
       top: 50px;
+      display: inline-block;
       
     }
   }
@@ -151,6 +159,7 @@ export default {
     box-shadow: #F3F3F3 0px 3px 4px;
     width: 100%;
     opacity: 0;
+    display: none;
     top: 55px;
     transition: top 0.3s ease, opacity 0.3s ease;
   }

@@ -11,12 +11,18 @@
              <div class="profile__name">{{user.displayName}}</div>  
            </span>
 
+         
 
            <span>
            <!--  <button-basic 
               label="Cancel" 
               modifiers="button--muted"
               v-on:action="handleSubmit"/> -->
+
+
+            <!-- <p>{{$v.validationGroup}}</p> -->
+
+            <!-- <p>{{writeup.content}}</p> -->
 
              <button-basic 
                v-bind:disabled="$v.validationGroup.$error || $v.validationGroup.$invalid" 
@@ -82,6 +88,9 @@
 		mounted: function(){
 
       this.handleUpdatedEditor();
+      // this.project.value = $("#editor .ql-editor").html();
+
+
 
 
 		var _this = this;
@@ -113,7 +122,7 @@
       });
 
        this.quill.on('text-change', () => {
-         this.project.value = $("#editor .ql-editor").html();
+         // this.project.value = $("#editor .ql-editor").html();
       })
 
 
@@ -123,10 +132,12 @@
 	if (this.$route.params.id !== undefined) {
 		project.once('value', function(snapshot) {
 			_this.project = snapshot.val();
+
 		});
 
 		writeup.once('value', function(snapshot) {
 			_this.writeup = snapshot.val();
+         // _this.project.value = _this.writeup.content;
 			_this.quill.setContents(_this.writeup.contentDelta);
 
 		});
@@ -140,7 +151,7 @@ props: {
 	user: {}
 },
 validations: {
-   validationGroup: ['project.title', 'project.desc', 'project.value'],
+   validationGroup: ['project.title', 'project.desc', 'writeup.content'],
     project: {
        title: {
          required,
@@ -148,11 +159,12 @@ validations: {
        desc: {
          required,
          maxLength: maxLength(160)
-       },
-       value:{
-         required
        }
-       
+    },
+    writeup: {
+      content: {
+         required
+      }
     }
   },
 components: {
@@ -218,10 +230,11 @@ data () {
 	return {
 		project: {
          title: '',
-         desc: '',
-         value: ''
+         desc: ''
       },
-		writeup: {},
+		writeup: {
+         content: ''
+      },
       isFocused: false,
       
 	}
