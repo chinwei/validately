@@ -16,11 +16,13 @@
           v-bind:class="{'is--loading': isLoading}" 
           v-on:action="handleLogin"></button-basic>
 
-        <div v-on:click="isExpanded = !isExpanded" v-bind:class="{'is--expanded': isExpanded}" class="dropdown" >
+          {{isExpanded}}
+
+        <div v-on:mouseleave="hideDropdown" v-on:click.stop="toggleDropdown" v-bind:class="{'is--expanded': isExpanded}" class="dropdown" >
           <div v-if="user.uid">{{user.displayName}}</div>
           <div class="dropdown-target">
             <ul>
-              <li><a href="#" v-on:click.prevent="handleLogout">Log Out</a></li>
+              <li v-on:click.stop="hideDropdown">Log Out</li>
             </ul>
           </div>
         </div>
@@ -43,6 +45,11 @@ import { login, logout} from '../../utils/auth'
 
 export default {
   name: 'app-bar',
+  created(){
+    // this.isExpanded = true;
+    // this.toggleDropdown();
+    // alert('toggle dropdown')
+  },
   methods: {
     handleLogin(){
       var _this = this;
@@ -52,12 +59,24 @@ export default {
       })
     },
     handleLogout(){
+      this.hideDropdown();
       logout()
+    },
+    hideDropdown(){
+      // alert('lala')
       this.isExpanded = false;
+    },
+    toggleDropdown(){
+      // alert('lala')
+      this.isExpanded = !this.isExpanded;
+    },
+    showDropdown(){
+      // alert('lala')
+      this.isExpanded = true;
     },
     goToNewProject(){
       
-      console.log('any users? ',this.user.uid)
+      // console.log('any users? ',this.user.uid)
 
       console.log(this.user.uid !== undefined)
       if (this.user.uid !== undefined) {
@@ -72,10 +91,7 @@ export default {
     },
     goTo: function(path){
       this.$router.push({ path: path })
-    },
-    toggleDropdown(){
-      this.isdropdownVisible = !this.isdropdownVisible;
-    },
+    }
   },
   components: {
     ButtonBasic
@@ -132,7 +148,7 @@ export default {
     align-items: center;
     position: relative;
     box-shadow: 0;
-    transition: box-shadow 0.3s ease;
+    // transition: box-shadow 0.3s ease;
     cursor: pointer;
 
     &:hover {

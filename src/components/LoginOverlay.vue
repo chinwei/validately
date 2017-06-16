@@ -9,13 +9,13 @@
           v-bind:class="{'is--loading': isLoading}" 
           v-on:action="hideOverlay"></button-basic>
 
-          <h1 class="banner__title">Start and grow ideas</h1>
-          <!-- <p>Join to like ideas</p> -->
+          <h1 class="modal__title">Help ideas grow</h1>
+          <p>Join and help a grow a community of thinkers and creators</p>
            <button-basic 
            label="Login with Facebook" 
            modifiers="button--primary"
            v-bind:class="{'is--loading': isLoading}" 
-           v-on:action="loginUser"></button-basic>
+           v-on:action="handleLogin"></button-basic>
       </div>
   </div>
 
@@ -27,10 +27,19 @@
 import firebase from 'firebase'
 import firebaseui from 'firebaseui'
 import ButtonBasic from '@/components/ButtonBasic'
+import { login, logout} from '../../utils/auth'
 
 export default {
   name: 'login-overlay',
   methods: {
+    handleLogin(){
+      var _this = this;
+      this.isLoading = true;
+      login(function(){
+        _this.isLoading = false;
+        _this.hideOverlay();
+      })
+    },
     loginUser: function(){
 
       console.log(this);
@@ -92,6 +101,12 @@ export default {
 
 <style>
 
+.modal__title {
+    font-size: 2em;
+    font-weight: 500;
+    display: block;
+    margin-bottom: 0.5em;
+}
 
 
 .overlay {
@@ -101,7 +116,7 @@ export default {
   top: 0;
   left: 0;
   background: white;
-  opacity: 0.95;
+  opacity: 0.98;
   z-index: 9999;
   display: none;
   flex-direction: column;
