@@ -315,30 +315,32 @@ img {
 
   .input--title {
     font-family: 'Avenir', Helvetica, Arial, sans-serif;
-    color: #2c3e50;
     font-size: 34px;
     background: none;
     border: none;
     font-weight: 600;
     outline: none;
     margin-bottom: 8px;
-      width: 100%;
+    width: 100%;
   }
 
   .input--title::placeholder {
     color: #BDBDBD;
 
+
   }
 
+  .input-text {
+    color: #2c3e50;
+  }
 
-   .input-text.is--error::placeholder {
+   .input-text.is--error, .input-text.is--error::placeholder {
       color: #FF4651;
    }
 
   .input__long-text {
     font-family: 'Avenir', Helvetica, Arial, sans-serif;
     display: block;
-    color: #333333;
     font-size: 24px;
     border: 0;
     outline: none;

@@ -33,6 +33,7 @@
          </div>
 
 
+
 			<input 
             class="input-text input--title" 
             v-bind:class="{'is--error':$v.project.title.$error && $v.project.title.$dirty}" 
@@ -43,9 +44,11 @@
 
             <!-- <p>{{$v.validationGroup}}</p> -->
 
+            <!-- <p>{{$v.project.desc}}</p> -->
+
 			<textarea 
             class="input-text input__long-text" 
-            v-bind:class="{'is--error':$v.project.desc.$error && $v.project.desc.$dirty, 'is--hidden': $v.project.title.$invalid && !$v.project.title.$error}" 
+            v-bind:class="{'is--error':$v.project.desc.$invalid && $v.project.desc.$dirty, 'is--hidden': $v.project.title.$invalid && !$v.project.title.$error}" 
             v-model="project.desc" 
             placeholder="Briefly describe your project here!" 
             type="text" 
@@ -155,10 +158,11 @@ validations: {
     project: {
        title: {
          required,
+         maxLength: maxLength(60)
        },
        desc: {
          required,
-         maxLength: maxLength(160)
+         maxLength: maxLength(140)
        }
     },
     writeup: {
