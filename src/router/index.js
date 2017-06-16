@@ -18,6 +18,8 @@ Vue.use(Router)
 // - return false to prevent scroll
 const scrollBehavior = (to, from, savedPosition) => {
 
+
+
   if (savedPosition) {
     // savedPosition is only available for popstate navigations.
     return savedPosition
@@ -30,6 +32,7 @@ const scrollBehavior = (to, from, savedPosition) => {
     }
     // check if any matched route config has meta that requires scrolling to top
     if (to.matched.some(m => m.meta.scrollToTop)) {
+      alert ('scroll')
       // cords will be used if no selector is provided,
       // or if the selector didn't match any element.
       position.x = 0
@@ -44,14 +47,16 @@ const scrollBehavior = (to, from, savedPosition) => {
 
 
 export default new Router({
-  hashbang: true,
+  // mode: 'history',
   routes: [
     {
       path: '/',
       name: 'home',
       component: Home,
       beforeEnter: (to, from, next) => {
-        // ...
+        // console.log("position", window);
+        // ...')
+        
         // Retrieve the object from storage
         var userAuth = localStorage.getItem('userAuth');
         // console.log('userAuth: ', JSON.parse(userAuth));
@@ -82,6 +87,7 @@ export default new Router({
       path: '/projects/:id/',
       name: 'view-project',
       component: ViewProject
+
     }
   ]
 

@@ -67,7 +67,7 @@
 <!--            <button id="custom-button">&#8486;</button> -->
          </div>
          <div class="editor-container" v-bind:class="{'is--hidden': $v.project.desc.$invalid && !$v.project.desc.$error}">
-      		<div v-model="project.value" id="editor"></div>
+      		<div id="editor"></div>
          </div>
 
 
@@ -124,8 +124,11 @@
         }
       });
 
-       this.quill.on('text-change', () => {
-         // this.project.value = $("#editor .ql-editor").html();
+      // console.log(this)
+
+       this.quill.on('text-change', function() {
+         _this.writeup.content = $("#editor .ql-editor").html();
+         
       })
 
 

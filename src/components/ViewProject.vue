@@ -75,6 +75,7 @@ export default {
 
     var _this = this;
 
+    
 
 
     this.projectDB = firebase.database().ref('projects/'+this.$route.params.id);
@@ -83,7 +84,7 @@ export default {
     this.updateLikes();
   },
   mounted: function(){
-
+    
     this.initFBComments();
     this.getLikedCount();
 
